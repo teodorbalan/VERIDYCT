@@ -32,5 +32,20 @@ class PaddingTests(unittest.TestCase):
         mentions=model.alias_mentions(torch.tensor([[2,3,4,5,6,8,4,8,4,5]]))
         self.assertEqual(mentions.nonzero().tolist(),[[0,2,3],[0,6,0],[0,8,1]])
 
+    def test_named_object_is_not_its_own_subject_mention(self):
+        schema=dict(current_id=3,pair_subject=[0,1],pair_attribute=[0,0],
+                    subjects=['Company','Partner'],attributes=['x'],
+                    observed_kind=[[True]*3 for _ in range(10)],
+                    aliases=[[4],[5]],alias_subject=[0,1])
+        model=FactorizedExtractor(20,20,2,CONFIGS['factorized-mentions'],schema).eval()
+        words=torch.tensor([[2,3,4,8,5]])
+        value=torch.tensor([[[0.,0.,0.,0.,1.]]]);clause=torch.ones_like(value)/5
+        current=words.ne(2);previous=~current
+        prior=model.mention_prior(words,value,clause,torch.tensor([[6]]),current,previous)
+        self.assertGreater(prior[0,0,0].item(),0)
+        self.assertEqual(prior[0,0,1].item(),0)
+        boolean=model.mention_prior(words,clause,clause,torch.tensor([[8]]),current,previous)
+        self.assertGreater(boolean[0,0,1].item(),0)
+
 
 if __name__ == '__main__': unittest.main()

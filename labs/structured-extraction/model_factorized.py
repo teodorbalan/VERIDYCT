@@ -116,11 +116,14 @@ class FactorizedExtractor(nn.Module):
                          padded_cover[:,offset:offset+t,None].le(self.alias_lengths[None,None,:]))
         return torch.matmul(match.float(),self.alias_to_subject).clamp(max=1)
 
-    def mention_prior(self, words, spans, clauses, is_current, is_previous):
+    def mention_prior(self, words, spans, clauses, kinds, is_current, is_previous):
         mentions=self.alias_mentions(words)
         positions=torch.arange(words.shape[1],device=words.device,dtype=spans.dtype)
         center=torch.matmul(spans,positions)
         proximity=1/(1+(positions[None,None,:]-center[:,:,None]).abs()/8)
+        # A recognized named object is not evidence that it is also the subject.
+        # Boolean candidates cover the clause, so only named-value spans mask.
+        proximity=proximity*(~(kinds.eq(6)[:,:,None] & spans.gt(0)))
         in_clause=torch.bmm(proximity*clauses.gt(0),mentions).clamp(max=1)
         in_current=torch.bmm(proximity*is_current[:,None,:],mentions).clamp(max=1)
         in_previous=torch.bmm(proximity*is_previous[:,None,:],mentions).clamp(max=1)
@@ -166,7 +169,7 @@ class FactorizedExtractor(nn.Module):
         pairs = self.pair_head(features)
         subject_logits = self.subject_head(features)
         if self.config.get('mentions', False):
-            prior=self.mention_prior(words,spans,clauses,is_current,is_previous)
+            prior=self.mention_prior(words,spans,clauses,kinds,is_current,is_previous)
             adjusted=subject_logits+prior
             # Preserve the subject-head partition mass: alias evidence reallocates
             # subject preference rather than unconditionally increasing existence.

@@ -41,6 +41,8 @@ than assuming that a successful ONNX export is sufficient.
   start differs from the longest span. Three trainable soft features score
   candidate proximity to mentions in its clause, current row and previous text.
   They reallocate subject preference while preserving its log-partition mass.
+  A named value's own token span is excluded from these subject features;
+  Boolean whole-clause candidates retain all mentions.
   No alias is forced to be the subject, and stated values are never changed.
 
 The public lexicon lists valid subject/attribute pairs but supplies no authoritative
