@@ -36,6 +36,12 @@ than assuming that a successful ONNX export is sufficient.
   soft train-observed value-kind prior. These are a combined architecture change;
   improvements cannot be attributed to factorization alone.
 - `factorized-large`: the same combined head with a 192-wide, two-layer encoder.
+- `factorized-mentions`: the small factorized model with public lexicon aliases.
+  Exact token matches reject shorter overlapping spans, including aliases whose
+  start differs from the longest span. Three trainable soft features score
+  candidate proximity to mentions in its clause, current row and previous text.
+  They reallocate subject preference while preserving its log-partition mass.
+  No alias is forced to be the subject, and stated values are never changed.
 
 The public lexicon lists valid subject/attribute pairs but supplies no authoritative
 unit or value-kind schema. A type absent from training therefore receives only

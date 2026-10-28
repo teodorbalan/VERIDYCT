@@ -38,7 +38,8 @@ def main():
                               num_workers=2, persistent_workers=True)
     dev_loader = DataLoader(dev, batch_size=a.batch, collate_fn=collate,
                             num_workers=2, persistent_workers=True)
-    schema = make_schema(meta, rows); config = dict(CONFIGS[a.variant])
+    schema = make_schema(meta, rows, json.loads((root/'lexicon.json').read_text()))
+    config = dict(CONFIGS[a.variant])
     model = FactorizedExtractor(len(meta['vocab']), len(meta['chars']), len(meta['pairs']), config, schema).cuda()
     with torch.no_grad(): model.word.weight.copy_(torch.from_numpy(np.load(root/'vectors.npy')).cuda())
     weights = torch.ones(len(meta['pairs'])+1, device='cuda'); weights[0] = .25

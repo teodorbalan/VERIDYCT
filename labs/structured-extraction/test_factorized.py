@@ -21,5 +21,16 @@ class PaddingTests(unittest.TestCase):
             with torch.no_grad(): padded=model(w,c,s,s,torch.zeros(2,1,dtype=torch.long))
             torch.testing.assert_close(first[0],padded[0],rtol=1e-5,atol=1e-6)
 
+    def test_longest_overlapping_alias_wins_without_hard_subject_decision(self):
+        # IDs 4,5,6 stand for Hooly, Maps, Day. An inner Maps Day match must
+        # lose to the longer Hooly Maps Day span even though their starts differ.
+        schema=dict(current_id=3,pair_subject=[0,1,2,3],pair_attribute=[0]*4,
+                    subjects=['Hooly','Hooly Maps','Maps Day','Hooly Maps Day'],
+                    attributes=['x'],observed_kind=[[True]*5 for _ in range(10)],
+                    aliases=[[4],[4,5],[5,6],[4,5,6]],alias_subject=[0,1,2,3])
+        model=FactorizedExtractor(20,20,4,CONFIGS['factorized-mentions'],schema).eval()
+        mentions=model.alias_mentions(torch.tensor([[2,3,4,5,6,8,4,8,4,5]]))
+        self.assertEqual(mentions.nonzero().tolist(),[[0,2,3],[0,6,0],[0,8,1]])
+
 
 if __name__ == '__main__': unittest.main()

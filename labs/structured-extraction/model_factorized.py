@@ -6,16 +6,19 @@ authoritative value types. Priors remain soft, so a strong text score can overri
 import torch
 from torch import nn
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
+from prepare import tokens
 
 
 CONFIGS = {
     'packed-flat': dict(hidden=128, layers=1, factorized=False, kind_prior=False),
     'factorized': dict(hidden=128, layers=1, factorized=True, kind_prior=True),
     'factorized-large': dict(hidden=192, layers=2, factorized=True, kind_prior=True),
+    'factorized-mentions': dict(hidden=128, layers=1, factorized=True,
+                                kind_prior=True, mentions=True),
 }
 
 
-def make_schema(meta, trainrows):
+def make_schema(meta, trainrows, lexicon=None):
     subjects = sorted({s for s, _ in meta['pairs']})
     attributes = sorted({a for _, a in meta['pairs']})
     si = {s:i for i,s in enumerate(subjects)}
@@ -32,10 +35,24 @@ def make_schema(meta, trainrows):
             for k in range(10): observed[k][label] = True
         if observed[8][label] or observed[9][label]:
             observed[8][label] = observed[9][label] = True
+    names = {s: [s] for s in subjects}
+    if lexicon:
+        for subject in lexicon['subjects']:
+            if subject['name'] in names:
+                names[subject['name']].extend(subject['aliases'])
+    aliases = set()
+    for subject, labels in names.items():
+        for label in labels:
+            words = [word for word, _, _ in tokens(label)]
+            if words and all(word in meta['vocab'] for word in words):
+                aliases.add((tuple(meta['vocab'][word] for word in words), si[subject]))
+    ordered = sorted(aliases)
     return dict(subjects=subjects, attributes=attributes,
                 pair_subject=[si[s] for s,a in meta['pairs']],
                 pair_attribute=[ai[a] for s,a in meta['pairs']],
-                observed_kind=observed, current_id=meta['vocab']['<current>'])
+                observed_kind=observed, current_id=meta['vocab']['<current>'],
+                aliases=[list(words) for words, _ in ordered],
+                alias_subject=[subject for _, subject in ordered])
 
 
 class FactorizedExtractor(nn.Module):
@@ -64,10 +81,51 @@ class FactorizedExtractor(nn.Module):
             self.subject_head = nn.Linear(256, len(schema['subjects']))
             self.attribute_head = nn.Linear(256, len(schema['attributes']))
             self.pair_head = nn.Linear(256, n_pairs + 1)
+            if config.get('mentions', False):
+                patterns = schema.get('aliases') or [[-1]]
+                subjects = schema.get('alias_subject') or [0]
+                self.max_alias = max(map(len, patterns))
+                padded = [p+[0]*(self.max_alias-len(p)) for p in patterns]
+                self.register_buffer('alias_tokens', torch.tensor(padded, dtype=torch.long))
+                self.register_buffer('alias_lengths', torch.tensor(list(map(len,patterns)), dtype=torch.long))
+                mapping=torch.zeros(len(patterns),len(schema['subjects']))
+                for i,s in enumerate(subjects):mapping[i,s]=1
+                self.register_buffer('alias_to_subject',mapping)
+                self.mention_weights=nn.Parameter(torch.tensor([2.0,1.0,.5]))
         else:
             self.head = nn.Sequential(nn.Linear(width * 3 + 32, 256),
                                      nn.GELU(), nn.Dropout(.15),
                                      nn.Linear(256, n_pairs + 1))
+
+    def alias_mentions(self, words):
+        """Match whole-token aliases, rejecting every shorter overlapping span."""
+        t=words.shape[1]
+        padded=torch.nn.functional.pad(words,(0,self.max_alias-1))
+        match=padded[:,:t,None].eq(self.alias_tokens[None,None,:,0])
+        for offset in range(1,self.max_alias):
+            match=match & ((self.alias_lengths[None,None,:]<=offset) |
+                         padded[:,offset:offset+t,None].eq(self.alias_tokens[None,None,:,offset]))
+        longest=(match.long()*self.alias_lengths).amax(-1)
+        coverage=longest
+        for offset in range(1,self.max_alias):
+            shifted=torch.nn.functional.pad(torch.where(longest>offset,longest,0),(offset,0))[:,:t]
+            coverage=torch.maximum(coverage,shifted)
+        padded_cover=torch.nn.functional.pad(coverage,(0,self.max_alias-1))
+        for offset in range(self.max_alias):
+            match=match & ((self.alias_lengths[None,None,:]<=offset) |
+                         padded_cover[:,offset:offset+t,None].le(self.alias_lengths[None,None,:]))
+        return torch.matmul(match.float(),self.alias_to_subject).clamp(max=1)
+
+    def mention_prior(self, words, spans, clauses, is_current, is_previous):
+        mentions=self.alias_mentions(words)
+        positions=torch.arange(words.shape[1],device=words.device,dtype=spans.dtype)
+        center=torch.matmul(spans,positions)
+        proximity=1/(1+(positions[None,None,:]-center[:,:,None]).abs()/8)
+        in_clause=torch.bmm(proximity*clauses.gt(0),mentions).clamp(max=1)
+        in_current=torch.bmm(proximity*is_current[:,None,:],mentions).clamp(max=1)
+        in_previous=torch.bmm(proximity*is_previous[:,None,:],mentions).clamp(max=1)
+        return (self.mention_weights[0]*in_clause + self.mention_weights[1]*in_current +
+                self.mention_weights[2]*in_previous)
 
     def forward(self, words, chars, spans, clauses, kinds):
         mask = words.ne(0)
@@ -106,7 +164,15 @@ class FactorizedExtractor(nn.Module):
         mixed = gate * previous + (1-gate) * local
         features = self.features(torch.cat([value, clause, local, mixed, kind], -1))
         pairs = self.pair_head(features)
-        subjects = self.subject_head(features).index_select(-1, self.pair_subject)
+        subject_logits = self.subject_head(features)
+        if self.config.get('mentions', False):
+            prior=self.mention_prior(words,spans,clauses,is_current,is_previous)
+            adjusted=subject_logits+prior
+            # Preserve the subject-head partition mass: alias evidence reallocates
+            # subject preference rather than unconditionally increasing existence.
+            subject_logits=adjusted-(torch.logsumexp(adjusted,-1,keepdim=True)-
+                                     torch.logsumexp(subject_logits,-1,keepdim=True))
+        subjects = subject_logits.index_select(-1, self.pair_subject)
         attributes = self.attribute_head(features).index_select(-1, self.pair_attribute)
         result = torch.cat([pairs[..., :1], pairs[..., 1:] + subjects + attributes], -1)
         if self.config['kind_prior']:
