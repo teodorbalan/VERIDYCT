@@ -1,0 +1,290 @@
+{
+  "comparison": {
+    "model_sha256": "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+    "adapter_sha256": "0273df6c9db2fcc488c3bb942df6aaa8eca9c058665d590409f39179d046e441",
+    "coverage": {
+      "train": {
+        "rows": 32862,
+        "gold_atoms": 42411,
+        "base_covered": 42407,
+        "robust_covered": 42407,
+        "gained_atoms": 0,
+        "lost_atoms": 0,
+        "changed_rows": 0
+      },
+      "dev": {
+        "rows": 8478,
+        "gold_atoms": 12833,
+        "base_covered": 12833,
+        "robust_covered": 12833,
+        "gained_atoms": 0,
+        "lost_atoms": 0,
+        "changed_rows": 0
+      }
+    },
+    "metrics": {
+      "baseline": {
+        "groups": {
+          "synthetic": {
+            "rows": 8088,
+            "exact": 8077,
+            "gold": 12147,
+            "predicted": 12140,
+            "correct": 12136,
+            "exact_rate": 0.9986399604352126,
+            "f1": 0.9993823856384074
+          },
+          "all": {
+            "rows": 8478,
+            "exact": 8413,
+            "gold": 12636,
+            "predicted": 12596,
+            "correct": 12572,
+            "exact_rate": 0.9923330974286388,
+            "f1": 0.9965123652504756
+          },
+          "official": {
+            "rows": 390,
+            "exact": 336,
+            "gold": 489,
+            "predicted": 456,
+            "correct": 436,
+            "exact_rate": 0.8615384615384616,
+            "f1": 0.9227513227513228
+          }
+        },
+        "seconds": 21.72244000248611
+      },
+      "period_adapter": {
+        "groups": {
+          "synthetic": {
+            "rows": 8088,
+            "exact": 8077,
+            "gold": 12147,
+            "predicted": 12140,
+            "correct": 12136,
+            "exact_rate": 0.9986399604352126,
+            "f1": 0.9993823856384074
+          },
+          "all": {
+            "rows": 8478,
+            "exact": 8413,
+            "gold": 12636,
+            "predicted": 12596,
+            "correct": 12572,
+            "exact_rate": 0.9923330974286388,
+            "f1": 0.9965123652504756
+          },
+          "official": {
+            "rows": 390,
+            "exact": 336,
+            "gold": 489,
+            "predicted": 456,
+            "correct": 436,
+            "exact_rate": 0.8615384615384616,
+            "f1": 0.9227513227513228
+          }
+        },
+        "seconds": 21.164727268740535
+      }
+    },
+    "scope": "Development-only comparison; same model, inputs and logits; normalize monetary per field only. No reserved final gold read."
+  },
+  "challenge_dev": {
+    "groups": {
+      "boolean_negation": {
+        "rows": 2,
+        "exact": 2,
+        "gold": 2,
+        "predicted": 2,
+        "correct": 2,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "primary": {
+        "rows": 92,
+        "exact": 89,
+        "gold": 92,
+        "predicted": 89,
+        "correct": 89,
+        "exact_rate": 0.967391304347826,
+        "f1": 0.9834254143646409
+      },
+      "comparison": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "type_violation": {
+        "rows": 10,
+        "exact": 8,
+        "gold": 0,
+        "predicted": 2,
+        "correct": 0,
+        "exact_rate": 0.8,
+        "f1": 0.0
+      },
+      "type_diagnostic": {
+        "rows": 10,
+        "exact": 8,
+        "gold": 0,
+        "predicted": 2,
+        "correct": 0,
+        "exact_rate": 0.8,
+        "f1": 0.0
+      },
+      "paraphrase": {
+        "rows": 10,
+        "exact": 8,
+        "gold": 10,
+        "predicted": 8,
+        "correct": 8,
+        "exact_rate": 0.8,
+        "f1": 0.8888888888888888
+      },
+      "version_operator": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "open_domain_rejection": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 0,
+        "predicted": 0,
+        "correct": 0,
+        "exact_rate": 1.0,
+        "f1": 0.0
+      },
+      "numeric_distraction": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "conjunction": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 20,
+        "predicted": 20,
+        "correct": 20,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "ambiguous_antecedent": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 0,
+        "predicted": 0,
+        "correct": 0,
+        "exact_rate": 1.0,
+        "f1": 0.0
+      },
+      "ambiguity_only": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 0,
+        "predicted": 0,
+        "correct": 0,
+        "exact_rate": 1.0,
+        "f1": 0.0
+      },
+      "misleading_entity": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "stated_value_preservation": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "coreference": {
+        "rows": 10,
+        "exact": 9,
+        "gold": 10,
+        "predicted": 9,
+        "correct": 9,
+        "exact_rate": 0.9,
+        "f1": 0.9473684210526315
+      }
+    },
+    "candidate_value_coverage": {
+      "rows": 92,
+      "positive_rows": 82,
+      "gold_atoms": 92,
+      "covered_atoms": 92,
+      "all_values_covered": 92
+    },
+    "seconds": 0.2567146047949791,
+    "fixture_sha256": "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+    "model_sha256": "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+    "scope": "Assistant-authored closed-ontology behavior challenge; not official contest score; ambiguity abstention kept separate"
+  },
+  "development_price_probe": {
+    "groups": {
+      "monthly_period_semantics": {
+        "rows": 16,
+        "exact": 11,
+        "gold": 16,
+        "predicted": 12,
+        "correct": 11,
+        "exact_rate": 0.6875,
+        "f1": 0.7857142857142857
+      },
+      "primary": {
+        "rows": 16,
+        "exact": 11,
+        "gold": 16,
+        "predicted": 12,
+        "correct": 11,
+        "exact_rate": 0.6875,
+        "f1": 0.7857142857142857
+      }
+    },
+    "candidate_value_coverage": {
+      "rows": 16,
+      "positive_rows": 16,
+      "gold_atoms": 16,
+      "covered_atoms": 15,
+      "all_values_covered": 15
+    },
+    "seconds": 0.04695012792944908,
+    "fixture_sha256": "c3e40c0dd6edc052ae35a9836e878908f5bc79f39ec4b105f0aecb55d0d5419f",
+    "model_sha256": "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+    "scope": "Assistant-authored closed-ontology behavior challenge; not official contest score; ambiguity abstention kept separate"
+  },
+  "bundle_manifest": {
+    "meta.json": "3ab93d76b178bb714bd4c5ac665da2de0d97c29a46d32597ca43be3e52c08567",
+    "grammar_robust.py": "0273df6c9db2fcc488c3bb942df6aaa8eca9c058665d590409f39179d046e441",
+    "grammar.py": "0545fc2bbce5cc6856b55caa8ec52ca448b1e7f07068cca885ff737f36d7a2f1",
+    "prepare.py": "68b8bc242b074cb6e10410078cd76cb744a08abf40ff898d090cbab7171e347e",
+    "model.onnx": "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+    "lexicon.json": "40d591b7e0345172f2822742c1d1b2cda69619c564ff23dd306d11984756747c",
+    "runtime.py": "f7110c6679c91e034c6d56aac50b2017aa2a017c113aaff5e6485cab600aae6c"
+  },
+  "tests": {
+    "period_regression_tests": 13,
+    "passed": 13
+  },
+  "final_gold_read": false
+}

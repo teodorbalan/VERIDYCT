@@ -3,7 +3,8 @@
 Owner: Codex research_audit, delegated by the main task with Teodor's explicit
 authorization. Human ownership unassigned. Isolated branch
 `teodorbalan/extraction-audit-v3`, base `e0c2a12`. Scope: literature review,
-development-only audit scripts and an independently authored behavioral suite.
+development-only audit scripts, an independently authored behavioral suite and
+an isolated monetary-period normalization adapter.
 No model training, production interface changes or GPU allocation in this task.
 Calibration releases were not read. The new final challenge remains withheld.
 
@@ -137,11 +138,46 @@ test of the user's broad-language objective, not evidence of official invalidity
 It is not a fresh blind score. Final challenge text and gold were not altered
 or evaluated in response to these development findings.
 
+## Controlled monetary-period adapter experiment
+
+At the coordinator's request, `grammar_robust.py` adds billing-period metadata
+only when local text provides a clear monetary-period cue. It does not change
+candidate count, order, spans or kinds, any model weights, or the stated amount.
+Explicit periods take precedence. Clause scoping, one-off/setup-fee guards and
+conservative treatment of multiple amounts prevent several false enrichments.
+This is a focused heuristic extension, not general semantic parsing.
+
+| Fixed v2 ONNX model | Original parser | Period adapter |
+| --- | ---: | ---: |
+| Official390 development exact | 336 / 390 | 336 / 390 |
+| Synthetic8088 development exact | 8,077 / 8,088 | 8,077 / 8,088 |
+| Challenge-dev primary exact | 87 / 92 | 89 / 92 |
+| Challenge-dev candidate atom coverage | 88 / 92 | 92 / 92 |
+| Development-only price probe exact | 4 / 16 | 11 / 16 |
+| Development-only price candidate coverage | 4 / 16 | 15 / 16 |
+
+The adapter changes **zero rows** in the existing 32,862-row train and 8,478-row
+development datasets. No value-candidate coverage is lost there. This further
+shows that the existing data does not exercise these period phrasings. Coverage
+improvement is not enough: three challenge-dev errors and five price-probe errors
+remain because the classifier may reject/misassign a candidate, or the grammar
+still misses it. Thirteen regression tests cover monthly-report false positives,
+one-off fees, two clauses with different periods, explicit-period precedence,
+false stated-value preservation and unchanged candidate structure.
+
+All measurements use the same ONNX SHA256 as v2. Results are development-only,
+and the original frozen bundle remains intact. No final challenge or calibration
+gold was consulted. Adapter source SHA256:
+`0273df6c9db2fcc488c3bb942df6aaa8eca9c058665d590409f39179d046e441`.
+
 ## Artifacts and continuation
 
 Scripts: [dataset audit](audit_dataset.py), [robustness probes](audit_robustness.py),
 [challenge evaluator](evaluate_challenge.py), [development price probe](build_price_probe.py).
 Compact receipts: [audit evidence](audit-evidence-v3.json).
+Adapter: [implementation](grammar_robust.py), [tests](test_grammar_robust.py),
+[controlled evaluator](evaluate_grammar_adapter.py),
+[measured receipts](grammar-adapter-results-v3.json).
 
 Remote root: `/data/tairo/veridyct-training-20261028/v3-audit`.
 Development fixture: `challenge-dev.jsonl`, SHA256
@@ -151,6 +187,11 @@ Final fixture: `challenge-final.jsonl`, SHA256
 Do not open the final fixture or its builder until parent model-selection freeze.
 The generator and row-level fixtures remain ignored artifacts to preserve that
 boundary. The evaluator rejects final filenames/rows unless `--allow-final`.
+
+The isolated adapter bundle is `v3-audit/grammar/bundle-v1` under the server root;
+its runtime imports `RobustGrammar` in place of `Grammar`. The underlying ONNX
+weights and feature interface are unchanged. It is an experimental comparison
+artifact; the parent must decide whether to include it before final selection.
 
 Neither this suite nor the previous sealed release should become an unlimited
 tuning target. New training examples can use independently authored negative and
