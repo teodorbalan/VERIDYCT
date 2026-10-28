@@ -70,3 +70,35 @@ python export_factorized.py --checkpoint /new/run/best.pt --data /path/data-v2 -
 The exporter writes the existing CPU runtime and ONNX bundle, checking variable
 batch lengths including unsorted input rows. The regression test changes both
 the number of padded tokens and unrelated batch contents.
+
+## Completed unchanged-data controls
+
+| Model, seed 271828 | Official exact | Synthetic exact | Official atomic F1 |
+| --- | ---: | ---: | ---: |
+| Previous un-packed small BiLSTM | 325 / 390 = 83.333% | 8040 / 8088 = 99.407% | 88.681% |
+| Packed flat control | 322 / 390 = 82.564% | 8014 / 8088 = 99.085% | 88.199% |
+| Factorized + gated context + soft kind prior | 339 / 390 = 86.923% | 8059 / 8088 = 99.641% | 91.228% |
+| Previous selected three-model ensemble | 336 / 390 = 86.154% | 8077 / 8088 = 99.864% | 92.275% |
+
+The new factorized model is 1,790,371 parameters and 7,204,867 bytes in ONNX,
+versus 24,850,029 bytes for the previous ensemble. It improves official complete
+rows by three versus that ensemble, but precision falls from 95.61% to 92.08%
+while recall rises from 89.16% to 90.39%. This is a tradeoff, not an unconditional
+quality win, and these are model-selection development results.
+
+Factorized training completed 28 epochs, selected epoch 20, in 881.62 seconds.
+Packed-flat selected epoch 12 and stopped after 20. Both CPU exports reproduce
+all development metrics. Dynamic batches 1, 7 and 32 passed decoded parity;
+maximum logit differences were below 0.000054. Prepared-input CPU evaluation on
+8,478 rows took 7.43 seconds for factorized and 5.80 for packed-flat, using two
+threads on the same server. These are not constrained-container timings.
+
+A post-hoc consistency check on the prior frozen ensemble found two of 390
+official predictions changed when each row was paired with an unrelated
+99-token row. Complete-row accuracy was 336/390 alone versus 335/390 when padded.
+The padding problem is real but small in this diagnostic; it does not explain
+the overall domain gap. New packed models pass explicit padding invariance.
+
+Enhanced-data small/large controls and the alias variant run separately on
+`data-v3`; their results must be added only after completion. Calibration gold
+remains reserved for the root agent's final independent evaluation.
