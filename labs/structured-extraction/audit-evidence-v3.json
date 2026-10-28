@@ -1,0 +1,439 @@
+{
+  "dataset": {
+    "scope": "TF-IDF nearest training sentence predicts only subject/attribute sets, not values or full JSON",
+    "rows_train": 32862,
+    "retrieval_unique_number_templates": 16168,
+    "stats": {
+      "official": {
+        "rows": 390,
+        "exact_text_overlap": 0,
+        "number_template_overlap": 0,
+        "entity_number_template_overlap": 2,
+        "pair_set_exact": 190,
+        "correct_pairs": 276,
+        "gold_pairs": 488,
+        "predicted_pairs": 457,
+        "explicit_context_rows": 390,
+        "multiple_atom_rows": 86,
+        "whitespace_tokens": 3706,
+        "cosine_sum": 211.68366698920727,
+        "pair_set_exact_rate": 0.48717948717948717,
+        "pair_f1": 0.5841269841269842,
+        "mean_words": 9.502564102564103,
+        "mean_nearest_cosine": 0.5427786333056597
+      },
+      "synthetic": {
+        "rows": 8088,
+        "exact_text_overlap": 0,
+        "number_template_overlap": 1101,
+        "entity_number_template_overlap": 1696,
+        "pair_set_exact": 3628,
+        "correct_pairs": 7163,
+        "gold_pairs": 12112,
+        "predicted_pairs": 9096,
+        "explicit_context_rows": 742,
+        "multiple_atom_rows": 3652,
+        "whitespace_tokens": 135526,
+        "cosine_sum": 6251.01440435648,
+        "pair_set_exact_rate": 0.4485657764589515,
+        "pair_f1": 0.6754998113919276,
+        "mean_words": 16.75642927794263,
+        "mean_nearest_cosine": 0.7728751736345796
+      }
+    },
+    "seconds": 6.0272633116692305,
+    "source_sha256": {
+      "train.jsonl": "b0c51bf53f2ffa90826df0574ae91a66cc8a79e35e703c72ace951cdd3c06f08",
+      "dev.jsonl": "a04da181a569ef075e0d89b3fb26f2f574967f13abfbf7cde5973ee3e2d66272",
+      "meta.json": "2c033cdbc94204f4024bb9f62502a46f9a17ec00a0c5ed1ba231219036838db9"
+    },
+    "template_definition": "case/whitespace normalized; digits replaced, optionally longest public entity names replaced; punctuation and ordinary words retained",
+    "code_sha256": "32892bd1877c02355a7a9d87ee3a7e13de6235852c2b7cd90f187d513210120d"
+  },
+  "robustness": {
+    "seed": 9102026,
+    "groups": {
+      "official/batch_padding": {
+        "rows": 100,
+        "unchanged": 100,
+        "original_exact": 84,
+        "perturbed_exact": 84,
+        "original_correct_became_wrong": 0,
+        "context_present": 100,
+        "invariance_rate": 1.0
+      },
+      "official/irrelevant_sentence": {
+        "rows": 100,
+        "unchanged": 97,
+        "original_exact": 84,
+        "perturbed_exact": 83,
+        "original_correct_became_wrong": 2,
+        "context_present": 100,
+        "invariance_rate": 0.97
+      },
+      "official/lowercase": {
+        "rows": 100,
+        "unchanged": 94,
+        "original_exact": 84,
+        "perturbed_exact": 79,
+        "original_correct_became_wrong": 5,
+        "context_present": 100,
+        "invariance_rate": 0.94
+      },
+      "official/context_removed": {
+        "rows": 100,
+        "unchanged": 91,
+        "original_exact": 84,
+        "perturbed_exact": 78,
+        "original_correct_became_wrong": 6,
+        "context_present": 100,
+        "invariance_rate": 0.91
+      },
+      "synthetic/batch_padding": {
+        "rows": 100,
+        "unchanged": 100,
+        "original_exact": 100,
+        "perturbed_exact": 100,
+        "original_correct_became_wrong": 0,
+        "context_present": 12,
+        "invariance_rate": 1.0
+      },
+      "synthetic/irrelevant_sentence": {
+        "rows": 100,
+        "unchanged": 100,
+        "original_exact": 100,
+        "perturbed_exact": 100,
+        "original_correct_became_wrong": 0,
+        "context_present": 12,
+        "invariance_rate": 1.0
+      },
+      "synthetic/lowercase": {
+        "rows": 100,
+        "unchanged": 97,
+        "original_exact": 100,
+        "perturbed_exact": 97,
+        "original_correct_became_wrong": 3,
+        "context_present": 12,
+        "invariance_rate": 0.97
+      },
+      "synthetic/context_removed": {
+        "rows": 100,
+        "unchanged": 94,
+        "original_exact": 100,
+        "perturbed_exact": 94,
+        "original_correct_became_wrong": 6,
+        "context_present": 12,
+        "invariance_rate": 0.94
+      }
+    },
+    "batch_padding_examples": [],
+    "seconds": 14.840160991996527,
+    "source_dev_sha256": "a04da181a569ef075e0d89b3fb26f2f574967f13abfbf7cde5973ee3e2d66272",
+    "model_sha256": "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+    "scope": "Sampled development behavioral diagnostics. Context removal may genuinely change available information; measure sensitivity, not desired invariance. Lowercase may affect case-sensitive units; inspect individual cases."
+  },
+  "challenge_dev": {
+    "groups": {
+      "boolean_negation": {
+        "rows": 2,
+        "exact": 2,
+        "gold": 2,
+        "predicted": 2,
+        "correct": 2,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "primary": {
+        "rows": 92,
+        "exact": 87,
+        "gold": 92,
+        "predicted": 89,
+        "correct": 87,
+        "exact_rate": 0.9456521739130435,
+        "f1": 0.9613259668508287
+      },
+      "comparison": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "type_violation": {
+        "rows": 10,
+        "exact": 8,
+        "gold": 0,
+        "predicted": 2,
+        "correct": 0,
+        "exact_rate": 0.8,
+        "f1": 0.0
+      },
+      "type_diagnostic": {
+        "rows": 10,
+        "exact": 8,
+        "gold": 0,
+        "predicted": 2,
+        "correct": 0,
+        "exact_rate": 0.8,
+        "f1": 0.0
+      },
+      "paraphrase": {
+        "rows": 10,
+        "exact": 6,
+        "gold": 10,
+        "predicted": 8,
+        "correct": 6,
+        "exact_rate": 0.6,
+        "f1": 0.6666666666666666
+      },
+      "version_operator": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "open_domain_rejection": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 0,
+        "predicted": 0,
+        "correct": 0,
+        "exact_rate": 1.0,
+        "f1": 0.0
+      },
+      "numeric_distraction": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "conjunction": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 20,
+        "predicted": 20,
+        "correct": 20,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "ambiguous_antecedent": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 0,
+        "predicted": 0,
+        "correct": 0,
+        "exact_rate": 1.0,
+        "f1": 0.0
+      },
+      "ambiguity_only": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 0,
+        "predicted": 0,
+        "correct": 0,
+        "exact_rate": 1.0,
+        "f1": 0.0
+      },
+      "misleading_entity": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "stated_value_preservation": {
+        "rows": 10,
+        "exact": 10,
+        "gold": 10,
+        "predicted": 10,
+        "correct": 10,
+        "exact_rate": 1.0,
+        "f1": 1.0
+      },
+      "coreference": {
+        "rows": 10,
+        "exact": 9,
+        "gold": 10,
+        "predicted": 9,
+        "correct": 9,
+        "exact_rate": 0.9,
+        "f1": 0.9473684210526315
+      }
+    },
+    "seconds": 0.28261902183294296,
+    "fixture_sha256": "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+    "model_sha256": "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+    "scope": "Assistant-authored closed-ontology behavior challenge; not official contest score; ambiguity abstention kept separate"
+  },
+  "candidate_coverage": {
+    "counts": {
+      "rows": 92,
+      "positive_rows": 82,
+      "gold_atoms": 92,
+      "covered_atoms": 88,
+      "all_values_covered": 88
+    },
+    "missing": [
+      {
+        "id": "audit-dev-0000",
+        "text": "The monthly charge for Hooly AI Pro comes to EUR 31.",
+        "missing": [
+          {
+            "subject": "Hooly AI Pro",
+            "attribute": "price",
+            "value": {
+              "kind": "money",
+              "value": 31,
+              "currency": "EUR",
+              "per": "month"
+            }
+          }
+        ]
+      },
+      {
+        "id": "audit-dev-0012",
+        "text": "For Hooly AI Pro, a month costs EUR 38.",
+        "missing": [
+          {
+            "subject": "Hooly AI Pro",
+            "attribute": "price",
+            "value": {
+              "kind": "money",
+              "value": 38,
+              "currency": "EUR",
+              "per": "month"
+            }
+          }
+        ]
+      },
+      {
+        "id": "audit-dev-0060",
+        "text": "The monthly charge for Hooly AI Pro comes to EUR 66.",
+        "missing": [
+          {
+            "subject": "Hooly AI Pro",
+            "attribute": "price",
+            "value": {
+              "kind": "money",
+              "value": 66,
+              "currency": "EUR",
+              "per": "month"
+            }
+          }
+        ]
+      },
+      {
+        "id": "audit-dev-0072",
+        "text": "For Hooly AI Pro, a month costs EUR 73.",
+        "missing": [
+          {
+            "subject": "Hooly AI Pro",
+            "attribute": "price",
+            "value": {
+              "kind": "money",
+              "value": 73,
+              "currency": "EUR",
+              "per": "month"
+            }
+          }
+        ]
+      }
+    ],
+    "note": "Value-candidate coverage is an upper bound, not subject/attribute correctness; negative rows vacuously covered."
+  },
+  "price_probe": {
+    "groups": {
+      "monthly_period_semantics": {
+        "rows": 16,
+        "exact": 4,
+        "gold": 16,
+        "predicted": 12,
+        "correct": 4,
+        "exact_rate": 0.25,
+        "f1": 0.2857142857142857
+      },
+      "primary": {
+        "rows": 16,
+        "exact": 4,
+        "gold": 16,
+        "predicted": 12,
+        "correct": 4,
+        "exact_rate": 0.25,
+        "f1": 0.2857142857142857
+      }
+    },
+    "candidate_value_coverage": {
+      "rows": 16,
+      "positive_rows": 16,
+      "gold_atoms": 16,
+      "covered_atoms": 4,
+      "all_values_covered": 4
+    },
+    "seconds": 0.03656687028706074,
+    "fixture_sha256": "c3e40c0dd6edc052ae35a9836e878908f5bc79f39ec4b105f0aecb55d0d5419f",
+    "model_sha256": "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+    "scope": "Assistant-authored closed-ontology behavior challenge; not official contest score; ambiguity abstention kept separate"
+  },
+  "fixtures": {
+    "authorship": "Codex research_audit agent, 2026-10-29; manual templates and exact typed gold; deterministic numeric instantiation",
+    "policy": "Dev/final phrase families are disjoint. Final data and generator are withheld until candidate selection freeze. Claims are synthetic assertions, never factual Hooly evidence. Ambiguous and type-invalid statements are diagnostic groups, not primary exact accuracy.",
+    "files": {
+      "challenge-dev.jsonl": {
+        "rows": 112,
+        "sha256": "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+        "families": 16,
+        "category_counts": {
+          "paraphrase": 10,
+          "numeric_distraction": 10,
+          "misleading_entity": 10,
+          "coreference": 10,
+          "comparison": 10,
+          "conjunction": 10,
+          "boolean_negation": 2,
+          "open_domain_rejection": 10,
+          "type_violation": 10,
+          "stated_value_preservation": 10,
+          "version_operator": 10,
+          "ambiguous_antecedent": 10
+        }
+      },
+      "challenge-final.jsonl": {
+        "rows": 112,
+        "sha256": "966b5c7c5061eab4e24c61177eb3994b5e852dec3c955dff973bbd5bf7ff33a0",
+        "families": 16,
+        "category_counts": {
+          "paraphrase": 10,
+          "numeric_distraction": 10,
+          "misleading_entity": 10,
+          "coreference": 10,
+          "comparison": 10,
+          "conjunction": 10,
+          "boolean_negation": 2,
+          "open_domain_rejection": 10,
+          "type_violation": 10,
+          "stated_value_preservation": 10,
+          "version_operator": 10,
+          "ambiguous_antecedent": 10
+        }
+      }
+    }
+  },
+  "provenance": {
+    "base_commit": "e0c2a125c45c8fc974fe650c6c1ffd5bbf12843a",
+    "agent": "research_audit",
+    "final_evaluated": false,
+    "calibration_gold_read": false,
+    "fixture_generator_sha256": "3eec52cfb39b6f4233da41f99f00e1f41f7f6e071ef8a753712117ba598c6757"
+  },
+  "fixture_validation": "all pair labels present in public lexicon; unique ids; disjoint phrase-family ids; final labels authored/validated but no model evaluated"
+}
