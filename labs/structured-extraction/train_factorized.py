@@ -23,6 +23,8 @@ def main():
     p.add_argument('--patience', type=int, default=8)
     p.add_argument('--batch', type=int, default=48)
     p.add_argument('--lr', type=float, default=.001)
+    p.add_argument('--order-by-id', action='store_true',
+                   help='Keep paired input revisions in identical training row order')
     a = p.parse_args()
     torch.set_num_threads(4); torch.set_num_interop_threads(2)
     torch.set_float32_matmul_precision('high')
@@ -33,7 +35,8 @@ def main():
     out.mkdir(parents=True)
     meta = json.loads((root/'meta.json').read_text())
     rows = read_rows(root/'train.jsonl'); dev = read_rows(root/'dev.jsonl')
-    rows.sort(key=lambda r:len(r['tokens'])); dev.sort(key=lambda r:len(r['tokens']))
+    rows.sort(key=(lambda r:r['id']) if a.order_by_id else (lambda r:len(r['tokens'])))
+    dev.sort(key=lambda r:len(r['tokens']))
     train_loader = DataLoader(rows, batch_size=a.batch, shuffle=True, collate_fn=collate,
                               num_workers=2, persistent_workers=True)
     dev_loader = DataLoader(dev, batch_size=a.batch, collate_fn=collate,
