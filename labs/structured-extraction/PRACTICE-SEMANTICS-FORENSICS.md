@@ -5,6 +5,11 @@ plus read-only inspection of the Rust verifier. No final, calibration or sealed
 gold was read. Reproduce with [audit_practice_semantics.py](audit_practice_semantics.py);
 the compact result is [practice-semantics-v3.json](practice-semantics-v3.json).
 
+The Rust comparison in this document describes the original `d0af169` baseline
+used by this isolated experiment. Main subsequently advanced to `e6f687c`, adding
+typed normalization, explicit temporal constraints and a native neural adapter.
+The baseline's limitations below must not be attributed to that newer implementation.
+
 The `form` records **what the sentence asserts**, including its false values.
 It is not a table of corrected facts. Extraction and truth judgement are separate
 tasks. There are 1,581 true, 277 false and 39 unsure rows, containing 2,402 atoms.

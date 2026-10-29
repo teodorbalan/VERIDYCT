@@ -12,6 +12,9 @@ def main():
     out.mkdir(parents=True);(out/'model').mkdir()
     for name in ['model.onnx','meta.json','lexicon.json']:shutil.copyfile(pathlib.Path(a.bundle)/name,out/'model'/name)
     for name in ['grammar.py','prepare.py','runtime.py','evaluate_cpu.py']:shutil.copyfile(pathlib.Path(a.source)/name,out/name)
+    meta=json.loads((pathlib.Path(a.bundle)/'meta.json').read_text())
+    if meta.get('grammar_variant')=='money-period-v1':
+        shutil.copyfile(pathlib.Path(a.source)/'grammar_robust.py',out/'grammar_robust.py')
     for name in ['Dockerfile','requirements-runtime.txt']:shutil.copyfile(pathlib.Path(__file__).parent/name,out/name)
     receipt={str(p.relative_to(out)):hashlib.sha256(p.read_bytes()).hexdigest() for p in out.rglob('*') if p.is_file()}
     (out/'package-manifest.json').write_text(json.dumps(receipt,indent=2));print(json.dumps(receipt,indent=2))

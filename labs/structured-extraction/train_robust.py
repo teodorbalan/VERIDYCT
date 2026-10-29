@@ -31,7 +31,8 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--data", required=True)
     p.add_argument("--out", required=True)
-    p.add_argument("--variant", choices=CONFIGS, default="03-char-bilstm")
+    p.add_argument("--family", choices=["baseline", "factorized"], default="baseline")
+    p.add_argument("--variant", default="03-char-bilstm")
     p.add_argument("--seed", type=int, default=271828)
     p.add_argument("--alpha", type=float, default=1.)
     p.add_argument("--epochs", type=int, default=40)
@@ -59,14 +60,21 @@ def main():
                         num_workers=2, persistent_workers=True)
     validation = DataLoader(dev, batch_size=a.batch, collate_fn=collate,
                             num_workers=2, persistent_workers=True)
-    config = CONFIGS[a.variant]
-    model = Extractor(len(meta["vocab"]), len(meta["chars"]), len(meta["pairs"]), config).cuda()
+    schema = None
+    if a.family == "factorized":
+        from model_factorized import FactorizedExtractor, make_schema, CONFIGS as FACTORIZED_CONFIGS
+        config = FACTORIZED_CONFIGS[a.variant]
+        schema = make_schema(meta, train, json.loads((root/"lexicon.json").read_text()))
+        model = FactorizedExtractor(len(meta["vocab"]), len(meta["chars"]), len(meta["pairs"]), config, schema).cuda()
+    else:
+        config = CONFIGS[a.variant]
+        model = Extractor(len(meta["vocab"]), len(meta["chars"]), len(meta["pairs"]), config).cuda()
     with torch.no_grad():
         model.word.weight.copy_(torch.from_numpy(np.load(root/"vectors.npy")).cuda())
     optimizer = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=.01)
     weights = torch.ones(len(meta["pairs"])+1, device="cuda")
     weights[0] = .25
-    info = dict(variant=a.variant, experiment="rdrop", alpha=a.alpha, seed=a.seed,
+    info = dict(variant=a.variant, family=a.family, experiment="rdrop", alpha=a.alpha, seed=a.seed,
                 parameters=sum(x.numel() for x in model.parameters()), config=config,
                 torch=torch.__version__, python=platform.python_version(),
                 gpu=torch.cuda.get_device_name(), cuda_visible_devices=os.getenv("CUDA_VISIBLE_DEVICES"),
@@ -109,6 +117,8 @@ def main():
             stale += 1
         ck = dict(model=model.state_dict(), optimizer=optimizer.state_dict(), epoch=epoch+1,
                   best=best, config=config, meta=meta, metrics=metrics, experiment=info)
+        if schema is not None:
+            ck["schema"] = schema
         torch.save(ck, out/"last.tmp")
         os.replace(out/"last.tmp", out/"last.pt")
         if improved:

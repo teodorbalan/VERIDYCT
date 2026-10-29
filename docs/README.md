@@ -22,6 +22,7 @@ Original files are checked against [the checksum manifest](upstream-files.json).
 | [Foundation handoff](handoffs/workspace-foundation.md) | What this milestone delivers |
 | [Practice × Lexicon Lab](../labs/practice-lexicon/README.md) | Offline graph, chronological practice queries, correlations and lab tests |
 | [Structured extraction training](handoffs/structured-extraction-training.md) | GPU experiments, grouped evaluation, compact ONNX CPU extraction and limitations |
+| [Extraction research and continued experiments](handoffs/structured-extraction-research-v3.md) | Parallel architecture/data controls, independent behavioral evaluation and anti-overfitting checks |
 
 ## Official sources
 

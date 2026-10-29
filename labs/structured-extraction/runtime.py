@@ -52,7 +52,12 @@ def decode(rows,logits,pairs,threshold=.5):
 class CpuExtractor:
     def __init__(self,bundle,model='model.onnx',threads=2):
         import onnxruntime as ort
-        root=pathlib.Path(bundle);self.meta=json.loads((root/'meta.json').read_text());self.lexicon=json.loads((root/'lexicon.json').read_text());self.grammar=Grammar(self.lexicon,self.meta['extra_names'])
+        root=pathlib.Path(bundle);self.meta=json.loads((root/'meta.json').read_text());self.lexicon=json.loads((root/'lexicon.json').read_text())
+        grammar_class=Grammar
+        if self.meta.get('grammar_variant')=='money-period-v1':
+            from grammar_robust import RobustGrammar
+            grammar_class=RobustGrammar
+        self.grammar=grammar_class(self.lexicon,self.meta['extra_names'])
         opt=ort.SessionOptions();opt.intra_op_num_threads=threads;opt.inter_op_num_threads=1
         self.session=ort.InferenceSession(str(root/model),sess_options=opt,providers=['CPUExecutionProvider']);self.inputs={i.name for i in self.session.get_inputs()}
     def predict_encoded(self,rows):
