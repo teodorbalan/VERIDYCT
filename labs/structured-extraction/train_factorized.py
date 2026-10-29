@@ -41,7 +41,9 @@ def main():
                               num_workers=2, persistent_workers=True)
     dev_loader = DataLoader(dev, batch_size=a.batch, collate_fn=collate,
                             num_workers=2, persistent_workers=True)
-    schema = make_schema(meta, rows, json.loads((root/'lexicon.json').read_text()))
+    # The frozen non-mention model snapshot predates the optional lexicon arg.
+    schema = (make_schema(meta, rows, json.loads((root/'lexicon.json').read_text()))
+              if a.variant == 'factorized-mentions' else make_schema(meta, rows))
     config = dict(CONFIGS[a.variant])
     model = FactorizedExtractor(len(meta['vocab']), len(meta['chars']), len(meta['pairs']), config, schema).cuda()
     with torch.no_grad(): model.word.weight.copy_(torch.from_numpy(np.load(root/'vectors.npy')).cuda())
@@ -49,6 +51,8 @@ def main():
     criterion = torch.nn.CrossEntropyLoss(weight=weights, ignore_index=-100)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=.01)
     info = dict(arguments=vars(a), parameters=sum(p.numel() for p in model.parameters()),
+                train_rows=len(rows), dev_rows=len(dev), batches_per_epoch=len(train_loader),
+                unpadded_training_tokens_per_epoch=sum(len(r['tokens']) for r in rows),
                 torch=torch.__version__, gpu=torch.cuda.get_device_name(),
                 cuda_visible_devices=os.environ.get('CUDA_VISIBLE_DEVICES'),
                 data_sha256=hashlib.sha256((root/'meta.json').read_bytes()).hexdigest(),
@@ -85,7 +89,9 @@ def main():
     model.load_state_dict(ck['model'])
     result=evaluate(model, dev_loader, 'cuda', meta['pairs'], out/'dev-predictions.jsonl')
     result.update(best_epoch=ck['epoch'], total_seconds=time.monotonic()-start,
-                  parameters=info['parameters'], variant=a.variant, seed=a.seed)
+                  parameters=info['parameters'], variant=a.variant, seed=a.seed,
+                  epochs_completed=epoch+1,optimizer_steps=(epoch+1)*len(train_loader),
+                  unpadded_training_tokens=(epoch+1)*info['unpadded_training_tokens_per_epoch'])
     (out/'result.json').write_text(json.dumps(result,indent=2)); print('COMPLETE '+json.dumps(result),flush=True)
 
 

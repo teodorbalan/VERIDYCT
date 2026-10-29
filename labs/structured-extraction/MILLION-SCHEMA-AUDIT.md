@@ -36,6 +36,11 @@ Case uniqueness therefore does not imply fact independence. Labels remain
 493,356 true, 434,083 false, 72,164 unsure and 397 null. The null cases are twenty
 `no_claim` and 377 `needs_context`, not additional unsure truth labels.
 
+The reported profile/family label counts yield a 735,085/1,000,000 (73.5085%)
+majority baseline if the generator profile/family is revealed. This is a diagnostic
+of distribution imbalance, not a permitted model feature or an independent test
+score. Metadata must remain excluded; template style can still provide shortcuts.
+
 Authority for these reported whole-pool properties: each archive's `README.md`,
 `dataset/report.json`, `labs/semantic-million/README.md`; V2 additionally
 `labs/million-review/README.md` and `docs/handoffs/million-review-v2.md`.
@@ -221,11 +226,43 @@ The optional `--order-by-id` training switch keeps the matched example order
 identical before seeded shuffling; existing experiments retain their original
 default of sorting training rows by length.
 
+A third base-only control was then authorized on GPU 2. It has the same union
+vocabulary, vector initialization, seed, architecture, row ordering and epoch/
+patience limits, but only the original 50,328 training examples. The two augmented
+views have 71,057 examples each. Optimizer steps, unpadded training tokens and wall
+time are recorded; fewer base examples mean this is not an equal-compute comparison.
+[evaluate_million_pair.py](evaluate_million_pair.py) compares every completed model
+on both paired input views, separating easier test wording from improved training.
+
 Report original official exact/F1, synthetic exact/F1 and matched-case atom scores
 separately. Partition V1/V2 diagnostics by unchanged AST, changed literals and
 changed program where relevant: the full revision changes more than wording.
 Report all admission reasons and type coverage; conservative filtering can remove
 many date/Boolean and reference cases and make admitted data easier.
+
+The first complete block-protected pass rejected 532,241 pairs for protected
+source IDs and another 460,486 for their provenance blocks. Schema/alignment
+rejected 6,991 more, leaving 237 training and 45 case-development pairs. Eighty-four
+eligible pairs have changed ASTs. These counts are exclusive first-rejection
+counts, not all reasons that could fail inside one row. They belong to the strict
+audit only and must not be used as the actual ID-protected training population.
+
+The complete ID-protected pass instead admits **20,729 training pairs and 2,253
+case-development pairs**, in 6,607 and 727 disjoint evidence combinations. It
+rejects 532,241 protected-source pairs and 444,777 schema/alignment cases. Of the
+22,982 admitted pairs, 7,100 have changed conjunction/literal ASTs. No sample cap
+was reached. The vocabulary contains 7,888 words and 56 characters; both views have
+identical vectors and metadata, with the base embedding prefix preserved exactly.
+Normalized current-text/full-input/official-ID overlap with the 8,478 original
+development examples is zero for both complete augmented training sets.
+
+The internal case split has 329 distinct training sources and 328 development
+sources, with **all 328 development sources also seen in augmentation training**.
+It is emphatically not source-independent. Added atom counts are identical across
+the two views: quantity 29,102; date 14,511; name 6,575; percent 6,439; money 5,829;
+duration 5,319; version 5,294; **Boolean zero**. V1 adds 2,991,841 unpadded input
+tokens per epoch and V2 2,180,952. The filtering therefore changes coverage and
+compute substantially; it cannot establish improvement on all million examples.
 
 Three preparation tests pass: context/target source protection, rejection of
 disjunction/scoped negation, and rejection of repeated note-date/value positions.
@@ -233,3 +270,15 @@ Full-pool preparation counts and training receipts are recorded in the worker's
 remote `v3-factorized/million-paired-data-v1` (initial strict audit) and
 `v3-factorized/million-paired-idonly-v1` (actual ablation) subtrees and will be
 appended after the controlled run completes. No selected V3 artifact is overwritten.
+The strict count pass initially hit a 100-versus-128 embedding-width error during
+matrix assembly. Its completed admission spool was preserved and finalized into
+`million-paired-strict-final` with the established layout of 100 GloVe coordinates
+plus 28 seeded coordinates. All existing base embedding rows remain unchanged;
+the corrected finalizer records the cached admission hashes. Strict finalization
+passes all normalized input/text/official-ID overlap checks with zero overlaps.
+The final ID-protected data are in `million-paired-idonly-final`; the base control
+is in `million-paired-base-control`. A first trainer startup used the newer optional
+schema argument with the frozen two-argument encoder API and stopped before any
+optimizer update. Both input views passed a forward smoke check after the trainer
+was corrected. Only `million-factorized-{base,v1,v2}-s271828-r2` runs, all from
+`source-million-training-v2`, are the actual controlled training experiment.
