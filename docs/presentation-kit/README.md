@@ -16,6 +16,7 @@ Pachet de redactare pentru JEV, 29 octombrie 2026. Conține texte, scenariu și 
 | Business și răspunsuri scurte | [05 — Business](05-BUSINESS-SI-QA.md) | Scenarii, pilot, indicatori, ipoteză economică și Q&A |
 | Orice număr afișat | [06 — Rezultate și surse](06-REZULTATE-SI-SURSE.md) | Ce s-a măsurat, pe ce versiune și ce nu rezultă din măsurătoare |
 | Handoff către un editor sau agent | [07 — Producție](07-PROMPTURI-PRODUCTIE.md) | Brief-uri gata de copiat pentru deck, video și frontend |
+| Edi: imagini pentru slide-uri și video | [Trei niveluri de arhitectură](architecture/README.md) | PNG-uri: sistem, parser, verificare și generare; snapshot actualizat `c62c773` |
 
 ## Cum se folosește repede
 
