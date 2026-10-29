@@ -110,6 +110,7 @@ def main():
     p.add_argument('--base', required=True); p.add_argument('--out', required=True)
     p.add_argument('--glove', required=True)
     p.add_argument('--protection', choices=['document','id-only'], default='document')
+    p.add_argument('--reuse-admission', help='Finalize a completed immutable admission spool without rereading archives')
     p.add_argument('--train-cap', type=int, default=50000)
     p.add_argument('--dev-cap', type=int, default=10000)
     a = p.parse_args(); start = time.monotonic()
@@ -138,7 +139,7 @@ def main():
     heaps = {'train':[], 'dev':[]}; case_groups = {}; train_groups=set(); dev_groups=set()
     spool = out/'eligible-pairs.jsonl'
     with spool.open('w') as f:
-        for old,new in itertools.zip_longest(read_pool(a.v1), read_pool(a.v2)):
+        for old,new in ([] if a.reuse_admission else itertools.zip_longest(read_pool(a.v1), read_pool(a.v2))):
             if old is None or new is None or old['id'] != new['id']:
                 raise ValueError('Archives must have identical complete row order/IDs')
             counts['pairs_seen'] += 1
@@ -176,6 +177,24 @@ def main():
                        v1=checks[0][1],v2=checks[1][1])
             f.write(json.dumps(entry)+'\n')
             keep_priority(heaps[fold],int(digest('million-paired-select-v1:'+new['id']),16),new['id'],a.train_cap if fold=='train' else a.dev_cap)
+    admission_hashes=None
+    if a.reuse_admission:
+        origin=pathlib.Path(a.reuse_admission)
+        admission_record=json.loads((origin/'admission-counts.json').read_text())
+        counts=collections.Counter(admission_record['counts'])
+        individual=[collections.Counter(admission_record['v1']),collections.Counter(admission_record['v2'])]
+        if counts['pairs_seen']!=1000000:raise ValueError('Cannot resume incomplete admission')
+        shutil.copyfile(origin/'eligible-pairs.jsonl',spool)
+        admission_hashes={name:hashlib.sha256((origin/name).read_bytes()).hexdigest() for name in ('admission-counts.json','eligible-pairs.jsonl')}
+        with spool.open() as f:
+            for line in f:
+                row=json.loads(line);fold=row['fold'];group=row['group'];case=row['case_key']
+                if case in case_groups and case_groups[case]!=group:raise ValueError('Resumed case crosses groups')
+                if set(row['source_ids'])&protected:raise ValueError('Resumed protected source')
+                if a.protection=='document' and {documents[s] for s in row['source_ids']}&protected_docs:raise ValueError('Resumed protected document')
+                case_groups[case]=group
+                (train_groups if fold=='train' else dev_groups).add(group)
+                keep_priority(heaps[fold],int(digest('million-paired-select-v1:'+row['id']),16),row['id'],a.train_cap if fold=='train' else a.dev_cap)
     if counts['pairs_seen'] != 1000000:raise ValueError('Expected one million paired rows')
     if train_groups & dev_groups:raise AssertionError('Evidence groups overlap')
     selected={fold:{i for _,i in heap} for fold,heap in heaps.items()}
@@ -201,7 +220,7 @@ def main():
     for char in sorted(new_chars):
         if char not in meta['chars']:meta['chars'][char]=len(meta['chars'])
     base_vectors=np.load(base/'vectors.npy');rng=np.random.default_rng(271828)
-    vectors=rng.normal(0,.05,(len(meta['vocab']),base_vectors.shape[1])).astype(np.float32)
+    vectors=rng.normal(0,.15,(len(meta['vocab']),base_vectors.shape[1])).astype(np.float32)
     vectors[:len(base_vectors)]=base_vectors
     missing={w for w,i in meta['vocab'].items() if i>=len(base_vectors)};found=set()
     with zipfile.ZipFile(a.glove) as z:
@@ -209,8 +228,15 @@ def main():
             for line in f:
                 parts=line.decode().rstrip().split(' ');word=parts[0]
                 if word in missing:
-                    vectors[meta['vocab'][word]]=np.asarray(parts[1:],dtype=np.float32);found.add(word)
+                    vector=np.asarray(parts[1:],dtype=np.float32)
+                    if vector.shape!=(100,) or vectors.shape[1]!=128:raise ValueError('Unexpected GloVe/base embedding dimensions')
+                    vectors[meta['vocab'][word],:100]=vector;found.add(word)
     meta['million_pair_protocol']=f'conjunction-only uniquely aligned; protection={a.protection}; original dev text/input excluded; evidence-combination hashed90/10; internal case holdout only'
+    vector_buffer=io.BytesIO();np.save(vector_buffer,vectors)
+    meta['vectors']={'name':'glove.6B.100d','layout':'100 GloVe coordinates plus 28 seeded coordinates; base rows preserved',
+                    'base_vectors_sha256':hashlib.sha256((base/'vectors.npy').read_bytes()).hexdigest(),
+                    'npy_sha256':hashlib.sha256(vector_buffer.getvalue()).hexdigest(),
+                    'vocab_total':len(meta['vocab']),'new_glove_hits':len(found),'new_random_oov':len(missing-found)}
     pairs={tuple(v):i+1 for i,v in enumerate(meta['pairs'])}
     manifests=[]
     overlap_checks={}
@@ -247,6 +273,7 @@ def main():
                  vocab=len(meta['vocab']),chars=len(meta['chars']),new_glove_found=len(found),new_random_oov=len(missing-found),
                  data_manifests=manifests,source_sha256=hashlib.sha256(pathlib.Path(__file__).read_bytes()).hexdigest(),
                  train_dev_overlap_checks=overlap_checks,
+                 reused_admission_sha256=admission_hashes,
                  archive_sha256={v:hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest() for v,path in [('v1',a.v1),('v2',a.v2)]},
                  seconds=time.monotonic()-start,epoch_selection='unchanged original official/synthetic dev; paired-dev evaluated separately',
                  limitation='Case-heldout rows still share original practice source facts with base training; not independent external validation.')
