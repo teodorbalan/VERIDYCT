@@ -146,6 +146,9 @@ verified matching initialization and exclusions, with explicit source, wording
 and compute limitations. The [API context audit](../../labs/structured-extraction/MILLION-API-CONTEXT-AUDIT.md)
 identifies loss of public note dates/IDs as a useful next representation target.
 Training is complete; all eight GPUs were idle at the final resource check.
+Teodor subsequently requested the original workloads back. All thirteen services
+were [restored and verified](gpu-workloads-restored.md) on 2026-10-29 at 07:34 UTC;
+the GPUs are no longer available for another training run.
 
 A [padding audit](../../labs/structured-extraction/PADDING-CONSISTENCY-AUDIT.md)
 found identical decoded assertions on all 390 official development rows across

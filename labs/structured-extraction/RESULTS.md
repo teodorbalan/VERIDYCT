@@ -142,5 +142,6 @@ out of Git. Raw checkpoints, source snapshots and logs remain on BENGEE under
 Fourteen parser regression tests, Python compilation, `cargo xtask check` and
 `cargo xtask test` passed; the latter ran 23 Rust tests. Local downloaded model
 and delivery archive hashes match the server. GPU 0–7 were idle after completion.
-Previously stopped services remain stopped; restoration instructions are in the
-Desktop GPU snapshot and protected server operations directory.
+The previously stopped services initially remained stopped. They were subsequently
+[restored and verified](../../docs/handoffs/gpu-workloads-restored.md) at Teodor's
+explicit request on 2026-10-29. The earlier idle-GPU measurement is historical.

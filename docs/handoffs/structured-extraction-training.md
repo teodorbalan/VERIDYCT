@@ -23,6 +23,12 @@ volumes and unit files remain intact. GPU service dependency consumers may be
 unavailable while these services are stopped; no automatic restoration is planned
 while training owns the cards.
 
+Subsequent state, 2026-10-29 07:34 UTC: Teodor explicitly requested restoration.
+All seven containers and six units are now running with their original
+configuration and GPU placement; all readiness checks passed. See the
+[restoration handoff](gpu-workloads-restored.md). The earlier stopped state above
+describes the training window only.
+
 Protected remote restoration inventory:
 `operations/before.json`, `stop-plan.json`, `stop-receipt.json`, saved unit files.
 Sanitized restoration instructions: `operations/GPU-SNAPSHOT.md`.
@@ -69,8 +75,9 @@ Server `runs/` and `runs-v2/` preserve all sixteen checkpoints and logs;
 freeze, evaluation, installation and restoration receipts.
 
 Final Desktop report: `C:/Users/Teodor/Desktop/VERIDYCT-training-results-2026-10-29.md`.
-All GPUs were idle at completion. The previously stopped seven containers and six
-user services remain stopped as requested; their state has not been discarded.
+All GPUs were idle at training completion. The seven containers and six user
+services initially remained stopped; they were subsequently restored at Teodor's
+explicit request, as recorded in the restoration handoff above.
 
 Future quality work should address unsupported-claim rejection, attribute/unit
 consistency, antecedent resolution and natural paraphrases. Repeated tuning on

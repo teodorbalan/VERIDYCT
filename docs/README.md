@@ -24,6 +24,7 @@ Original files are checked against [the checksum manifest](upstream-files.json).
 | [Structured extraction training](handoffs/structured-extraction-training.md) | GPU experiments, grouped evaluation, compact ONNX CPU extraction and limitations |
 | [Extraction research and continued experiments](handoffs/structured-extraction-research-v3.md) | Parallel architecture/data controls, independent behavioral evaluation and anti-overfitting checks |
 | [Million V1/V2 measured comparison](../labs/structured-extraction/MILLION-COMPARISON.md) | Complete paired audit, note-logic semantics, protected-source training and interactive viewer |
+| [Original GPU workloads restored](handoffs/gpu-workloads-restored.md) | User-requested restoration of all thirteen BENGEE services and verified GPU placement |
 
 ## Official sources
 
