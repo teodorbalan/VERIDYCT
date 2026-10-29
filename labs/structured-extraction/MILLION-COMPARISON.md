@@ -99,6 +99,68 @@ weakened inside that strict audit. Read the full
 [schema/training protocol](MILLION-SCHEMA-AUDIT.md) for constraints, failed startup
 receipts, and matched base/V1/V2 runs. No full recursive-program training is claimed.
 
+The context budget preserves every supplied note's **text**, but the existing
+flat interface concatenates those texts and drops public note IDs, dates and
+roles. No textual truncation therefore does not imply preservation of all
+available provenance. This limitation is symmetric across training views.
+The independent preparation review also finds 12 normalized official DEV query
+strings as substrings of training context, including short fragments such as
+"20 requests a day". Protected-ID and whole-query/full-input overlap checks
+still pass; substring overlap does not prove hidden-label leakage. It does rule
+out describing this development score as wholly unseen wording.
+The [independent protocol review](MILLION-EXPERIMENT-PROTOCOL-REVIEW.md) verifies
+identical reconstructed initialization, preserved base/DEV bytes, matching
+paired order and the stated overlap checks. It finds no implementation defect
+invalidating the bounded comparison, while retaining its one-seed and unequal-
+compute limitations.
+
+## Completed paired augmentation results
+
+All three runs and CPU exports completed. The CPU original-DEV scores exactly
+reproduce CUDA scores. Each model has 1,904,339 parameters; the prior frozen
+selected-v3 ensemble is a separate, larger artifact and remains selected.
+
+| Training data | Official exact /390 | Official atomic F1 | Synthetic exact /8,088 |
+| --- | ---: | ---: | ---: |
+| Base | 331 | .89627 | 8,072 |
+| Base + V1 | 330 | .89691 | 8,049 |
+| Base + V2 | 330 | .90383 | 8,037 |
+
+Neither augmentation beats base in official whole-row exactness in this single
+seed. V2 improves atomic F1; a one-row exact difference does not establish a
+general degradation. Selected/stopped epochs are 9/14, 10/15 and 17/20;
+wall training/evaluation seconds 656.32, 1,357.48 and 1,728.02; optimizer steps
+14,686, 22,215 and 29,620. Unpadded token totals are 21,285,698, 67,683,720 and
+74,027,180 respectively. This is a matched-policy, not matched-compute comparison.
+
+| Model training | V1 case-dev exact /2,253 | V2 case-dev exact /2,253 | V1 / V2 atomic F1 |
+| --- | ---: | ---: | ---: |
+| Base | 104 (4.62%) | 453 (20.11%) | .70436 / .78816 |
+| Base + V1 | 2,252 (99.96%) | 608 (26.99%) | .99988 / .82429 |
+| Base + V2 | 609 (27.03%) | 2,248 (99.78%) | .77977 / .99938 |
+
+Compare models within each input-view column. Strong own-revision performance
+does not transfer equally to the other input/target revision. These are internal
+case combinations of familiar sources; near-perfect diagonal scores are not
+evidence of arbitrary-English or competition truth accuracy. No new final
+challenge was used, and none of these models replaces the frozen selected V3.
+
+Saved-prediction aggregation separates 1,574 pairs with identical canonical flat
+gold sets from 679 changed-gold pairs, without new inference. On unchanged-gold
+pairs, base exact on V1/V2 is 85/343; +V1 is 1,573/451; +V2 is 460/1,570.
+Cross-revision exact therefore remains only 28.65–29.22% even with identical flat
+targets. Equality of flat sets is not equality of complete AST/source bindings.
+Within V1 inputs, base-to-+V1 gains/losses are 2,148/0 and base-to-+V2 536/31.
+Within V2 inputs, they are 321/166 and 1,795/0 respectively.
+
+The [API context audit](MILLION-API-CONTEXT-AUDIT.md) verifies query qualifier
+loss in 253 TRAIN and 59 case-dev API examples. Most remain resolvable from
+interface-note context. Ten TRAIN and four DEV cases have API/product notes on
+different dates; flattening context drops that public date disambiguator.
+No same-subject/same-date competing note or exact-input conflicting-target group
+was found in the admitted subset. Query omission is not proof all targets are
+wrong. Retaining note identity/date is a concrete next representation improvement.
+
 ## Reproduction and viewer
 
 Run the pair audit with `--v1`, `--v2`, `--out`; then the projection evaluator
@@ -109,8 +171,11 @@ for evaluation only; it is not a learner input format.
 [build_million_viewer.py](build_million_viewer.py) fills
 [million_viewer.html](million_viewer.html), a template requiring generated data.
 It selects 32 illustrative cases across four outcomes, not a representative
-sample for estimating accuracy. The generated 238KB standalone HTML supports
+sample for estimating accuracy. The generated 240KB standalone HTML supports
 search, AST/result filtering, context/JSON inspection, keyboard navigation and
 fullscreen. It was opened and visually inspected in Orca; filtering and native
 fullscreen were exercised. The delivered report, HTML, JSON receipts and compact
 CPU build ZIP are in the user's Downloads comparison directory.
+Its collapsible training table presents the completed six-cell comparison
+separately from the frozen-model examples. The final table was rendered and
+visually checked after the training results were added.

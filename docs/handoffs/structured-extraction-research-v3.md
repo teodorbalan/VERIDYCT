@@ -136,9 +136,27 @@ case combinations, not unseen source facts. The authored final is not reused.
 The separate strict document-block audit and failed pre-training startup receipts
 remain preserved. See the [training protocol](../../labs/structured-extraction/MILLION-SCHEMA-AUDIT.md).
 
+All three runs and the six-cell CPU comparison are now complete. Official DEV
+exact is 331/390 base, 330/390 +V1, 330/390 +V2. Paired-case exact is
+104/453 for base on V1/V2, 2,252/608 for +V1, and 609/2,248 for +V2, each out
+of 2,253. Own-revision accuracy near 100% does not imply equivalent transfer.
+No augmentation model is promoted over frozen selected V3. The
+[independent protocol review](../../labs/structured-extraction/MILLION-EXPERIMENT-PROTOCOL-REVIEW.md)
+verified matching initialization and exclusions, with explicit source, wording
+and compute limitations. The [API context audit](../../labs/structured-extraction/MILLION-API-CONTEXT-AUDIT.md)
+identifies loss of public note dates/IDs as a useful next representation target.
+Training is complete; all eight GPUs were idle at the final resource check.
+
 A [padding audit](../../labs/structured-extraction/PADDING-CONSISTENCY-AUDIT.md)
 found identical decoded assertions on all 390 official development rows across
 singleton, mixed-length and exact-length batches, but mixed padding changes
 confidence on 92 rows. Frozen artifacts remain unchanged; deployment must retain
 an explicit batching policy. Downloads contains the standalone comparison HTML,
 Romanian report, JSON receipts and portable CPU extractor build ZIP.
+
+Validation: the combined laboratory snapshot passed 52 unit tests; completed
+audit scripts verified actual artifacts and preserved original counts. The final
+documentation check passed 226 local links and organizer checksum validation.
+The viewer's search/filter/fullscreen were exercised; its final training table
+was rendered and visually inspected. No competition checker result is claimed
+for this standalone extraction package.
