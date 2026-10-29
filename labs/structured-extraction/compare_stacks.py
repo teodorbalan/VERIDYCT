@@ -166,7 +166,12 @@ def main():
     fingerprint = [dict(id=r["id"], tokens=r["tokens"], chars=r["chars"],
                         candidates=[{k:v for k,v in c.items() if k != "value"} for c in r["candidates"]])
                    for r in rows]
-    input_digest = hashlib.sha256(json.dumps(fingerprint, sort_keys=True).encode()).hexdigest()
+    implementation_hashes = {name:hashlib.sha256((pathlib.Path(__file__).parent/name).read_bytes()).hexdigest()
+                             for name in ['compare_stacks.py','model.py','model_factorized.py','model_graph.py','runtime.py','grammar.py','grammar_robust.py','prepare.py']}
+    cache_identity = dict(inputs=fingerprint, implementation=implementation_hashes,
+                          master_meta_sha256=hashlib.sha256((out/'meta.json').read_bytes()).hexdigest(),
+                          batch_policy='length,id sorted; batches48; vocabulary mapped per checkpoint')
+    input_digest = hashlib.sha256(json.dumps(cache_identity, sort_keys=True).encode()).hexdigest()
     models, options, probabilities = {}, [], {}
     for record in registry["singles"]:
         name = record["name"]
@@ -213,6 +218,7 @@ def main():
                     members=[models[m] for m in selected["members"]], grammar=a.grammar,
                     master_meta_sha256=hashlib.sha256((out/"meta.json").read_bytes()).hexdigest(),
                     input_digest=input_digest, final_gold_read=False,
+                    inference_implementation_sha256=implementation_hashes,
                     challenge_dev_sha256=hashlib.sha256(pathlib.Path(a.challenge_dev).read_bytes()).hexdigest())
     (out/"selection.json").write_text(json.dumps(manifest, indent=2))
     print("SELECTED "+json.dumps(selected), flush=True)

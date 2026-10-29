@@ -10,6 +10,7 @@ import csv
 import datetime as dt
 import hashlib
 import io
+import inspect
 import json
 import pathlib
 import re
@@ -176,6 +177,12 @@ def main():
         raise ValueError('Reports are immutable; choose a fresh directory')
     from runtime import CpuExtractor
     engine=CpuExtractor(a.bundle);aliases=name_aliases(engine.lexicon);report={}
+    inference_identity=dict(bundle={name:hashlib.sha256((pathlib.Path(a.bundle)/name).read_bytes()).hexdigest()
+                                    for name in ('model.onnx','meta.json','lexicon.json')},
+                            implementation={name:hashlib.sha256((pathlib.Path(__file__).parent/name).read_bytes()).hexdigest()
+                                            for name in ('runtime.py','prepare.py','grammar.py','grammar_robust.py')},
+                            adapter_source_sha256=hashlib.sha256(inspect.getsource(infer_forms).encode()).hexdigest(),
+                            context_policy='previous3 public text; last96 tokens; batches48 sorted length,id; decode .5')
     with zipfile.ZipFile(a.archive) as archive:
         for release in ALLOWED:
             started=time.monotonic();public_bytes=archive.read(release+'/public/universe.csv')
@@ -183,6 +190,8 @@ def main():
             # Inference completes using only public fields before opening gold.
             if a.forms_cache:
                 cache=pathlib.Path(a.forms_cache);receipt=json.loads((cache/'report.json').read_text())
+                if receipt['protocol'].get('inference_identity')!=inference_identity:
+                    raise ValueError('Cached inference implementation, metadata or context policy is absent or differs; recompute forms')
                 assert receipt['protocol']['model_sha256']==hashlib.sha256((pathlib.Path(a.bundle)/'model.onnx').read_bytes()).hexdigest()
                 assert receipt[release.split('/')[-1]]['public_sha256']==hashlib.sha256(public_bytes).hexdigest()
                 neural=json.loads((cache/(release.split('/')[-1]+'-neural-forms.json')).read_text())
@@ -204,7 +213,7 @@ def main():
         caveats=['Only exact full-date From/through prefixes supported.','No unit conversion or inference of persistence.',
                  'A partial extracted form may omit a false atom; extraction correctness is not guaranteed.',
                  'Gold form variants are oracle component diagnostics, never deployable accuracy.'],
-        model_sha256=hashlib.sha256((pathlib.Path(a.bundle)/'model.onnx').read_bytes()).hexdigest(),fresh_final_gold_opened=False)
+        model_sha256=hashlib.sha256((pathlib.Path(a.bundle)/'model.onnx').read_bytes()).hexdigest(),inference_identity=inference_identity,fresh_final_gold_opened=False)
     (out/'report.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 
 

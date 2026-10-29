@@ -4,13 +4,11 @@ Owner: research_audit. Scope: the original 1,897-row public practice and lexicon
 plus read-only inspection of the Rust verifier. No final, calibration or sealed
 gold was read. Reproduce with [audit_practice_semantics.py](audit_practice_semantics.py);
 the compact result is [practice-semantics-v3.json](practice-semantics-v3.json).
-This audits the historical base `e0c2a12`, not current main's typed temporal
-engine. See the [source-scope and team exposure correction](EVALUATION-EXPOSURE-V3.md).
-
-The Rust comparison in this document describes the original `d0af169` baseline
-used by this isolated experiment. Main subsequently advanced to `e6f687c`, adding
+The Rust comparison audits historical base `e0c2a12`, whose baseline core comes
+from `d0af169`. Main subsequently advanced to `e6f687c`, adding
 typed normalization, explicit temporal constraints and a native neural adapter.
 The baseline's limitations below must not be attributed to that newer implementation.
+See the [source-scope and team exposure correction](EVALUATION-EXPOSURE-V3.md).
 
 The `form` records **what the sentence asserts**, including its false values.
 It is not a table of corrected facts. Extraction and truth judgement are separate

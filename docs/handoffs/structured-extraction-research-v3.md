@@ -44,9 +44,9 @@ The original protocol reserved `calibration-20000` and `external-calibration`
 for this run. On reading updated main at `e6f687c`, we learned that another
 team experiment had already evaluated and published these releases in
 `docs/research/evaluation-suite-results.md`. They are therefore **not team-blind
-tests**, even though this training run has not opened their gold. A separately
-authored final challenge remains
-withheld, SHA256 `966b5c7c5061eab4e24c61177eb3994b5e852dec3c955dff973bbd5bf7ff33a0`.
+tests**, even though this training run had not opened their gold at selection.
+The separately authored final challenge was evaluated after freezing V3 and is
+now spent, SHA256 `966b5c7c5061eab4e24c61177eb3994b5e852dec3c955dff973bbd5bf7ff33a0`.
 The previous sealed results are already known and cannot become a new blind test.
 If experiments continue after a new final score is opened, a subsequent claim of
 independent improvement requires another reserved test.
@@ -78,7 +78,13 @@ negatives target the current closed lexicon, not a universal rule about English.
 See [research and dataset audit](../../labs/structured-extraction/RESEARCH-AUDIT-V3.md),
 [factorized design](../../labs/structured-extraction/FACTORIZED.md), and
 [graph design](../../labs/structured-extraction/GRAPH-EXPERIMENT.md).
-These are active experiments; report final results only from completed receipts.
+The architecture round is complete; see the [frozen V3 results](../../labs/structured-extraction/RESULTS-V3.md).
+The selected three-member CPU extractor improves authored final exact extraction
+from 76/92 to 87/92, with no paired losses. It still fails the separate ambiguity
+and invalid-type rejection diagnostics. The exposed 20,000-row regression reaches
+98.53%, taking 101.997 seconds and 728 MiB peak RSS in the actual 2-CPU/6-GiB
+offline container. These extraction scores are not competition truth accuracy.
+Report further experiment results only from completed receipts.
 Preserve failed configurations and CPU limits, and distinguish selected-epoch
 development scores from independent final evaluation and competition verdicts.
 
@@ -114,3 +120,25 @@ extraction with recursive `all`/`any`/`not`/`recorded`/`compare` programs. Gold 
 source bindings, provenance metadata and audit recipes are never model inputs.
 Related V1/V2 examples must share a partition; group separation alone does not
 remove repeated source-fact exposure. A random-row split is not external validation.
+
+Both million-row delivery replays passed. The complete paired audit found
+445,023 changed ASTs with unchanged labels, so V2 is not merely a paraphrase
+revision. The same frozen model improves flat literal projection F1 from .4926
+to .7526, but exact projection remains 8.53% versus 19.90%; recursive programs
+are outside that metric. See the [paired comparison](../../labs/structured-extraction/MILLION-COMPARISON.md)
+and [language review](../../labs/structured-extraction/MILLION-LANGUAGE-REVIEW.md).
+
+The bounded augmentation experiment uses 20,729 admitted pairs, 2,253 case-dev
+pairs and three matched base/V1/V2 runs. All 390 official held-out source IDs
+are excluded from new material, including context and target references.
+All 328 case-dev source IDs still occur in augmentation train: these are new
+case combinations, not unseen source facts. The authored final is not reused.
+The separate strict document-block audit and failed pre-training startup receipts
+remain preserved. See the [training protocol](../../labs/structured-extraction/MILLION-SCHEMA-AUDIT.md).
+
+A [padding audit](../../labs/structured-extraction/PADDING-CONSISTENCY-AUDIT.md)
+found identical decoded assertions on all 390 official development rows across
+singleton, mixed-length and exact-length batches, but mixed padding changes
+confidence on 92 rows. Frozen artifacts remain unchanged; deployment must retain
+an explicit batching policy. Downloads contains the standalone comparison HTML,
+Romanian report, JSON receipts and portable CPU extractor build ZIP.

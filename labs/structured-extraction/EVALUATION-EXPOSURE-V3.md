@@ -41,3 +41,12 @@ The old practice numbers and the newer teammate report should not be pooled:
 they use different evidence assumptions, extraction methods, splits and labels.
 Likewise, a 99% synthetic interval-engine score is not an estimate of arbitrary
 competition prose or of the 1,000 generated claims' correctness.
+
+During the paired augmentation runs, main advanced to
+`22fa97b6fe27fcfa8d0bab7ae2e85c10c5386148`. Its
+[full million-pool report](https://github.com/teodorbalan/VERIDYCT/blob/22fa97b6fe27fcfa8d0bab7ae2e85c10c5386148/docs/research/million-v1-v2.md)
+publishes development truth scores for a separate protocol-specific interpreter
+on both complete pools, including the unsuccessful strict V1-grammar transfer
+to V2. Those pools are also team-exposed; no fresh final claim is attached to
+our internal paired-case holdout. Their reported API-version ambiguity is new
+quality evidence, not an invitation to alter the running ablation after scoring.

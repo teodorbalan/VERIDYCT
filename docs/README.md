@@ -23,6 +23,7 @@ Original files are checked against [the checksum manifest](upstream-files.json).
 | [Practice × Lexicon Lab](../labs/practice-lexicon/README.md) | Offline graph, chronological practice queries, correlations and lab tests |
 | [Structured extraction training](handoffs/structured-extraction-training.md) | GPU experiments, grouped evaluation, compact ONNX CPU extraction and limitations |
 | [Extraction research and continued experiments](handoffs/structured-extraction-research-v3.md) | Parallel architecture/data controls, independent behavioral evaluation and anti-overfitting checks |
+| [Million V1/V2 measured comparison](../labs/structured-extraction/MILLION-COMPARISON.md) | Complete paired audit, note-logic semantics, protected-source training and interactive viewer |
 
 ## Official sources
 

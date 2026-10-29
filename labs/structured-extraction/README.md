@@ -166,3 +166,14 @@ loss. The runtime itself reads Unicode JSON:
 
 `previous_text` is optional in each input object and must be supplied by the
 caller. It is not automatically carried over between stdin requests.
+
+## Continued research
+
+- [Frozen V3 results](RESULTS-V3.md): common model comparison, separate final
+  challenge and constrained offline CPU regression benchmark.
+- [Observable truth semantics](OBSERVABLE-SEMANTICS.md),
+  [official contract](OFFICIAL-SEMANTICS-FORENSICS.md), and
+  [original practice audit](PRACTICE-SEMANTICS-FORENSICS.md): extraction, evidence
+  and truth are different layers.
+- [Million V1/V2 comparison](MILLION-COMPARISON.md): full paired audit, frozen
+  model diagnostic, training controls and interactive local viewer.

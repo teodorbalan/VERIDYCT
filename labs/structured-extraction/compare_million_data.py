@@ -45,6 +45,21 @@ def node_types(node):
             if isinstance(value,(list,dict)):yield from node_types(value)
 
 
+def source_references(row):
+    result=set(row['metadata']['source_ids'])
+    for context in row['input'].get('context',[]):
+        if re.fullmatch(r'p-\d+', context.get('id','')):result.add(context['id'])
+    def visit(node):
+        if isinstance(node,dict):
+            if isinstance(node.get('source_id'),str):result.add(node['source_id'])
+            for value in node.values():
+                if isinstance(value,(dict,list)):visit(value)
+        elif isinstance(node,list):
+            for value in node:visit(value)
+    visit(row['target'])
+    return result
+
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--v1',required=True);p.add_argument('--v2',required=True);p.add_argument('--out',required=True);a=p.parse_args()
     out=pathlib.Path(a.out);out.mkdir(parents=True,exist_ok=True)
@@ -70,7 +85,10 @@ def main():
                 for key in ('case_key','evidence_group_key','source_ids','source_documents'):
                     counts[key+'_changed']+=old['metadata'].get(key)!=new['metadata'].get(key)
                 meta=old['metadata'];cases[meta['case_key']]+=1;groups[meta['evidence_group_key']]+=1
-                sources=set(meta['source_ids']);source_exposure.update(sources)
+                sources=source_references(old)|source_references(new);source_exposure.update(sources)
+                counts['metadata_source_set_changed']+=set(old['metadata']['source_ids'])!=set(new['metadata']['source_ids'])
+                counts['complete_source_set_changed']+=source_references(old)!=source_references(new)
+                counts['source_references_beyond_metadata']+=bool(sources-set(old['metadata']['source_ids'])-set(new['metadata']['source_ids']))
                 assigned=fold(meta['evidence_group_key']);split_sources[assigned].update(sources)
                 source_folds={fold(s) for s in sources}
                 strict_split[next(iter(source_folds)) if len(source_folds)==1 else 'mixed_sources']+=1
