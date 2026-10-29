@@ -28,6 +28,10 @@ def digest(value):
     return hashlib.sha256(value.encode()).hexdigest()
 
 
+def normalized(text):
+    return ' '.join(text.casefold().split())
+
+
 def source_ids(value):
     """Include metadata, query, context, bindings and nested target references."""
     if isinstance(value, str):
@@ -105,6 +109,7 @@ def main():
     p.add_argument('--v1', required=True); p.add_argument('--v2', required=True)
     p.add_argument('--base', required=True); p.add_argument('--out', required=True)
     p.add_argument('--glove', required=True)
+    p.add_argument('--protection', choices=['document','id-only'], default='document')
     p.add_argument('--train-cap', type=int, default=50000)
     p.add_argument('--dev-cap', type=int, default=10000)
     a = p.parse_args(); start = time.monotonic()
@@ -115,7 +120,10 @@ def main():
     meta = json.loads((base/'meta.json').read_text())
     lex = json.loads((base/'lexicon.json').read_text())
     grammar = Grammar(lex, meta['extra_names'])
-    protected = {r['id'] for r in map(json.loads,(base/'dev.jsonl').read_text().splitlines()) if r.get('domain') == 'official'}
+    original_dev=list(map(json.loads,(base/'dev.jsonl').read_text().splitlines()))
+    protected = {r['id'] for r in original_dev if r.get('domain') == 'official'}
+    dev_texts={normalized(r['text']) for r in original_dev}
+    dev_inputs={(normalized(r['text']),normalized(r.get('previous_text',''))) for r in original_dev}
     if len(protected) != 390: raise ValueError('Expected exactly 390 official development rows')
     # Reproduce only the documented grouping convention, not packaged Python.
     # These contiguous date blocks are generator provenance, not official page IDs.
@@ -141,8 +149,11 @@ def main():
             if not all_sources <= documents.keys(): raise ValueError('Unknown provenance source')
             if all_sources & protected:
                 counts['protected_source_id'] += 1; continue
-            if {documents[s] for s in all_sources} & protected_docs:
+            if a.protection=='document' and {documents[s] for s in all_sources} & protected_docs:
                 counts['protected_document_block'] += 1; continue
+            raw_inputs=[(normalized(r['input']['text']),normalized('\n'.join(c['text'] for c in r['input'].get('context',[])))) for r in (old,new)]
+            if any(t in dev_texts or (t,c) in dev_inputs for t,c in raw_inputs):
+                counts['protected_dev_text_or_input']+=1;continue
             checks=[admission(r,grammar,meta) for r in (old,new)]
             for counter,(reason,_) in zip(individual,checks):counter[reason]+=1
             if any(reason != 'admitted' for reason,_ in checks):
@@ -199,9 +210,10 @@ def main():
                 parts=line.decode().rstrip().split(' ');word=parts[0]
                 if word in missing:
                     vectors[meta['vocab'][word]]=np.asarray(parts[1:],dtype=np.float32);found.add(word)
-    meta['million_pair_protocol']='conjunction-only uniquely aligned; protected official IDs/date blocks; evidence-combination hashed90/10; internal case holdout only'
+    meta['million_pair_protocol']=f'conjunction-only uniquely aligned; protection={a.protection}; original dev text/input excluded; evidence-combination hashed90/10; internal case holdout only'
     pairs={tuple(v):i+1 for i,v in enumerate(meta['pairs'])}
     manifests=[]
+    overlap_checks={}
     for view in ('v1','v2'):
         dest=out/view;dest.mkdir()
         (dest/'meta.json').write_text(json.dumps(meta,ensure_ascii=False))
@@ -219,12 +231,22 @@ def main():
                     c['label']=pairs[(atom['subject'],atom['attribute'])]
                 encoded.update(form=[x['atom'] for x in item['alignment']],domain='million_case',group_id=row['group'])
                 (train if row['fold']=='train' else dev).write(json.dumps(encoded,ensure_ascii=False)+'\n')
+        overlaps=collections.Counter()
+        with (dest/'train.jsonl').open() as f:
+            for line in f:
+                row=json.loads(line);t=normalized(row['text']);c=normalized(row.get('previous_text',''))
+                overlaps['normalized_current_text']+=t in dev_texts
+                overlaps['normalized_full_input']+=(t,c) in dev_inputs
+                overlaps['official_row_id']+=row['id'] in protected
+        overlap_checks[view]=dict(overlaps)
+        if any(overlaps.values()):raise ValueError(f'Train/dev overlap, including inherited base: {view} {dict(overlaps)}')
         manifests.append(dict(view=view,files={name:hashlib.sha256((dest/name).read_bytes()).hexdigest() for name in ('meta.json','vectors.npy','train.jsonl','dev.jsonl','paired-dev.jsonl')}))
     receipt=dict(arguments=vars(a),counts=dict(counts),v1_rejections=dict(individual[0]),v2_rejections=dict(individual[1]),
                  selected={k:len(v) for k,v in selected.items()},protected_ids=sorted(protected),protected_document_blocks=sorted(protected_docs),
                  selected_groups={fold:len({r['group'] for r in selected_rows if r['fold']==fold}) for fold in selected},
                  vocab=len(meta['vocab']),chars=len(meta['chars']),new_glove_found=len(found),new_random_oov=len(missing-found),
                  data_manifests=manifests,source_sha256=hashlib.sha256(pathlib.Path(__file__).read_bytes()).hexdigest(),
+                 train_dev_overlap_checks=overlap_checks,
                  archive_sha256={v:hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest() for v,path in [('v1',a.v1),('v2',a.v2)]},
                  seconds=time.monotonic()-start,epoch_selection='unchanged original official/synthetic dev; paired-dev evaluated separately',
                  limitation='Case-heldout rows still share original practice source facts with base training; not independent external validation.')

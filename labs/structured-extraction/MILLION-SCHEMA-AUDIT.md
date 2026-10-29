@@ -190,7 +190,20 @@ data and checks paired IDs and unchanged labels. It admits a pair only when:
 3. Entire context fits 96 tokens and total input fits 384; no new example silently
    loses notes or bindings. All subject/attribute pairs are already in the lexicon.
 4. No source anywhere in either view intersects the protected 390 official dev
-   IDs or their contiguous-date provenance blocks.
+   IDs. The initial `--protection document` audit additionally excludes their
+   contiguous-date provenance blocks. A separately named `--protection id-only`
+   preparation retains neighboring blocks for the actual bounded ablation;
+   this is explicitly not document-independent.
+5. Neither view's normalized current text or full text/context input matches any
+   of the original 8,478 development rows. A final scan checks the complete
+   combined training set, including inherited base rows, for zero overlap.
+
+The initial block-protected audit and the later ID-protected experiment are kept
+in separate immutable directories. Block protection removed almost all candidate
+combinations in the first audit. Moreover, the shared V3 base already contains
+neighboring document rows, so stricter augmentation filtering alone could not
+make the complete trained model document-blind. No score from the weaker policy
+is attributed to the stronger one.
 
 The admitted evidence combinations receive one deterministic 90/10 train/dev
 assignment. Stable-ID hash sampling caps training at 50,000 matched pairs and
@@ -217,5 +230,6 @@ many date/Boolean and reference cases and make admitted data easier.
 Three preparation tests pass: context/target source protection, rejection of
 disjunction/scoped negation, and rejection of repeated note-date/value positions.
 Full-pool preparation counts and training receipts are recorded in the worker's
-remote `v3-factorized/million-paired-data-v1` subtree and will be appended after
-the controlled run completes. No selected V3 artifact is overwritten.
+remote `v3-factorized/million-paired-data-v1` (initial strict audit) and
+`v3-factorized/million-paired-idonly-v1` (actual ablation) subtrees and will be
+appended after the controlled run completes. No selected V3 artifact is overwritten.
