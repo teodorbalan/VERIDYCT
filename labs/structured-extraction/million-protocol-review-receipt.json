@@ -1,0 +1,577 @@
+{
+  "scope": "CPU read-only preparation/protocol audit; no new inference or training.",
+  "source_sha256": {
+    "prepare_million_pair.py": "f8e139000d2f66ad4137087c5c8086442f233e7a4d704328660aefb197ab2993",
+    "train_factorized.py": "771b9b469c1d349ff149528d3ccd824deb519bed78bdfc73fcc760a033d4d8ef",
+    "model_factorized.py": "edff79ebee77e2082ffa4a5be4b1ec93dda51fa13bbf9027e59533a062dd3f3a",
+    "train.py": "117f2fce9fd5c90de1ad607d8f0212aacab026ee56b35686931cfa8f1c78974d",
+    "runtime.py": "cbc1e4980487224ab15a269299602d1475cb78157bd945176728dc781b5e8206",
+    "evaluate_million_pair.py": "09061cec0d02c28053b6ad8bf810b30d65070d7d365d8c1e0b9ac17cf7681896",
+    "export_factorized.py": "e76227ae17e8786d35182997db0834038cc15221c136518b3837e15bb5c1f51b"
+  },
+  "preparation_sha256": "9ac3e9ff9128082e7f9991d805b018d09a805f2e0e61fc2de6ab145782906d66",
+  "practice_sha256": "52743befaa0fa38b89b5c802c0f953d242ae027c86839c9c0f05a9e69a86d8e9",
+  "paired_dev_sha256": {
+    "v1": "115f6f6e968f4ac8f1551caf9e8ad634020a8beeffbfa8886a548d4348156463",
+    "v2": "5d5491a58bd3e20897b2f5fbdf3691e2c63425035f17a6ccb2991d02a8882dc2"
+  },
+  "grouping": {
+    "train_rows": 20729,
+    "dev_rows": 2253,
+    "train_sources": 329,
+    "dev_sources": 328,
+    "shared_sources": 328,
+    "shared_case_keys": 0,
+    "shared_metadata_groups": 0,
+    "shared_complete_reference_sets": 0
+  },
+  "models": {
+    "base": {
+      "run_arguments": {
+        "data": "/data/tairo/veridyct-training-20261028/v3-factorized/million-paired-base-control",
+        "out": "/data/tairo/veridyct-training-20261028/v3-factorized/million-factorized-base-s271828-r2",
+        "variant": "factorized",
+        "seed": 271828,
+        "epochs": 20,
+        "patience": 5,
+        "batch": 48,
+        "lr": 0.001,
+        "order_by_id": true
+      },
+      "gpu": "NVIDIA A100-SXM4-40GB",
+      "source_matches_run_receipt": true,
+      "files_sha256": {
+        "meta.json": "7e936df11cea5ea08dec77bf2c29684f11a6cc85272b4ef1bbf29d2a589ea0af",
+        "vectors.npy": "ca45cc8029ff78d3018069ddf2d4215bb0ec7050ab7ef262c9e1b9121a05bd4f",
+        "train.jsonl": "6a3ac192ec4c9435acea50cd48bab2cb00abf976b16e50d6aeb649fd64d8dd93",
+        "dev.jsonl": "fa69eab0327110e066b7c386f3dae84539df6cb43c07aae022094fd10e52da2e"
+      },
+      "train": {
+        "rows": 50328,
+        "tokens": 1520407
+      },
+      "added": {},
+      "added_atom_kinds": {},
+      "overlaps": {
+        "original": {
+          "text": 0,
+          "full_input": 0,
+          "official_id": 0
+        },
+        "v1_case": {
+          "text": 0,
+          "full_input": 0
+        },
+        "v2_case": {
+          "text": 0,
+          "full_input": 0
+        }
+      },
+      "sorted_training_ids_sha256": "d1180bfc5447785b17c04b46f0544c6dd816d9e5746f538e04ad00393fbb0ff5",
+      "schema_sha256": "657fcc8695c800c39b925d4c1e29f5f7b404615fec7ccae92f6895ef0a0f5091",
+      "cpu_reconstructed_initial_parameters_sha256": "014714c4d9519c7f8115e4da2284f636080abb4e14a5f4711f5f99795a537391",
+      "cpu_reconstructed_initial_buffers_sha256": "ff35ffe5f86c2ae04b6fe22d891fb4eaca17c754a887c698ce759a730aabbf29",
+      "cpu_rng_after_initialization_sha256": "f1bf3c5bb0e62d4b50fc488e329d1cdbcd88a6b7ca08546636f30ca469042406",
+      "official_dev_sentence_in_train_context": {
+        "train_rows": 741,
+        "distinct_dev_texts": 12
+      },
+      "context_overlap_diagnostics": [
+        {
+          "official_dev_ids": [
+            "p-781"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-781"
+          ],
+          "train_context_rows": 28,
+          "text": "2.4% of devices"
+        },
+        {
+          "official_dev_ids": [
+            "p-1843"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1843"
+          ],
+          "train_context_rows": 24,
+          "text": "20 requests a day"
+        },
+        {
+          "official_dev_ids": [
+            "p-1838"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1838"
+          ],
+          "train_context_rows": 16,
+          "text": "50 requests a day"
+        },
+        {
+          "official_dev_ids": [
+            "p-264"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-264"
+          ],
+          "train_context_rows": 49,
+          "text": "a context window of 128,000 tokens"
+        },
+        {
+          "official_dev_ids": [
+            "p-735"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-735"
+          ],
+          "train_context_rows": 26,
+          "text": "hooly chrome 70.0"
+        },
+        {
+          "official_dev_ids": [
+            "p-213"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-213"
+          ],
+          "train_context_rows": 29,
+          "text": "hooly cloud next 2026"
+        },
+        {
+          "official_dev_ids": [
+            "p-261"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-261"
+          ],
+          "train_context_rows": 137,
+          "text": "hooly gemini 1.0"
+        },
+        {
+          "official_dev_ids": [
+            "p-1502"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1502"
+          ],
+          "train_context_rows": 252,
+          "text": "hooly gemini 2.2"
+        },
+        {
+          "official_dev_ids": [
+            "p-378"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-378"
+          ],
+          "train_context_rows": 50,
+          "text": "hooly pixel fold opens to 8 inch"
+        },
+        {
+          "official_dev_ids": [
+            "p-1508"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1508"
+          ],
+          "train_context_rows": 74,
+          "text": "hooly vault is planned for december 2026"
+        },
+        {
+          "official_dev_ids": [
+            "p-400"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-400"
+          ],
+          "train_context_rows": 10,
+          "text": "hooly workspace costs \u20ac199 per month with 10 seats"
+        },
+        {
+          "official_dev_ids": [
+            "p-603"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-603"
+          ],
+          "train_context_rows": 46,
+          "text": "\u20ac1,799."
+        }
+      ]
+    },
+    "v1": {
+      "run_arguments": {
+        "data": "/data/tairo/veridyct-training-20261028/v3-factorized/million-paired-idonly-final/v1",
+        "out": "/data/tairo/veridyct-training-20261028/v3-factorized/million-factorized-v1-s271828-r2",
+        "variant": "factorized",
+        "seed": 271828,
+        "epochs": 20,
+        "patience": 5,
+        "batch": 48,
+        "lr": 0.001,
+        "order_by_id": true
+      },
+      "gpu": "NVIDIA A100-SXM4-40GB",
+      "source_matches_run_receipt": true,
+      "files_sha256": {
+        "meta.json": "7e936df11cea5ea08dec77bf2c29684f11a6cc85272b4ef1bbf29d2a589ea0af",
+        "vectors.npy": "ca45cc8029ff78d3018069ddf2d4215bb0ec7050ab7ef262c9e1b9121a05bd4f",
+        "train.jsonl": "d6d829b3a1288d97d6c408e12d10214a22e60025bcf1b1a3236841e69dce5a48",
+        "dev.jsonl": "fa69eab0327110e066b7c386f3dae84539df6cb43c07aae022094fd10e52da2e"
+      },
+      "train": {
+        "rows": 71057,
+        "tokens": 4512248
+      },
+      "added": {
+        "rows": 20729,
+        "tokens": 2991841,
+        "max_context_tokens": 96
+      },
+      "added_atom_kinds": {
+        "quantity": 29102,
+        "duration": 5319,
+        "percent": 6439,
+        "version": 5294,
+        "money": 5829,
+        "date": 14511,
+        "name": 6575
+      },
+      "overlaps": {
+        "original": {
+          "text": 0,
+          "full_input": 0,
+          "official_id": 0
+        },
+        "v1_case": {
+          "text": 0,
+          "full_input": 0
+        },
+        "v2_case": {
+          "text": 0,
+          "full_input": 0
+        }
+      },
+      "sorted_training_ids_sha256": "cf6919e21e73f9bb7316ccb062730bb29c309b60afd248e1a733394d8af1adef",
+      "schema_sha256": "657fcc8695c800c39b925d4c1e29f5f7b404615fec7ccae92f6895ef0a0f5091",
+      "cpu_reconstructed_initial_parameters_sha256": "014714c4d9519c7f8115e4da2284f636080abb4e14a5f4711f5f99795a537391",
+      "cpu_reconstructed_initial_buffers_sha256": "ff35ffe5f86c2ae04b6fe22d891fb4eaca17c754a887c698ce759a730aabbf29",
+      "cpu_rng_after_initialization_sha256": "f1bf3c5bb0e62d4b50fc488e329d1cdbcd88a6b7ca08546636f30ca469042406",
+      "official_dev_sentence_in_train_context": {
+        "train_rows": 1943,
+        "distinct_dev_texts": 12
+      },
+      "context_overlap_diagnostics": [
+        {
+          "official_dev_ids": [
+            "p-781"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-781"
+          ],
+          "train_context_rows": 28,
+          "text": "2.4% of devices"
+        },
+        {
+          "official_dev_ids": [
+            "p-1843"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1843"
+          ],
+          "train_context_rows": 24,
+          "text": "20 requests a day"
+        },
+        {
+          "official_dev_ids": [
+            "p-1838"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1838"
+          ],
+          "train_context_rows": 16,
+          "text": "50 requests a day"
+        },
+        {
+          "official_dev_ids": [
+            "p-264"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-264"
+          ],
+          "train_context_rows": 49,
+          "text": "a context window of 128,000 tokens"
+        },
+        {
+          "official_dev_ids": [
+            "p-735"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-735"
+          ],
+          "train_context_rows": 26,
+          "text": "hooly chrome 70.0"
+        },
+        {
+          "official_dev_ids": [
+            "p-213"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-213"
+          ],
+          "train_context_rows": 29,
+          "text": "hooly cloud next 2026"
+        },
+        {
+          "official_dev_ids": [
+            "p-261"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-261"
+          ],
+          "train_context_rows": 562,
+          "text": "hooly gemini 1.0"
+        },
+        {
+          "official_dev_ids": [
+            "p-1502"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1502"
+          ],
+          "train_context_rows": 876,
+          "text": "hooly gemini 2.2"
+        },
+        {
+          "official_dev_ids": [
+            "p-378"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-378"
+          ],
+          "train_context_rows": 213,
+          "text": "hooly pixel fold opens to 8 inch"
+        },
+        {
+          "official_dev_ids": [
+            "p-1508"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1508"
+          ],
+          "train_context_rows": 74,
+          "text": "hooly vault is planned for december 2026"
+        },
+        {
+          "official_dev_ids": [
+            "p-400"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-400"
+          ],
+          "train_context_rows": 10,
+          "text": "hooly workspace costs \u20ac199 per month with 10 seats"
+        },
+        {
+          "official_dev_ids": [
+            "p-603"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-603"
+          ],
+          "train_context_rows": 46,
+          "text": "\u20ac1,799."
+        }
+      ]
+    },
+    "v2": {
+      "run_arguments": {
+        "data": "/data/tairo/veridyct-training-20261028/v3-factorized/million-paired-idonly-final/v2",
+        "out": "/data/tairo/veridyct-training-20261028/v3-factorized/million-factorized-v2-s271828-r2",
+        "variant": "factorized",
+        "seed": 271828,
+        "epochs": 20,
+        "patience": 5,
+        "batch": 48,
+        "lr": 0.001,
+        "order_by_id": true
+      },
+      "gpu": "NVIDIA A100-SXM4-40GB",
+      "source_matches_run_receipt": true,
+      "files_sha256": {
+        "meta.json": "7e936df11cea5ea08dec77bf2c29684f11a6cc85272b4ef1bbf29d2a589ea0af",
+        "vectors.npy": "ca45cc8029ff78d3018069ddf2d4215bb0ec7050ab7ef262c9e1b9121a05bd4f",
+        "train.jsonl": "4bb0c619cdbba33b97613debab444c53efdf8d0d86045567c129b8bae7283c77",
+        "dev.jsonl": "fa69eab0327110e066b7c386f3dae84539df6cb43c07aae022094fd10e52da2e"
+      },
+      "train": {
+        "rows": 71057,
+        "tokens": 3701359
+      },
+      "added": {
+        "rows": 20729,
+        "tokens": 2180952,
+        "max_context_tokens": 96
+      },
+      "added_atom_kinds": {
+        "quantity": 29102,
+        "duration": 5319,
+        "percent": 6439,
+        "version": 5294,
+        "money": 5829,
+        "date": 14511,
+        "name": 6575
+      },
+      "overlaps": {
+        "original": {
+          "text": 0,
+          "full_input": 0,
+          "official_id": 0
+        },
+        "v1_case": {
+          "text": 0,
+          "full_input": 0
+        },
+        "v2_case": {
+          "text": 0,
+          "full_input": 0
+        }
+      },
+      "sorted_training_ids_sha256": "cf6919e21e73f9bb7316ccb062730bb29c309b60afd248e1a733394d8af1adef",
+      "schema_sha256": "657fcc8695c800c39b925d4c1e29f5f7b404615fec7ccae92f6895ef0a0f5091",
+      "cpu_reconstructed_initial_parameters_sha256": "014714c4d9519c7f8115e4da2284f636080abb4e14a5f4711f5f99795a537391",
+      "cpu_reconstructed_initial_buffers_sha256": "ff35ffe5f86c2ae04b6fe22d891fb4eaca17c754a887c698ce759a730aabbf29",
+      "cpu_rng_after_initialization_sha256": "f1bf3c5bb0e62d4b50fc488e329d1cdbcd88a6b7ca08546636f30ca469042406",
+      "official_dev_sentence_in_train_context": {
+        "train_rows": 1981,
+        "distinct_dev_texts": 12
+      },
+      "context_overlap_diagnostics": [
+        {
+          "official_dev_ids": [
+            "p-781"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-781"
+          ],
+          "train_context_rows": 28,
+          "text": "2.4% of devices"
+        },
+        {
+          "official_dev_ids": [
+            "p-1843"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1843"
+          ],
+          "train_context_rows": 24,
+          "text": "20 requests a day"
+        },
+        {
+          "official_dev_ids": [
+            "p-1838"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1838"
+          ],
+          "train_context_rows": 16,
+          "text": "50 requests a day"
+        },
+        {
+          "official_dev_ids": [
+            "p-264"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-264"
+          ],
+          "train_context_rows": 49,
+          "text": "a context window of 128,000 tokens"
+        },
+        {
+          "official_dev_ids": [
+            "p-735"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-735"
+          ],
+          "train_context_rows": 26,
+          "text": "hooly chrome 70.0"
+        },
+        {
+          "official_dev_ids": [
+            "p-213"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-213"
+          ],
+          "train_context_rows": 68,
+          "text": "hooly cloud next 2026"
+        },
+        {
+          "official_dev_ids": [
+            "p-261"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-261"
+          ],
+          "train_context_rows": 562,
+          "text": "hooly gemini 1.0"
+        },
+        {
+          "official_dev_ids": [
+            "p-1502"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1502"
+          ],
+          "train_context_rows": 876,
+          "text": "hooly gemini 2.2"
+        },
+        {
+          "official_dev_ids": [
+            "p-378"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-378"
+          ],
+          "train_context_rows": 213,
+          "text": "hooly pixel fold opens to 8 inch"
+        },
+        {
+          "official_dev_ids": [
+            "p-1508"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-1508"
+          ],
+          "train_context_rows": 74,
+          "text": "hooly vault is planned for december 2026"
+        },
+        {
+          "official_dev_ids": [
+            "p-400"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-400"
+          ],
+          "train_context_rows": 10,
+          "text": "hooly workspace costs \u20ac199 per month with 10 seats"
+        },
+        {
+          "official_dev_ids": [
+            "p-603"
+          ],
+          "same_normalized_public_text_ids": [
+            "p-603"
+          ],
+          "train_context_rows": 46,
+          "text": "\u20ac1,799."
+        }
+      ]
+    }
+  },
+  "context_overlap_caveat": "Matching a DEV sentence inside TRAIN context is textual exposure; shared wording alone does not identify its source ID or expose its label.",
+  "new_vocab_words_train_only": 189,
+  "status": "PASS",
+  "validator_sha256": "f54eb698f03c987dc267e98986ee27646040d5bb28c77b16450bee072cc13faa"
+}
