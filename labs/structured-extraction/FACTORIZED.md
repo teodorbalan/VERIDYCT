@@ -17,6 +17,14 @@ label/text interactions in a small attention model. The present factorized heads
 share subjects and attributes across valid pair classes; this is an adaptation,
 not a reproduction of either paper's architecture or published scores.
 
+Lexicon-aware sequence models are also supported by
+[Zhang and Yang's lattice LSTM (ACL 2018)](https://aclanthology.org/P18-1144/) and
+[Ma et al.'s simplified lexicon features (ACL 2020)](https://aclanthology.org/2020.acl-main.528/).
+Those papers study Chinese NER, so their benchmark improvements do not transfer
+directly to this English closed-lexicon task. Our alias experiment instead uses
+the public entity aliases as a soft subject preference, with explicit handling
+of nested aliases and named objects, and tests that adaptation separately.
+
 The existing BiLSTM processes trailing padding in its backward recurrence. A
 character CNN can also give padding a nonzero vector through its bias. The
 [PyTorch packed-sequence API](https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.rnn.pack_padded_sequence.html)
@@ -56,7 +64,8 @@ official/synthetic development exact rates. No calibration or sealed gold is
 used for training or model selection. Any enhanced-data runs are separate.
 
 Remote artifacts live under `/data/tairo/veridyct-training-20261028/v3-factorized/`.
-Only GPUs 0 and 1 are assigned to this worker. Run receipts record source hashes,
+Initial controls use GPUs 0 and 1. The coordinator later assigned the idle GPU 6
+to start the alias experiment without waiting for those controls. Run receipts record source hashes,
 configuration, data metadata hash, hardware, epoch metrics and selected checkpoint.
 
 ## Commands
@@ -99,6 +108,44 @@ official predictions changed when each row was paired with an unrelated
 The padding problem is real but small in this diagnostic; it does not explain
 the overall domain gap. New packed models pass explicit padding invariance.
 
-Enhanced-data small/large controls and the alias variant run separately on
-`data-v3`; their results must be added only after completion. Calibration gold
-remains reserved for the root agent's final independent evaluation.
+## Completed enhanced-data controls
+
+All three use `data-v3`, seed 271828 and the unchanged epoch selection policy.
+The expanded train-only vocabulary increases small-model parameters to 1,880,099.
+No new run was launched after the coordinator prioritized semantic investigation.
+
+| Variant | Official exact | Synthetic exact | Official atomic F1, CPU | Selected / final epoch | Training seconds |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Factorized | 340 / 390 = 87.179% | 8065 / 8088 = 99.716% | 90.760% | 36 / 40 | 1972.71 |
+| Factorized large | 333 / 390 = 85.385% | 8063 / 8088 = 99.691% | 90.309% | 19 / 27 | 1605.74 |
+| Factorized + explicit alias features | 333 / 390 = 85.385% | 8064 / 8088 = 99.703% | 90.515% | 15 / 23 | 1269.11 |
+
+The small model gained one official complete row over its unchanged-data control,
+while atomic F1 fell. Neither the larger encoder nor explicit alias features
+improved this selection split. One seed and 390 official rows are insufficient
+to claim a reliable generalization improvement from that one-row difference.
+
+CPU ONNX sizes are respectively 7,563,779, 13,007,888 and 7,625,909 bytes. Prepared
+8,478-row CPU passes took 7.73, 9.98 and 7.57 seconds on the server using two
+threads, with other server activity present. All exports passed dynamic batches
+1, 7 and 32, including unsorted lengths, with maximum logit errors below 0.000054.
+All three regression tests pass: padding invariance, longest overlapping alias,
+and exclusion of a named object from subject evidence.
+
+Full development comparison found one CUDA/CPU difference for the small V3 model:
+`p-966` gains an incorrect Hooly Board next-meeting atom at CPU probability
+0.500339, just above the decoder's 0.5 threshold. Both PyTorch CPU and ONNX CPU
+emit it; their batch logit difference is at most 0.0000611. Exact rows remain
+340/390, but official F1 is 90.760% on CPU versus 90.853% in the saved CUDA run.
+This is recorded in `v3-factorized/cpu-numerics-v3.json`; complete cross-device
+decoded parity must not be claimed. Large and alias CPU domain metrics reproduce
+the CUDA results.
+
+Artifacts: each run's `best.pt`, `last.pt`, `run.json`, `metrics.jsonl`, `result.json`
+and development predictions remain under the worker's remote subtree; CPU bundles
+are in `v3-factorized/bundles/<run>/`, with hashes and parity in `export-report.json`.
+V2 artifacts are preserved. Calibration gold remains reserved for the root
+agent's final independent evaluation.
+
+See [the semantic investigation](OFFICIAL-SEMANTICS-FORENSICS.md) for why these
+extraction scores do not measure truth labels or generated-entry correctness.
