@@ -1,0 +1,152 @@
+{
+  "reviewer": "research_audit assistant",
+  "provenance": "Development-time assistant qualitative review of 24 deterministically selected pairs; not human adjudication, not generated factual evidence.",
+  "scope": "English versus each version's own AST and supplied-note semantics. No claim of arbitrary-English, full-AST model accuracy or real-world truth accuracy.",
+  "unequivocal_english_ast_mismatch_found": 0,
+  "cases": [
+    {
+      "id": "million-19-022590",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "NOT ALL four recorded values. Several inner literals differ from their source notes, so the true outer label does not make all literals true. V2 names the entities and dates explicitly."
+    },
+    {
+      "id": "million-19-039008",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "NOT ALL four source-matching literals: Maps countries, Pixel shipments, Q1 revenue and Q4 cash. The outer false label is consistent with every inner literal being true; scaled money wording preserves values."
+    },
+    {
+      "id": "million-19-022321",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "NOT ALL source-matching literals about customers, monthly price, Cloud launch and report publication. Report dates and date-valued assertions have separate roles; V2 repeats both explicitly."
+    },
+    {
+      "id": "million-16-028634",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "A recorded boolean false is conjoined with NOT ANY four other literals. V2's 'none of these holds' preserves the negation scope; treating the word false as the whole row's verdict would be wrong."
+    },
+    {
+      "id": "million-02-032398",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "OR with p-145 omitted from supplied evidence and two contradicted alternatives gives unsure. Naming or citing the absent note in the query does not supply its content. Global practice memorization would leak the omitted fact."
+    },
+    {
+      "id": "million-14-037688",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "NOT ANY source-matching AI-answer, board-seat, news-refresh and hallucination literals. Note-number discourse bindings remain explicit. V2 is shorter but still a templated logic exercise."
+    },
+    {
+      "id": "million-12-045963",
+      "change_class": "same_ast",
+      "assessment": "Inherited lexical-scope ambiguity; human review recommended",
+      "note": "OR with omitted p-516 and two contradicted alternatives gives unsure. V2 says Gemini is hosted in the EU; p-516 says it keeps every customer's data inside the EU. Official eu_hosted annotation connects them, but data residency and hosting location are not universally equivalent. This is not a demonstrated wrong V2 label."
+    },
+    {
+      "id": "million-08-044621",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "The same-attribute comparison lacks p-145; remaining disjuncts alter Android adoption, Gmail price and ticket price. Unknown OR false OR false OR false is unsure. Dates and source identity matter beyond flat literals."
+    },
+    {
+      "id": "million-06-023130",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "An unrelated net-zero-target versus employee-joining date comparison is conjoined with NOT ANY. Missing p-1435 does not force unsure: known false conjuncts already decide the false result. V2 retains the semantically odd comparison."
+    },
+    {
+      "id": "million-14-009502",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "NOT ANY contains a true date comparison and false Docs-version/Chrome-memory-saver substitutions. Its false label does not imply that every leaf was substituted or false."
+    },
+    {
+      "id": "million-14-014058",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "NOT ANY includes a source-matching templates count, shifted launch dates and a flipped AI-answer boolean. One true disjunct determines the false outer result."
+    },
+    {
+      "id": "million-07-020901",
+      "change_class": "same_ast",
+      "assessment": "No English/own-AST defect identified",
+      "note": "Conjunction includes Photos encryption true and false at two distinct dates, each opposite to its dated source, plus a false Chrome boolean. V2 splits sentences while retaining the global conjunction; flattening removes the essential date binding."
+    },
+    {
+      "id": "million-20-029637",
+      "change_class": "comparison_replacement",
+      "assessment": "Own-AST wording coherent; changed question",
+      "note": "NOT(Maps storage > Gmail storage) becomes NOT ANY(Maps = 4 GB, Gmail = 11 GB), with the other OR branch unchanged and false. Both versions are true for source values 3 GB and 10 GB, but changing Maps to 4 GB makes V1 true and V2 false. Label preservation is not logical equivalence."
+    },
+    {
+      "id": "million-20-041665",
+      "change_class": "comparison_replacement",
+      "assessment": "Own-AST wording coherent; changed question",
+      "note": "A missing-source version comparison under NOT becomes NOT ALL two recorded version values. A separate source-matching conjunction makes the whole disjunction true in both versions, concealing the subproblem change."
+    },
+    {
+      "id": "million-03-031350",
+      "change_class": "comparison_replacement",
+      "assessment": "Own-AST wording coherent; changed question",
+      "note": "A Maps-versus-Enterprise storage equality comparison is replaced by OR of altered recorded values. Enterprise source p-1897 is missing; the false Docs-users literal already makes the outer NOT ALL true."
+    },
+    {
+      "id": "million-15-015109",
+      "change_class": "comparison_replacement",
+      "assessment": "Own-AST wording coherent; changed question",
+      "note": "NOT(Q1 margin < Maps ad-share) becomes NOT ANY two changed percent literals. A separate all-true branch also guarantees the true row label. This is task revision, not only cleaner English."
+    },
+    {
+      "id": "million-18-042788",
+      "change_class": "comparison_replacement",
+      "assessment": "Own-AST wording coherent; changed question",
+      "note": "Ticket price < quarterly revenue becomes AND of the two exact recorded values. It removes an arbitrary scale comparison but changes the proposition. The other two disjuncts are contradicted source substitutions."
+    },
+    {
+      "id": "million-10-040024",
+      "change_class": "numeric_contrast",
+      "assessment": "Own-AST wording coherent; changed numeric assertion",
+      "note": "The false Q4 revenue literal changes from 4,200,001 to 4,700,000 EUR, versus source 4,200,000. This avoids an artificial one-euro perturbation; it does not correct the assertion to truth. The outer conjunction is false in both versions."
+    },
+    {
+      "id": "million-18-031921",
+      "change_class": "numeric_contrast",
+      "assessment": "Own-AST wording coherent; changed numeric assertion",
+      "note": "Index pages changes from 301,000,000,001 to 311 billion, versus source 301 billion. Missing Photos Lite price p-1201 leaves one comparison unknown; other disjuncts are false, preserving unsure."
+    },
+    {
+      "id": "million-13-017387",
+      "change_class": "comparison_replacement",
+      "assessment": "Own-AST wording coherent; changed question",
+      "note": "Android adoption < Gemini hallucination becomes OR of altered percent values. Missing p-486 does not control the result because other false literals already make NOT ALL true. Note-number presentation still depends on explicit bindings."
+    },
+    {
+      "id": "million-12-006196",
+      "change_class": "numeric_contrast",
+      "assessment": "Own-AST wording coherent; changed numeric assertion",
+      "note": "An omitted Search-index assertion changes from 210,000,000,001 to 260 billion. Two source-matching disjuncts independently make the row true, so correct row classification need not demonstrate understanding of the missing branch."
+    },
+    {
+      "id": "temporal-a27874f35315356b060f8ae1",
+      "change_class": "observation_pair_expansion",
+      "assessment": "No English/own-AST defect identified; representation change",
+      "note": "An observation_pair becomes ALL two recorded market-share literals, retaining both dates and values. The later 24.2% contrasts with a 24.1% source. This is a meaning-preserving representation change under supplied-note semantics, not evidence of a real change event."
+    },
+    {
+      "id": "million-15-024523",
+      "change_class": "comparison_replacement",
+      "assessment": "Own-AST wording coherent; changed question and numeric assertion",
+      "note": "NOT(Gmail storage >= Drive storage) becomes NOT ALL exact recorded values; mapped distance also changes from 66,500,001 to 71.5 million km. Source text says partner of Hooly while the inherited canonical attribute is integration_partner_of_flawless: this is an annotation/surface-name mapping quirk, not a new entity introduced by V2."
+    },
+    {
+      "id": "million-16-019006",
+      "change_class": "comparison_replacement",
+      "assessment": "Own-AST wording coherent; changed question",
+      "note": "Jules acceptance >= Gmail spam blocking becomes OR of altered recorded percentages. Both are false, so the conjunction is false despite missing board-seat source p-176 inside the other branch."
+    }
+  ]
+}

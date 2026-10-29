@@ -1,0 +1,280 @@
+{
+  "status": "PASS",
+  "scope": "Bookkeeping and a logical non-equivalence witness; qualitative assistant notes are not an automatically verified English gold set.",
+  "sha256": {
+    "selected": "f601454ca11e872ad007d38fe5ad5f82bc8a3b2ef5a7b9a25660155786318aec",
+    "manifest": "b9f16b1d5a4c59f6b35baeda6f8a3633cc4ff65ca3c473ca3214e0a582653a9a",
+    "notes": "32824901fc2f6c445a93fb4eab16ef292de89a2ba688668d947ba9937a6559bb",
+    "comparison": "38197db9ba30b6853e659692ea06287512b17da643d226f88b5055f55eb0f855",
+    "projection": "a6af89f4110440fa2e72038147e310c0cb0710669870c77ab56816898a0131a6"
+  },
+  "validator_sha256": "860be92eada5aa7960b12e3e88def001d69a2440d64410fd7a35f6a3406c10a6",
+  "selected_pairs": 24,
+  "strata": {
+    "same_ast/negation": 3,
+    "same_ast/disjunction": 3,
+    "same_ast/source_omission": 3,
+    "same_ast/false_substitution": 3,
+    "changed_ast/negation": 3,
+    "changed_ast/disjunction": 3,
+    "changed_ast/source_omission": 3,
+    "changed_ast/false_substitution": 3
+  },
+  "change_classes": {
+    "same_ast": 12,
+    "comparison_replacement": 8,
+    "numeric_contrast": 3,
+    "observation_pair_expansion": 1
+  },
+  "reviewed_labels": {
+    "true": 8,
+    "false": 12,
+    "unsure": 4
+  },
+  "distinct_reviewed_source_ids": 90,
+  "reviewed_source_labels": [
+    "true"
+  ],
+  "non_equivalence_witness": {
+    "row_id": "million-20-029637",
+    "original": {
+      "maps_gb": 3,
+      "gmail_gb": 10,
+      "v1_result": true,
+      "v2_result": true,
+      "unchanged_other_or_branch": false
+    },
+    "counterfactual": {
+      "maps_gb": 4,
+      "gmail_gb": 10,
+      "v1_result": true,
+      "v2_result": false,
+      "unchanged_other_or_branch": false
+    },
+    "provenance": "Assistant-created logical witness; not corpus modification or new factual evidence."
+  },
+  "parent_full_comparison": {
+    "counts": {
+      "rows": 1000000,
+      "duplicate_ids": 0,
+      "input_changed": 990101,
+      "target_changed": 827042,
+      "label_changed": 0,
+      "parse_status_changed": 0,
+      "structure_changed": 445023,
+      "bindings_changed": 7277,
+      "reference_links_changed": 654340,
+      "case_key_changed": 0,
+      "evidence_group_key_changed": 0,
+      "source_ids_changed": 3437,
+      "source_documents_changed": 982824,
+      "metadata_source_set_changed": 0,
+      "complete_source_set_changed": 0,
+      "source_references_beyond_metadata": 7638
+    },
+    "grouping": {
+      "cases": 255012,
+      "max_case_rows": 20,
+      "evidence_groups": 254844,
+      "max_group_rows": 20,
+      "distinct_sources": 1897,
+      "max_source_exposure": 14107,
+      "evidence_group_split_source_overlap": {
+        "train__dev": 1501,
+        "train__test": 1445,
+        "dev__test": 1279
+      },
+      "all_sources_same_fold_counts": {
+        "train": 370742,
+        "mixed_sources": 627906,
+        "dev": 581,
+        "test": 771
+      }
+    },
+    "archive_sha256": {
+      "v1": "17194179b1e17cca148ba42c21a7c155c5556423938d352e8bda90ac0b8f852c",
+      "v2": "416f95c6ab39a8b217e7aa1bad954b93134d75cb20f7f065c319cd71e4c3ecef"
+    },
+    "text_means": {
+      "v1": {
+        "mean_claim_words": 74.179075,
+        "mean_context_words": 93.811062,
+        "global_majority_baseline": 0.493356,
+        "family_profile_oracle_majority_baseline": 0.735085
+      },
+      "v2": {
+        "mean_claim_words": 56.412521,
+        "mean_context_words": 47.93714,
+        "global_majority_baseline": 0.493356,
+        "family_profile_oracle_majority_baseline": 0.735085
+      }
+    }
+  },
+  "parent_flat_projection": {
+    "counts": {
+      "sample_pairs": 10020,
+      "no_literal_projection_in_at_least_one_version": 90,
+      "identical_input_pairs": 94,
+      "identical_input_prediction_mismatches": 0
+    },
+    "v1": {
+      "all": {
+        "rows": 9930,
+        "gold": 31140,
+        "predicted": 17898,
+        "correct": 12077,
+        "exact": 847,
+        "overlength": 0,
+        "exact_rate": 0.08529707955689829,
+        "precision": 0.6747681305173763,
+        "recall": 0.38782915863840717,
+        "f1": 0.4925567926913822
+      },
+      "same_ast": {
+        "rows": 5608,
+        "gold": 19369,
+        "predicted": 10215,
+        "correct": 7045,
+        "exact": 411,
+        "overlength": 0,
+        "exact_rate": 0.07328815977175464,
+        "precision": 0.6896720509055311,
+        "recall": 0.36372554081263875,
+        "f1": 0.47627095727420227
+      },
+      "annotated_practice": {
+        "rows": 94,
+        "gold": 369,
+        "predicted": 356,
+        "correct": 350,
+        "exact": 80,
+        "overlength": 0,
+        "exact_rate": 0.851063829787234,
+        "precision": 0.9831460674157303,
+        "recall": 0.948509485094851,
+        "f1": 0.9655172413793104
+      },
+      "notes_logic": {
+        "rows": 9836,
+        "gold": 30771,
+        "predicted": 17542,
+        "correct": 11727,
+        "exact": 767,
+        "overlength": 0,
+        "exact_rate": 0.07797885319235462,
+        "precision": 0.6685098620453768,
+        "recall": 0.38110558642878034,
+        "f1": 0.48545940016144723
+      },
+      "changed_ast": {
+        "rows": 4322,
+        "gold": 11771,
+        "predicted": 7683,
+        "correct": 5032,
+        "exact": 436,
+        "overlength": 0,
+        "exact_rate": 0.1008792225821379,
+        "precision": 0.6549524925159443,
+        "recall": 0.4274912921586951,
+        "f1": 0.5173229155957644
+      }
+    },
+    "v2": {
+      "all": {
+        "rows": 9930,
+        "gold": 36304,
+        "predicted": 33281,
+        "correct": 26185,
+        "exact": 1976,
+        "overlength": 0,
+        "exact_rate": 0.19899295065458208,
+        "precision": 0.7867852528469698,
+        "recall": 0.7212703834288233,
+        "f1": 0.7526047280304663
+      },
+      "same_ast": {
+        "rows": 5608,
+        "gold": 19369,
+        "predicted": 18515,
+        "correct": 14118,
+        "exact": 1091,
+        "overlength": 0,
+        "exact_rate": 0.1945435092724679,
+        "precision": 0.7625168782068593,
+        "recall": 0.7288966905880531,
+        "f1": 0.7453278428888185
+      },
+      "annotated_practice": {
+        "rows": 94,
+        "gold": 369,
+        "predicted": 356,
+        "correct": 350,
+        "exact": 80,
+        "overlength": 0,
+        "exact_rate": 0.851063829787234,
+        "precision": 0.9831460674157303,
+        "recall": 0.948509485094851,
+        "f1": 0.9655172413793104
+      },
+      "notes_logic": {
+        "rows": 9836,
+        "gold": 35935,
+        "predicted": 32925,
+        "correct": 25835,
+        "exact": 1896,
+        "overlength": 0,
+        "exact_rate": 0.19276128507523382,
+        "precision": 0.7846621108580106,
+        "recall": 0.718936969528315,
+        "f1": 0.7503630554748766
+      },
+      "changed_ast": {
+        "rows": 4322,
+        "gold": 16935,
+        "predicted": 14766,
+        "correct": 12067,
+        "exact": 885,
+        "overlength": 0,
+        "exact_rate": 0.2047663118926423,
+        "precision": 0.8172152241636191,
+        "recall": 0.7125479775612636,
+        "f1": 0.7613009053342166
+      }
+    },
+    "paired": {
+      "all": {
+        "both_correct": 317,
+        "both_wrong": 7424,
+        "v2_gain": 1659,
+        "v2_loss": 530
+      },
+      "same_ast": {
+        "both_correct": 187,
+        "both_wrong": 4293,
+        "v2_loss": 224,
+        "v2_gain": 904
+      },
+      "changed_ast": {
+        "both_wrong": 3131,
+        "v2_gain": 755,
+        "v2_loss": 306,
+        "both_correct": 130
+      }
+    },
+    "model_sha256": "14fccd0c69701cb090e80301e05ec5f10e4b506b2f0da56b0ccb97abe78d232e",
+    "protocol": "Paired IDs; same model and .5 decode threshold; each pair shares one padded inference batch; last96 context tokens; >384 total rejected and counted wrong.",
+    "limitations": [
+      "Flat literal-atom projection only, NOT full JSON AST or truth accuracy.",
+      "Semantic scope, source IDs, dates, multiplicity and ordering not scored.",
+      "Changed-AST rows are changed tasks, not pure paraphrases.",
+      "No training on million rows for this comparison; source practice and older synthetic training can overlap.",
+      "No-literal or unresolved rows are out of scope for this metric, not counted as successes."
+    ]
+  },
+  "untouched": [
+    "authored final challenge",
+    "calibration gold",
+    "model weights",
+    "training data"
+  ]
+}

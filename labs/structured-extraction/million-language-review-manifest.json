@@ -1,0 +1,145 @@
+{
+  "protocol": "Three stable-hash-ranked unused rows for each of same/changed AST x negation/disjunction/source omission/false substitution; fixed stratum order.",
+  "salt": "million-language-review-24-v1:",
+  "paired_sample_rows": 10020,
+  "selected_rows": 24,
+  "pools": {
+    "same_ast/negation": 2969,
+    "same_ast/disjunction": 3319,
+    "same_ast/source_omission": 1118,
+    "same_ast/false_substitution": 1684,
+    "changed_ast/negation": 2942,
+    "changed_ast/disjunction": 3437,
+    "changed_ast/source_omission": 946,
+    "changed_ast/false_substitution": 1617
+  },
+  "sample_sha256": {
+    "1": "868e41c440aaa7c226aaa4844ea438c4c7e5e2df1bf6c6443fdfc97f298fc313",
+    "2": "b4035808688d8eb1389c68c7c38bcc2a5631fcab71623ed850800b4504e88853"
+  },
+  "practice_sha256": "52743befaa0fa38b89b5c802c0f953d242ae027c86839c9c0f05a9e69a86d8e9",
+  "selected_sha256": "f601454ca11e872ad007d38fe5ad5f82bc8a3b2ef5a7b9a25660155786318aec",
+  "row_ids": [
+    {
+      "id": "million-19-022590",
+      "ast_group": "same_ast",
+      "phenomenon": "negation"
+    },
+    {
+      "id": "million-19-039008",
+      "ast_group": "same_ast",
+      "phenomenon": "negation"
+    },
+    {
+      "id": "million-19-022321",
+      "ast_group": "same_ast",
+      "phenomenon": "negation"
+    },
+    {
+      "id": "million-16-028634",
+      "ast_group": "same_ast",
+      "phenomenon": "disjunction"
+    },
+    {
+      "id": "million-02-032398",
+      "ast_group": "same_ast",
+      "phenomenon": "disjunction"
+    },
+    {
+      "id": "million-14-037688",
+      "ast_group": "same_ast",
+      "phenomenon": "disjunction"
+    },
+    {
+      "id": "million-12-045963",
+      "ast_group": "same_ast",
+      "phenomenon": "source_omission"
+    },
+    {
+      "id": "million-08-044621",
+      "ast_group": "same_ast",
+      "phenomenon": "source_omission"
+    },
+    {
+      "id": "million-06-023130",
+      "ast_group": "same_ast",
+      "phenomenon": "source_omission"
+    },
+    {
+      "id": "million-14-009502",
+      "ast_group": "same_ast",
+      "phenomenon": "false_substitution"
+    },
+    {
+      "id": "million-14-014058",
+      "ast_group": "same_ast",
+      "phenomenon": "false_substitution"
+    },
+    {
+      "id": "million-07-020901",
+      "ast_group": "same_ast",
+      "phenomenon": "false_substitution"
+    },
+    {
+      "id": "million-20-029637",
+      "ast_group": "changed_ast",
+      "phenomenon": "negation"
+    },
+    {
+      "id": "million-20-041665",
+      "ast_group": "changed_ast",
+      "phenomenon": "negation"
+    },
+    {
+      "id": "million-03-031350",
+      "ast_group": "changed_ast",
+      "phenomenon": "negation"
+    },
+    {
+      "id": "million-15-015109",
+      "ast_group": "changed_ast",
+      "phenomenon": "disjunction"
+    },
+    {
+      "id": "million-18-042788",
+      "ast_group": "changed_ast",
+      "phenomenon": "disjunction"
+    },
+    {
+      "id": "million-10-040024",
+      "ast_group": "changed_ast",
+      "phenomenon": "disjunction"
+    },
+    {
+      "id": "million-18-031921",
+      "ast_group": "changed_ast",
+      "phenomenon": "source_omission"
+    },
+    {
+      "id": "million-13-017387",
+      "ast_group": "changed_ast",
+      "phenomenon": "source_omission"
+    },
+    {
+      "id": "million-12-006196",
+      "ast_group": "changed_ast",
+      "phenomenon": "source_omission"
+    },
+    {
+      "id": "temporal-a27874f35315356b060f8ae1",
+      "ast_group": "changed_ast",
+      "phenomenon": "false_substitution"
+    },
+    {
+      "id": "million-15-024523",
+      "ast_group": "changed_ast",
+      "phenomenon": "false_substitution"
+    },
+    {
+      "id": "million-16-019006",
+      "ast_group": "changed_ast",
+      "phenomenon": "false_substitution"
+    }
+  ],
+  "caveat": "Purposive balanced qualitative audit, not prevalence estimate. Assistant review, not human adjudication. Source assertion differences are not truth corrections."
+}
