@@ -17,23 +17,24 @@ There are 430 compound rows: 351 true, 75 false and 4 unsure. A false compound r
 does not tell us which individual atom is false; assigning its label to every
 atom would fabricate supervision.
 
-All 62 subjects and 514 declared subject/attribute pairs occur, with zero
+All 62 subjects and 514 declared subject/attribute pairs (321 distinct attribute
+names) occur, with zero
 out-of-lexicon pairs. Every pair has at least one labelled-true observation.
 The lexicon declares names, aliases and attributes; it does **not** declare value
 types, all allowed object names, complete fact values or validity intervals.
 Every pair happens to have one observed value kind in this practice sample.
 That is a useful empirical prior, not a new type guarantee for arbitrary input.
 
-| Value kind | Atoms in true rows | In false rows | In unsure rows |
-| --- | ---: | ---: | ---: |
-| quantity | 826 | 178 | 24 |
-| money | 223 | 42 | 3 |
-| duration | 195 | 32 | 2 |
-| name | 184 | 23 | 2 |
-| percent | 169 | 29 | 3 |
-| date | 144 | 19 | 2 |
-| boolean | 139 | 28 | 7 |
-| version | 118 | 9 | 1 |
+| Value kind | Observed pairs | Atoms in true rows | In false rows | In unsure rows |
+| --- | ---: | ---: | ---: | ---: |
+| quantity | 210 | 826 | 178 | 24 |
+| money | 49 | 223 | 42 | 3 |
+| duration | 42 | 195 | 32 | 2 |
+| name | 43 | 184 | 23 | 2 |
+| percent | 43 | 169 | 29 | 3 |
+| date | 60 | 144 | 19 | 2 |
+| boolean | 55 | 139 | 28 | 7 |
+| version | 12 | 118 | 9 | 1 |
 
 ## Evidence availability is not an independent truth oracle
 

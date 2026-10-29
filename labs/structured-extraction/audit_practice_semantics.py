@@ -128,6 +128,8 @@ def main():
         lexicon_sha256=hashlib.sha256(lexicon.read_bytes()).hexdigest(),
         rows=len(rows), assertions=len(atoms), labels=dict(Counter(r['label'] for r in rows)),
         subjects=len(lex['subjects']), declared_pairs=len(pairs), observed_pairs=len(observed_pairs),
+        distinct_attribute_names=len({attr for _, attr in pairs}),
+        pairs_by_observed_kind=dict(Counter(v[0]['value']['kind'] for v in observed_pairs.values())),
         unsupported_pairs=sum((x['subject'], x['attribute']) not in pairs for x in atoms),
         lexicon_has_value_types=any('types' in s or isinstance(s['attributes'], dict) for s in lex['subjects']),
         kinds=dict(kinds), mixed_observed_kind_pairs=multi_kind_pairs,

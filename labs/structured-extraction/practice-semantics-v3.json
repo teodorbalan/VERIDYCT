@@ -11,6 +11,17 @@
   "subjects": 62,
   "declared_pairs": 514,
   "observed_pairs": 514,
+  "distinct_attribute_names": 321,
+  "pairs_by_observed_kind": {
+    "date": 60,
+    "name": 43,
+    "quantity": 210,
+    "percent": 43,
+    "duration": 42,
+    "version": 12,
+    "boolean": 55,
+    "money": 49
+  },
   "unsupported_pairs": 0,
   "lexicon_has_value_types": false,
   "kinds": {
