@@ -1,0 +1,1141 @@
+{
+  "protocol": {
+    "allowed_sources": [
+      "evaluation-data/realistic-synthetic-20000",
+      "evaluation-data/realistic-v1/diagnostic-6000"
+    ],
+    "source_gold_sha256": {
+      "evaluation-data/realistic-synthetic-20000": "7d1fc4418c5a54858eca93b0b8bd7f82c26859d8664ce6607acb91a05aacf49d",
+      "evaluation-data/realistic-v1/diagnostic-6000": "c7c8c5ee7e99eb9a604c9e9407624fc71b2e98371291f0ad12cdabed1714f1c2"
+    },
+    "source_original_rows": 26000,
+    "family_counts": {
+      "development:possessive": 8649,
+      "development:recollection": 8605,
+      "development:conversation": 8677,
+      "external-title:neovim": 26,
+      "external-title:redis": 26,
+      "external-title:nodejs": 17
+    },
+    "holdout_rule": "Eligible families have >= 100 original source rows; choose first two by SHA256('veridyct-family-holdout-v1:' + family)",
+    "heldout_families": [
+      "development:conversation",
+      "development:recollection"
+    ],
+    "blocked_scenario_count": 16499,
+    "blocked_original_ids": 18106,
+    "context": "actual preceding three public CSV rows; excluded development/family rows omitted from that window, never gold context pointers",
+    "family_metric_status": "development diagnostic, not a fresh blind test; earlier experiments used these families",
+    "base_meta_sha256": "237579c870cc02e2964dc59f536a469be6d419b0649d4f1ab70ce538e9527e04"
+  },
+  "launches": [
+    {
+      "mode": "expanded",
+      "gpu": 4,
+      "pid": 1313272,
+      "command": [
+        "/data/tairo/veridyct-training-20261028/venv/bin/python",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/source/train_factorized.py",
+        "--data",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/data-v1/expanded",
+        "--out",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/runs/expanded-s271828",
+        "--variant",
+        "factorized",
+        "--seed",
+        "271828",
+        "--epochs",
+        "40",
+        "--patience",
+        "8",
+        "--batch",
+        "48",
+        "--lr",
+        ".001"
+      ],
+      "meta_sha256": "be4e8abb019fcd29cd110e7e7a130833101fa5d41125d2ed9ed77d1c0c63cf13",
+      "protocol_sha256": "bb01f17d0e94a52774d130b40afc4915a5e2475c3c07e0e18057f318de4adc59",
+      "selection": "unchanged common development mean; family diagnostic excluded from checkpoint selection"
+    },
+    {
+      "mode": "family_control",
+      "gpu": 5,
+      "pid": 1313273,
+      "command": [
+        "/data/tairo/veridyct-training-20261028/venv/bin/python",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/source/train_factorized.py",
+        "--data",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/data-v1/family_control",
+        "--out",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/runs/family_control-s271828",
+        "--variant",
+        "factorized",
+        "--seed",
+        "271828",
+        "--epochs",
+        "40",
+        "--patience",
+        "8",
+        "--batch",
+        "48",
+        "--lr",
+        ".001"
+      ],
+      "meta_sha256": "c97488b1498a2df7d3405d42d74f8516c98375eead06f858e0d84860a49e9fda",
+      "protocol_sha256": "bb01f17d0e94a52774d130b40afc4915a5e2475c3c07e0e18057f318de4adc59",
+      "selection": "unchanged common development mean; family diagnostic excluded from checkpoint selection"
+    }
+  ],
+  "lineage": {
+    "counts": {
+      "new_source_id_text_duplicate": 2264,
+      "same_text_different_forms": 1
+    },
+    "dedup_form_conflicts": [
+      {
+        "id": "r-1ca61110f5ad6ba264fcdc",
+        "text": "It has single sign on.",
+        "form": [
+          {
+            "attribute": "single_sign_on",
+            "subject": "Hooly Gemini",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            }
+          }
+        ],
+        "parent_scenario": "c31ce12ddd73399b32579e72",
+        "template_family": "development:conversation",
+        "existing_forms": [
+          [
+            {
+              "attribute": "single_sign_on",
+              "subject": "Hooly Workspace Enterprise",
+              "value": {
+                "kind": "boolean",
+                "value": true
+              }
+            }
+          ]
+        ]
+      }
+    ],
+    "checks": {
+      "expanded": {
+        "rows": 55290,
+        "dev_unchanged": true,
+        "normalized_dev_text_overlap": 0,
+        "blocked_parent_rows": 24043,
+        "train_sha256": "a3b59abacf2507cc6a23a482c1b6d7233af1ff16e4abf4565ca6739cd40464c4"
+      },
+      "family_control": {
+        "rows": 31584,
+        "dev_unchanged": true,
+        "normalized_dev_text_overlap": 0,
+        "blocked_parent_rows": 0,
+        "train_sha256": "639c49d54b8c9fb0758691547a3c41be7af7de209cdf9acdab9826ac394d06a2"
+      }
+    },
+    "note": "Post-preparation audit only; one context-sensitive repeated text was excluded by the predeclared text dedup rule. No dataset or running job was changed."
+  },
+  "completion": [
+    {
+      "mode": "family_control",
+      "export_command": [
+        "/data/tairo/veridyct-training-20261028/venv/bin/python",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/export-source/export_factorized.py",
+        "--checkpoint",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/runs/family_control-s271828/best.pt",
+        "--data",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/data-v1/family_control",
+        "--out",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/bundles/family_control-s271828-v1"
+      ],
+      "export_exit_code": 0,
+      "bundle": "/data/tairo/veridyct-training-20261028/v3-audit/expanded/bundles/family_control-s271828-v1",
+      "family": {
+        "groups": {
+          "all": {
+            "rows": 13523,
+            "gold": 18552,
+            "predicted": 18261,
+            "correct": 17580,
+            "exact": 12538,
+            "strict_json_exact": 12518,
+            "exact_rate": 0.9271611328847149,
+            "precision": 0.9627074092327912,
+            "recall": 0.9476067270375161,
+            "f1": 0.9550973840762774
+          },
+          "targets": {
+            "rows": 13523,
+            "gold": 18552,
+            "predicted": 18261,
+            "correct": 17580,
+            "exact": 12538,
+            "strict_json_exact": 12518,
+            "exact_rate": 0.9271611328847149,
+            "precision": 0.9627074092327912,
+            "recall": 0.9476067270375161,
+            "f1": 0.9550973840762774
+          },
+          "context": {
+            "rows": 13522,
+            "gold": 18551,
+            "predicted": 18260,
+            "correct": 17579,
+            "exact": 12537,
+            "strict_json_exact": 12517,
+            "exact_rate": 0.9271557461913918,
+            "precision": 0.9627053669222344,
+            "recall": 0.9476039027545685,
+            "f1": 0.9550949444459537
+          },
+          "multiple": {
+            "rows": 3255,
+            "gold": 8284,
+            "predicted": 8194,
+            "correct": 7820,
+            "exact": 2817,
+            "strict_json_exact": 2809,
+            "exact_rate": 0.8654377880184332,
+            "precision": 0.9543568464730291,
+            "recall": 0.9439884113954611,
+            "f1": 0.949144313630295
+          }
+        },
+        "by_kind": {
+          "quantity": {
+            "gold": 7368,
+            "predicted": 7350,
+            "correct": 7254
+          },
+          "money": {
+            "gold": 1768,
+            "predicted": 1745,
+            "correct": 1636
+          },
+          "version": {
+            "gold": 748,
+            "predicted": 749,
+            "correct": 714
+          },
+          "name": {
+            "gold": 1311,
+            "predicted": 1331,
+            "correct": 1264
+          },
+          "duration": {
+            "gold": 1534,
+            "predicted": 1469,
+            "correct": 1438
+          },
+          "boolean": {
+            "gold": 1678,
+            "predicted": 1717,
+            "correct": 1676
+          },
+          "percent": {
+            "gold": 1596,
+            "predicted": 1584,
+            "correct": 1536
+          },
+          "date": {
+            "gold": 2549,
+            "predicted": 2316,
+            "correct": 2062
+          }
+        },
+        "seconds_including_preprocessing": 31.61534745618701,
+        "rows_per_second": 427.73529592677613,
+        "peak_rss_kib": 738428,
+        "fixture_sha256": "cc9f9400b1d458a3b23d69768d590a1eed6c3582d2f7f723f5a21d1d513f1efa",
+        "status": "diagnostic only; prior experiments used these families; expanded model trains on them"
+      },
+      "challenge_exit_code": 0,
+      "export": {
+        "checkpoint_sha256": "e9265910c350aa611d4cc2893ae31d25cb88fc08c9037f39d7b2df2697217658",
+        "model_bytes": 7183363,
+        "onnx_sha256": "2ea5fd1cd6972be93d59b65fa22ae90e610408fd993f8df6648d64a88726d2d8",
+        "parameters": 1784995,
+        "parity": [
+          {
+            "batch": 1,
+            "max_abs_logit_error": 3.0517578125e-05,
+            "decoded_parity": true
+          },
+          {
+            "batch": 7,
+            "max_abs_logit_error": 3.814697265625e-05,
+            "decoded_parity": true
+          },
+          {
+            "batch": 32,
+            "max_abs_logit_error": 4.1961669921875e-05,
+            "decoded_parity": true
+          }
+        ],
+        "cpu_threads": 2,
+        "model_family": "factorized",
+        "config": {
+          "hidden": 128,
+          "layers": 1,
+          "factorized": true,
+          "kind_prior": true
+        },
+        "source_sha256": {
+          "prepare_expanded.py": "7ec3d7b7d0f6f4a2e835024a4f0a31352e27e14ea4b0414695c25a2f779bebe4",
+          "select_ensemble.py": "897e666b8bc4ca1d45e704d396bffb9b377089a15c73b43d61aeba2455d87382",
+          "evaluate_cpu.py": "cedecd645a6cb071a9429aa14d61299bbd6b7a41ef3ea8eac4861f7aec5f0a0d",
+          "train_factorized.py": "c8588abcf71e90f4f7f486955952c5fd5a75c2c34fb27506fd46430d09376ef9",
+          "grammar.py": "0545fc2bbce5cc6856b55caa8ec52ca448b1e7f07068cca885ff737f36d7a2f1",
+          "model.py": "259514a0a1e6762358aa95b6c53c2dbb0abe7814beb390add5cbf8226baa2e5e",
+          "finish_expanded_runs.py": "a08bd8acaa9655e5f3e4ec76bd1601638703a4760c6241f8bdedbf9a2d1e185f",
+          "evaluate_challenge.py": "3ccb4ab2f56a088dae353d5c65325a1c45c798e99d165372c409d1cb32310c36",
+          "prepare.py": "68b8bc242b074cb6e10410078cd76cb744a08abf40ff898d090cbab7171e347e",
+          "export_cpu.py": "5f29023db0b65cc0f507fa571de1b294beaf1b6cd5c9fc78ddcfbae46c5726c1",
+          "launch_expanded_runs.py": "696178a2fd9a031b2c02c8da5373d0b4b45f7f2b8b999232da1179cf506fde7f",
+          "export_factorized.py": "e76227ae17e8786d35182997db0834038cc15221c136518b3837e15bb5c1f51b",
+          "prepare_mixed.py": "b655c351753118f2c36cd4a29b95c21545af3187665175ed0bdd308de7bf9be9",
+          "train.py": "12b59cde4b09142241c3f731f7dd2faaa7e486b2b26fd8b2520d742839760b21",
+          "runtime.py": "ed3f900ecca33998b7ec931885f469c8279f1e065469238e808b341f83b9eb1b",
+          "model_factorized.py": "acb0dea0c4d31e93ca435f806d777d727131ba072b102a86f0b065f729bf209f"
+        },
+        "cpu_seconds": 5.715626906603575,
+        "cpu_metrics": {
+          "rows": 8478,
+          "exact_rows": 8102,
+          "exact": 0.9556499174333569,
+          "strict_json_exact_rows": 8091,
+          "gold_unique_atoms": 12636,
+          "predicted_unique_atoms": 12527,
+          "correct_unique_atoms": 12271,
+          "precision": 0.9795641414544584,
+          "recall": 0.9711142766698322,
+          "f1": 0.9753209076819138,
+          "context_rows": 1132,
+          "context_exact": 1037,
+          "multi_rows": 3636,
+          "multi_exact": 3408
+        },
+        "cpu_domains": {
+          "domains": {
+            "synthetic": {
+              "rows": 8088,
+              "exact": 7766,
+              "gold": 12147,
+              "predicted": 12043,
+              "correct": 11831,
+              "exact_rate": 0.9601879327398615,
+              "f1": 0.9781727986771394
+            },
+            "official": {
+              "rows": 390,
+              "exact": 336,
+              "gold": 489,
+              "predicted": 484,
+              "correct": 440,
+              "exact_rate": 0.8615384615384616,
+              "f1": 0.9044193216855088
+            }
+          },
+          "selection_score": 0.9108631971391615
+        }
+      },
+      "challenge": {
+        "groups": {
+          "boolean_negation": {
+            "rows": 2,
+            "exact": 2,
+            "gold": 2,
+            "predicted": 2,
+            "correct": 2,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "primary": {
+            "rows": 92,
+            "exact": 60,
+            "gold": 92,
+            "predicted": 93,
+            "correct": 68,
+            "exact_rate": 0.6521739130434783,
+            "f1": 0.7351351351351352
+          },
+          "comparison": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "type_violation": {
+            "rows": 10,
+            "exact": 0,
+            "gold": 0,
+            "predicted": 10,
+            "correct": 0,
+            "exact_rate": 0.0,
+            "f1": 0.0
+          },
+          "type_diagnostic": {
+            "rows": 10,
+            "exact": 0,
+            "gold": 0,
+            "predicted": 10,
+            "correct": 0,
+            "exact_rate": 0.0,
+            "f1": 0.0
+          },
+          "paraphrase": {
+            "rows": 10,
+            "exact": 4,
+            "gold": 10,
+            "predicted": 9,
+            "correct": 4,
+            "exact_rate": 0.4,
+            "f1": 0.42105263157894735
+          },
+          "version_operator": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "open_domain_rejection": {
+            "rows": 10,
+            "exact": 2,
+            "gold": 0,
+            "predicted": 8,
+            "correct": 0,
+            "exact_rate": 0.2,
+            "f1": 0.0
+          },
+          "numeric_distraction": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "conjunction": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 20,
+            "predicted": 20,
+            "correct": 20,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "ambiguous_antecedent": {
+            "rows": 10,
+            "exact": 1,
+            "gold": 0,
+            "predicted": 9,
+            "correct": 0,
+            "exact_rate": 0.1,
+            "f1": 0.0
+          },
+          "ambiguity_only": {
+            "rows": 10,
+            "exact": 1,
+            "gold": 0,
+            "predicted": 9,
+            "correct": 0,
+            "exact_rate": 0.1,
+            "f1": 0.0
+          },
+          "misleading_entity": {
+            "rows": 10,
+            "exact": 1,
+            "gold": 10,
+            "predicted": 7,
+            "correct": 1,
+            "exact_rate": 0.1,
+            "f1": 0.11764705882352941
+          },
+          "stated_value_preservation": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "coreference": {
+            "rows": 10,
+            "exact": 1,
+            "gold": 10,
+            "predicted": 7,
+            "correct": 1,
+            "exact_rate": 0.1,
+            "f1": 0.11764705882352941
+          }
+        },
+        "candidate_value_coverage": {
+          "rows": 92,
+          "positive_rows": 82,
+          "gold_atoms": 92,
+          "covered_atoms": 88,
+          "all_values_covered": 88
+        },
+        "seconds": 0.10314682871103287,
+        "fixture_sha256": "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+        "model_sha256": "2ea5fd1cd6972be93d59b65fa22ae90e610408fd993f8df6648d64a88726d2d8",
+        "scope": "Assistant-authored closed-ontology behavior challenge; not official contest score; ambiguity abstention kept separate"
+      }
+    },
+    {
+      "mode": "expanded",
+      "export_command": [
+        "/data/tairo/veridyct-training-20261028/venv/bin/python",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/export-source/export_factorized.py",
+        "--checkpoint",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/runs/expanded-s271828/best.pt",
+        "--data",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/data-v1/expanded",
+        "--out",
+        "/data/tairo/veridyct-training-20261028/v3-audit/expanded/bundles/expanded-s271828-v1"
+      ],
+      "export_exit_code": 0,
+      "bundle": "/data/tairo/veridyct-training-20261028/v3-audit/expanded/bundles/expanded-s271828-v1",
+      "family": {
+        "groups": {
+          "all": {
+            "rows": 13523,
+            "gold": 18552,
+            "predicted": 18551,
+            "correct": 18534,
+            "exact": 13505,
+            "strict_json_exact": 13475,
+            "exact_rate": 0.9986689344080456,
+            "precision": 0.9990836073527034,
+            "recall": 0.9990297542043984,
+            "f1": 0.9990566800528259
+          },
+          "targets": {
+            "rows": 13523,
+            "gold": 18552,
+            "predicted": 18551,
+            "correct": 18534,
+            "exact": 13505,
+            "strict_json_exact": 13475,
+            "exact_rate": 0.9986689344080456,
+            "precision": 0.9990836073527034,
+            "recall": 0.9990297542043984,
+            "f1": 0.9990566800528259
+          },
+          "context": {
+            "rows": 13522,
+            "gold": 18551,
+            "predicted": 18550,
+            "correct": 18533,
+            "exact": 13504,
+            "strict_json_exact": 13474,
+            "exact_rate": 0.9986688359710102,
+            "precision": 0.9990835579514825,
+            "recall": 0.9990297019028623,
+            "f1": 0.9990566292013693
+          },
+          "multiple": {
+            "rows": 3255,
+            "gold": 8284,
+            "predicted": 8284,
+            "correct": 8280,
+            "exact": 3251,
+            "strict_json_exact": 3236,
+            "exact_rate": 0.9987711213517665,
+            "precision": 0.9995171414775471,
+            "recall": 0.9995171414775471,
+            "f1": 0.9995171414775471
+          }
+        },
+        "by_kind": {
+          "quantity": {
+            "gold": 7368,
+            "predicted": 7367,
+            "correct": 7360
+          },
+          "money": {
+            "gold": 1768,
+            "predicted": 1768,
+            "correct": 1767
+          },
+          "version": {
+            "gold": 748,
+            "predicted": 748,
+            "correct": 745
+          },
+          "name": {
+            "gold": 1311,
+            "predicted": 1311,
+            "correct": 1311
+          },
+          "duration": {
+            "gold": 1534,
+            "predicted": 1534,
+            "correct": 1534
+          },
+          "boolean": {
+            "gold": 1678,
+            "predicted": 1678,
+            "correct": 1678
+          },
+          "percent": {
+            "gold": 1596,
+            "predicted": 1596,
+            "correct": 1595
+          },
+          "date": {
+            "gold": 2549,
+            "predicted": 2549,
+            "correct": 2544
+          }
+        },
+        "seconds_including_preprocessing": 38.334321113303304,
+        "rows_per_second": 352.76482293844674,
+        "peak_rss_kib": 753488,
+        "fixture_sha256": "cc9f9400b1d458a3b23d69768d590a1eed6c3582d2f7f723f5a21d1d513f1efa",
+        "status": "diagnostic only; prior experiments used these families; expanded model trains on them"
+      },
+      "challenge_exit_code": 0,
+      "export": {
+        "checkpoint_sha256": "13a6d0a763cd2987ea941b24bd101c7dde061796b4289ef2c23c6578e8e77b7a",
+        "model_bytes": 7563779,
+        "onnx_sha256": "7268933c21316052c225dd82798fce96c8f9e50c4203fff40e3a74608181e1a1",
+        "parameters": 1880099,
+        "parity": [
+          {
+            "batch": 1,
+            "max_abs_logit_error": 2.6702880859375e-05,
+            "decoded_parity": true
+          },
+          {
+            "batch": 7,
+            "max_abs_logit_error": 3.814697265625e-05,
+            "decoded_parity": true
+          },
+          {
+            "batch": 32,
+            "max_abs_logit_error": 4.1961669921875e-05,
+            "decoded_parity": true
+          }
+        ],
+        "cpu_threads": 2,
+        "model_family": "factorized",
+        "config": {
+          "hidden": 128,
+          "layers": 1,
+          "factorized": true,
+          "kind_prior": true
+        },
+        "source_sha256": {
+          "prepare_expanded.py": "7ec3d7b7d0f6f4a2e835024a4f0a31352e27e14ea4b0414695c25a2f779bebe4",
+          "select_ensemble.py": "897e666b8bc4ca1d45e704d396bffb9b377089a15c73b43d61aeba2455d87382",
+          "evaluate_cpu.py": "cedecd645a6cb071a9429aa14d61299bbd6b7a41ef3ea8eac4861f7aec5f0a0d",
+          "train_factorized.py": "c8588abcf71e90f4f7f486955952c5fd5a75c2c34fb27506fd46430d09376ef9",
+          "grammar.py": "0545fc2bbce5cc6856b55caa8ec52ca448b1e7f07068cca885ff737f36d7a2f1",
+          "model.py": "259514a0a1e6762358aa95b6c53c2dbb0abe7814beb390add5cbf8226baa2e5e",
+          "finish_expanded_runs.py": "a08bd8acaa9655e5f3e4ec76bd1601638703a4760c6241f8bdedbf9a2d1e185f",
+          "evaluate_challenge.py": "3ccb4ab2f56a088dae353d5c65325a1c45c798e99d165372c409d1cb32310c36",
+          "prepare.py": "68b8bc242b074cb6e10410078cd76cb744a08abf40ff898d090cbab7171e347e",
+          "export_cpu.py": "5f29023db0b65cc0f507fa571de1b294beaf1b6cd5c9fc78ddcfbae46c5726c1",
+          "launch_expanded_runs.py": "696178a2fd9a031b2c02c8da5373d0b4b45f7f2b8b999232da1179cf506fde7f",
+          "export_factorized.py": "e76227ae17e8786d35182997db0834038cc15221c136518b3837e15bb5c1f51b",
+          "prepare_mixed.py": "b655c351753118f2c36cd4a29b95c21545af3187665175ed0bdd308de7bf9be9",
+          "train.py": "12b59cde4b09142241c3f731f7dd2faaa7e486b2b26fd8b2520d742839760b21",
+          "runtime.py": "ed3f900ecca33998b7ec931885f469c8279f1e065469238e808b341f83b9eb1b",
+          "model_factorized.py": "acb0dea0c4d31e93ca435f806d777d727131ba072b102a86f0b065f729bf209f"
+        },
+        "cpu_seconds": 5.816317683085799,
+        "cpu_metrics": {
+          "rows": 8478,
+          "exact_rows": 8408,
+          "exact": 0.9917433356923803,
+          "strict_json_exact_rows": 8396,
+          "gold_unique_atoms": 12636,
+          "predicted_unique_atoms": 12619,
+          "correct_unique_atoms": 12570,
+          "precision": 0.9961169664791187,
+          "recall": 0.9947768281101614,
+          "f1": 0.9954464462482676,
+          "context_rows": 1132,
+          "context_exact": 1078,
+          "multi_rows": 3636,
+          "multi_exact": 3615
+        },
+        "cpu_domains": {
+          "domains": {
+            "synthetic": {
+              "rows": 8088,
+              "exact": 8071,
+              "gold": 12147,
+              "predicted": 12141,
+              "correct": 12130,
+              "exact_rate": 0.9978981206726014,
+              "f1": 0.9988471673254282
+            },
+            "official": {
+              "rows": 390,
+              "exact": 337,
+              "gold": 489,
+              "predicted": 478,
+              "correct": 440,
+              "exact_rate": 0.8641025641025641,
+              "f1": 0.9100310237849017
+            }
+          },
+          "selection_score": 0.9310003423875828
+        }
+      },
+      "challenge": {
+        "groups": {
+          "boolean_negation": {
+            "rows": 2,
+            "exact": 2,
+            "gold": 2,
+            "predicted": 2,
+            "correct": 2,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "primary": {
+            "rows": 92,
+            "exact": 78,
+            "gold": 92,
+            "predicted": 102,
+            "correct": 88,
+            "exact_rate": 0.8478260869565217,
+            "f1": 0.9072164948453608
+          },
+          "comparison": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "type_violation": {
+            "rows": 10,
+            "exact": 0,
+            "gold": 0,
+            "predicted": 10,
+            "correct": 0,
+            "exact_rate": 0.0,
+            "f1": 0.0
+          },
+          "type_diagnostic": {
+            "rows": 10,
+            "exact": 0,
+            "gold": 0,
+            "predicted": 10,
+            "correct": 0,
+            "exact_rate": 0.0,
+            "f1": 0.0
+          },
+          "paraphrase": {
+            "rows": 10,
+            "exact": 6,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 6,
+            "exact_rate": 0.6,
+            "f1": 0.6
+          },
+          "version_operator": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "open_domain_rejection": {
+            "rows": 10,
+            "exact": 0,
+            "gold": 0,
+            "predicted": 10,
+            "correct": 0,
+            "exact_rate": 0.0,
+            "f1": 0.0
+          },
+          "numeric_distraction": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "conjunction": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 20,
+            "predicted": 20,
+            "correct": 20,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "ambiguous_antecedent": {
+            "rows": 10,
+            "exact": 0,
+            "gold": 0,
+            "predicted": 10,
+            "correct": 0,
+            "exact_rate": 0.0,
+            "f1": 0.0
+          },
+          "ambiguity_only": {
+            "rows": 10,
+            "exact": 0,
+            "gold": 0,
+            "predicted": 10,
+            "correct": 0,
+            "exact_rate": 0.0,
+            "f1": 0.0
+          },
+          "misleading_entity": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "stated_value_preservation": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          },
+          "coreference": {
+            "rows": 10,
+            "exact": 10,
+            "gold": 10,
+            "predicted": 10,
+            "correct": 10,
+            "exact_rate": 1.0,
+            "f1": 1.0
+          }
+        },
+        "candidate_value_coverage": {
+          "rows": 92,
+          "positive_rows": 82,
+          "gold_atoms": 92,
+          "covered_atoms": 88,
+          "all_values_covered": 88
+        },
+        "seconds": 0.13926313631236553,
+        "fixture_sha256": "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+        "model_sha256": "7268933c21316052c225dd82798fce96c8f9e50c4203fff40e3a74608181e1a1",
+        "scope": "Assistant-authored closed-ontology behavior challenge; not official contest score; ambiguity abstention kept separate"
+      }
+    }
+  ],
+  "training": {
+    "expanded": {
+      "result": {
+        "rows": 8478,
+        "gold": 12636,
+        "predicted": 12619,
+        "correct": 12570,
+        "exact_rows": 8408,
+        "strict_json_exact_rows": 8396,
+        "multi_rows": 3636,
+        "multi_exact": 3615,
+        "context_rows": 1132,
+        "context_exact": 1078,
+        "precision": 0.9961169664791187,
+        "recall": 0.9947768281101614,
+        "f1": 0.9954464462482676,
+        "exact": 0.9917433356923803,
+        "seconds": 2.8816460724920034,
+        "by_kind": {
+          "duration": {
+            "gold": 987,
+            "predicted": 987,
+            "correct": 979
+          },
+          "quantity": {
+            "gold": 4715,
+            "predicted": 4710,
+            "correct": 4700
+          },
+          "boolean": {
+            "gold": 1146,
+            "predicted": 1141,
+            "correct": 1136
+          },
+          "money": {
+            "gold": 1089,
+            "predicted": 1088,
+            "correct": 1085
+          },
+          "name": {
+            "gold": 954,
+            "predicted": 951,
+            "correct": 947
+          },
+          "version": {
+            "gold": 856,
+            "predicted": 858,
+            "correct": 856
+          },
+          "percent": {
+            "gold": 956,
+            "predicted": 954,
+            "correct": 946
+          },
+          "date": {
+            "gold": 1933,
+            "predicted": 1930,
+            "correct": 1921
+          }
+        },
+        "domains": {
+          "synthetic": {
+            "rows": 8088,
+            "exact": 8071,
+            "gold": 12147,
+            "predicted": 12141,
+            "correct": 12130,
+            "exact_rate": 0.9978981206726014,
+            "f1": 0.9988471673254282
+          },
+          "official": {
+            "rows": 390,
+            "exact": 337,
+            "gold": 489,
+            "predicted": 478,
+            "correct": 440,
+            "exact_rate": 0.8641025641025641,
+            "f1": 0.9100310237849017
+          }
+        },
+        "selection_score": 0.9310003423875828,
+        "best_epoch": 15,
+        "total_seconds": 1174.2357958797365,
+        "parameters": 1880099,
+        "variant": "factorized",
+        "seed": 271828
+      },
+      "run": {
+        "arguments": {
+          "data": "/data/tairo/veridyct-training-20261028/v3-audit/expanded/data-v1/expanded",
+          "out": "/data/tairo/veridyct-training-20261028/v3-audit/expanded/runs/expanded-s271828",
+          "variant": "factorized",
+          "seed": 271828,
+          "epochs": 40,
+          "patience": 8,
+          "batch": 48,
+          "lr": 0.001
+        },
+        "parameters": 1880099,
+        "torch": "2.8.0+cu128",
+        "gpu": "NVIDIA A100-SXM4-40GB",
+        "cuda_visible_devices": "4",
+        "data_sha256": "be4e8abb019fcd29cd110e7e7a130833101fa5d41125d2ed9ed77d1c0c63cf13",
+        "source_sha256": {
+          "prepare_expanded.py": "7ec3d7b7d0f6f4a2e835024a4f0a31352e27e14ea4b0414695c25a2f779bebe4",
+          "train_factorized.py": "c8588abcf71e90f4f7f486955952c5fd5a75c2c34fb27506fd46430d09376ef9",
+          "grammar.py": "0545fc2bbce5cc6856b55caa8ec52ca448b1e7f07068cca885ff737f36d7a2f1",
+          "model.py": "259514a0a1e6762358aa95b6c53c2dbb0abe7814beb390add5cbf8226baa2e5e",
+          "prepare.py": "68b8bc242b074cb6e10410078cd76cb744a08abf40ff898d090cbab7171e347e",
+          "launch_expanded_runs.py": "696178a2fd9a031b2c02c8da5373d0b4b45f7f2b8b999232da1179cf506fde7f",
+          "prepare_mixed.py": "b655c351753118f2c36cd4a29b95c21545af3187665175ed0bdd308de7bf9be9",
+          "train.py": "12b59cde4b09142241c3f731f7dd2faaa7e486b2b26fd8b2520d742839760b21",
+          "runtime.py": "ed3f900ecca33998b7ec931885f469c8279f1e065469238e808b341f83b9eb1b",
+          "model_factorized.py": "acb0dea0c4d31e93ca435f806d777d727131ba072b102a86f0b065f729bf209f"
+        },
+        "kind_prior": "soft penalty from training observed kinds, not an authoritative schema"
+      },
+      "checkpoint_sha256": "13a6d0a763cd2987ea941b24bd101c7dde061796b4289ef2c23c6578e8e77b7a",
+      "preparation": {
+        "train": {
+          "rows": 55290,
+          "atoms": 68903,
+          "candidates": 398535,
+          "ignored_candidates": 12,
+          "official_rows": 19397,
+          "value_candidate_missing_atoms": 4,
+          "synthetic_rows": 34760,
+          "robust_rows": 1133
+        },
+        "dev": {
+          "rows": 8478,
+          "atoms": 12833,
+          "candidates": 64422,
+          "ignored_candidates": 0,
+          "official_rows": 390,
+          "value_candidate_missing_atoms": 0,
+          "synthetic_rows": 8088
+        },
+        "family-diagnostic": {}
+      }
+    },
+    "family_control": {
+      "result": {
+        "rows": 8478,
+        "gold": 12636,
+        "predicted": 12527,
+        "correct": 12271,
+        "exact_rows": 8102,
+        "strict_json_exact_rows": 8091,
+        "multi_rows": 3636,
+        "multi_exact": 3408,
+        "context_rows": 1132,
+        "context_exact": 1037,
+        "precision": 0.9795641414544584,
+        "recall": 0.9711142766698322,
+        "f1": 0.9753209076819138,
+        "exact": 0.9556499174333569,
+        "seconds": 3.190734466537833,
+        "by_kind": {
+          "duration": {
+            "gold": 987,
+            "predicted": 957,
+            "correct": 939
+          },
+          "quantity": {
+            "gold": 4715,
+            "predicted": 4714,
+            "correct": 4667
+          },
+          "boolean": {
+            "gold": 1146,
+            "predicted": 1150,
+            "correct": 1137
+          },
+          "money": {
+            "gold": 1089,
+            "predicted": 1087,
+            "correct": 1050
+          },
+          "name": {
+            "gold": 954,
+            "predicted": 948,
+            "correct": 924
+          },
+          "version": {
+            "gold": 856,
+            "predicted": 856,
+            "correct": 850
+          },
+          "percent": {
+            "gold": 956,
+            "predicted": 950,
+            "correct": 916
+          },
+          "date": {
+            "gold": 1933,
+            "predicted": 1865,
+            "correct": 1788
+          }
+        },
+        "domains": {
+          "synthetic": {
+            "rows": 8088,
+            "exact": 7766,
+            "gold": 12147,
+            "predicted": 12043,
+            "correct": 11831,
+            "exact_rate": 0.9601879327398615,
+            "f1": 0.9781727986771394
+          },
+          "official": {
+            "rows": 390,
+            "exact": 336,
+            "gold": 489,
+            "predicted": 484,
+            "correct": 440,
+            "exact_rate": 0.8615384615384616,
+            "f1": 0.9044193216855088
+          }
+        },
+        "selection_score": 0.9108631971391615,
+        "best_epoch": 37,
+        "total_seconds": 1187.2922617923468,
+        "parameters": 1784995,
+        "variant": "factorized",
+        "seed": 271828
+      },
+      "run": {
+        "arguments": {
+          "data": "/data/tairo/veridyct-training-20261028/v3-audit/expanded/data-v1/family_control",
+          "out": "/data/tairo/veridyct-training-20261028/v3-audit/expanded/runs/family_control-s271828",
+          "variant": "factorized",
+          "seed": 271828,
+          "epochs": 40,
+          "patience": 8,
+          "batch": 48,
+          "lr": 0.001
+        },
+        "parameters": 1784995,
+        "torch": "2.8.0+cu128",
+        "gpu": "NVIDIA A100-SXM4-40GB",
+        "cuda_visible_devices": "5",
+        "data_sha256": "c97488b1498a2df7d3405d42d74f8516c98375eead06f858e0d84860a49e9fda",
+        "source_sha256": {
+          "prepare_expanded.py": "7ec3d7b7d0f6f4a2e835024a4f0a31352e27e14ea4b0414695c25a2f779bebe4",
+          "train_factorized.py": "c8588abcf71e90f4f7f486955952c5fd5a75c2c34fb27506fd46430d09376ef9",
+          "grammar.py": "0545fc2bbce5cc6856b55caa8ec52ca448b1e7f07068cca885ff737f36d7a2f1",
+          "model.py": "259514a0a1e6762358aa95b6c53c2dbb0abe7814beb390add5cbf8226baa2e5e",
+          "prepare.py": "68b8bc242b074cb6e10410078cd76cb744a08abf40ff898d090cbab7171e347e",
+          "launch_expanded_runs.py": "696178a2fd9a031b2c02c8da5373d0b4b45f7f2b8b999232da1179cf506fde7f",
+          "prepare_mixed.py": "b655c351753118f2c36cd4a29b95c21545af3187665175ed0bdd308de7bf9be9",
+          "train.py": "12b59cde4b09142241c3f731f7dd2faaa7e486b2b26fd8b2520d742839760b21",
+          "runtime.py": "ed3f900ecca33998b7ec931885f469c8279f1e065469238e808b341f83b9eb1b",
+          "model_factorized.py": "acb0dea0c4d31e93ca435f806d777d727131ba072b102a86f0b065f729bf209f"
+        },
+        "kind_prior": "soft penalty from training observed kinds, not an authoritative schema"
+      },
+      "checkpoint_sha256": "e9265910c350aa611d4cc2893ae31d25cb88fc08c9037f39d7b2df2697217658",
+      "preparation": {
+        "train": {
+          "rows": 31584,
+          "atoms": 36721,
+          "candidates": 198552,
+          "ignored_candidates": 12,
+          "official_rows": 19397,
+          "value_candidate_missing_atoms": 4,
+          "synthetic_rows": 11054,
+          "robust_rows": 1133
+        },
+        "dev": {
+          "rows": 8478,
+          "atoms": 12833,
+          "candidates": 64422,
+          "ignored_candidates": 0,
+          "official_rows": 390,
+          "value_candidate_missing_atoms": 0,
+          "synthetic_rows": 8088
+        },
+        "family-diagnostic": {
+          "rows": 13523,
+          "atoms": 18884,
+          "candidates": 108147,
+          "ignored_candidates": 0,
+          "family_diagnostic_rows": 13523,
+          "value_candidate_missing_atoms": 0
+        }
+      }
+    }
+  }
+}
