@@ -1,0 +1,408 @@
+{
+  "practice_sha256": "52743befaa0fa38b89b5c802c0f953d242ae027c86839c9c0f05a9e69a86d8e9",
+  "lexicon_sha256": "d0fd5e9bdc6b33ad3ec160001f50e00e7f8bf2b25a92779022f893db7c3d5507",
+  "rows": 1897,
+  "assertions": 2402,
+  "labels": {
+    "true": 1581,
+    "false": 277,
+    "unsure": 39
+  },
+  "subjects": 62,
+  "declared_pairs": 514,
+  "observed_pairs": 514,
+  "unsupported_pairs": 0,
+  "lexicon_has_value_types": false,
+  "kinds": {
+    "date": {
+      "true": 144,
+      "false": 19,
+      "unsure": 2
+    },
+    "name": {
+      "true": 184,
+      "false": 23,
+      "unsure": 2
+    },
+    "quantity": {
+      "true": 826,
+      "false": 178,
+      "unsure": 24
+    },
+    "percent": {
+      "true": 169,
+      "false": 29,
+      "unsure": 3
+    },
+    "duration": {
+      "true": 195,
+      "false": 32,
+      "unsure": 2
+    },
+    "version": {
+      "true": 118,
+      "false": 9,
+      "unsure": 1
+    },
+    "boolean": {
+      "true": 139,
+      "false": 28,
+      "unsure": 7
+    },
+    "money": {
+      "true": 223,
+      "false": 42,
+      "unsure": 3
+    }
+  },
+  "mixed_observed_kind_pairs": {},
+  "true_pairs": 514,
+  "pairs_without_true_observation": [],
+  "true_pairs_with_multiple_observed_values": 252,
+  "same_day_true_multivalue_groups": [
+    {
+      "subject": "Hooly AI Pro",
+      "attribute": "free_trial",
+      "date": "2025-10-07",
+      "observations": [
+        {
+          "subject": "Hooly AI Pro",
+          "attribute": "free_trial",
+          "value": {
+            "kind": "duration",
+            "value": 2,
+            "unit": "week"
+          },
+          "id": "p-55",
+          "date": "2025-10-07",
+          "label": "true",
+          "text": "Hooly AI Pro costs €49 per month, and every plan is free for two weeks.",
+          "atom_index": 1
+        },
+        {
+          "subject": "Hooly AI Pro",
+          "attribute": "free_trial",
+          "value": {
+            "kind": "duration",
+            "value": 14,
+            "unit": "day"
+          },
+          "id": "p-269",
+          "date": "2025-10-07",
+          "label": "true",
+          "text": "Every AI Pro plan starts with a 14-day free trial",
+          "atom_index": 0
+        },
+        {
+          "subject": "Hooly AI Pro",
+          "attribute": "free_trial",
+          "value": {
+            "kind": "duration",
+            "value": 14,
+            "unit": "day"
+          },
+          "id": "p-856",
+          "date": "2025-10-07",
+          "label": "true",
+          "text": "A new AI Pro subscription starts with a free trial of 14 days.",
+          "atom_index": 0
+        },
+        {
+          "subject": "Hooly AI Pro",
+          "attribute": "free_trial",
+          "value": {
+            "kind": "duration",
+            "value": 14,
+            "unit": "day"
+          },
+          "id": "p-1841",
+          "date": "2025-10-07",
+          "label": "true",
+          "text": "Every AI Pro plan starts with a 14-day free trial.",
+          "atom_index": 0
+        }
+      ]
+    },
+    {
+      "subject": "Hooly",
+      "attribute": "series_a_lead",
+      "date": "2026-02-17",
+      "observations": [
+        {
+          "subject": "Hooly",
+          "attribute": "series_a_lead",
+          "value": {
+            "kind": "name",
+            "value": "Raviqa Capital"
+          },
+          "id": "p-165",
+          "date": "2026-02-17",
+          "label": "true",
+          "text": "Hooly has closed its Series A: €18 million, led by Raviqa Capital.",
+          "atom_index": 2
+        },
+        {
+          "subject": "Hooly",
+          "attribute": "series_a_lead",
+          "value": {
+            "kind": "name",
+            "value": "Raviqa"
+          },
+          "id": "p-1088",
+          "date": "2026-02-17",
+          "label": "true",
+          "text": "Big day: a €18 million Series A led by Raviqa.",
+          "atom_index": 1
+        },
+        {
+          "subject": "Hooly",
+          "attribute": "series_a_lead",
+          "value": {
+            "kind": "name",
+            "value": "Raviqa Capital"
+          },
+          "id": "p-1272",
+          "date": "2026-02-17",
+          "label": "true",
+          "text": "Hooly raises €18 million Series A led by Raviqa Capital",
+          "atom_index": 1
+        },
+        {
+          "subject": "Hooly",
+          "attribute": "series_a_lead",
+          "value": {
+            "kind": "name",
+            "value": "Raviqa Capital"
+          },
+          "id": "p-1274",
+          "date": "2026-02-17",
+          "label": "true",
+          "text": "Hooly, the company behind Hooly Gemini, today announced a €18 million Series A financing round led by Raviqa Capital.",
+          "atom_index": 1
+        },
+        {
+          "subject": "Hooly",
+          "attribute": "series_a_lead",
+          "value": {
+            "kind": "name",
+            "value": "Raviqa Capital"
+          },
+          "id": "p-1277",
+          "date": "2026-02-17",
+          "label": "true",
+          "text": "“Hooly has the rare combination of a product customers trust and a team that ships every quarter.” said Laurie Breem, partner at Raviqa Capital.",
+          "atom_index": 0
+        }
+      ]
+    },
+    {
+      "subject": "Hooly I/O 2026",
+      "attribute": "date",
+      "date": "2026-03-24",
+      "observations": [
+        {
+          "subject": "Hooly I/O 2026",
+          "attribute": "date",
+          "value": {
+            "kind": "date",
+            "value": "2026"
+          },
+          "id": "p-168",
+          "date": "2026-03-24",
+          "label": "true",
+          "text": "Hooly I/O 2026 and Gemini 2.0",
+          "atom_index": 0
+        },
+        {
+          "subject": "Hooly I/O 2026",
+          "attribute": "date",
+          "value": {
+            "kind": "date",
+            "value": "2026-03-24"
+          },
+          "id": "p-169",
+          "date": "2026-03-24",
+          "label": "true",
+          "text": "On 24 March 2026 in Berlin we launched Hooly Gemini 2.0.",
+          "atom_index": 0
+        }
+      ]
+    }
+  ],
+  "single_assertion_rows": 1467,
+  "multi_assertion_labels": {
+    "true": 351,
+    "false": 75,
+    "unsure": 4
+  },
+  "metrics": {
+    "same_day": {
+      "true": {
+        "unresolved": 1474,
+        "true": 104,
+        "false": 3
+      },
+      "false": {
+        "unresolved": 256,
+        "false": 21
+      },
+      "unsure": {
+        "unresolved": 39
+      }
+    },
+    "latest_on_or_before": {
+      "true": {
+        "unresolved": 465,
+        "false": 294,
+        "true": 822
+      },
+      "false": {
+        "false": 186,
+        "unresolved": 68,
+        "true": 23
+      },
+      "unsure": {
+        "unresolved": 29,
+        "true": 8,
+        "false": 2
+      }
+    },
+    "any_true_match": {
+      "true": {
+        "rows": 1581,
+        "all_atoms_exact_any_date": 1257,
+        "all_atoms_exact_on_or_before": 856
+      },
+      "false": {
+        "rows": 277,
+        "all_atoms_exact_any_date": 128,
+        "all_atoms_exact_on_or_before": 78
+      },
+      "unsure": {
+        "rows": 39,
+        "all_atoms_exact_any_date": 18,
+        "all_atoms_exact_on_or_before": 8
+      }
+    }
+  },
+  "same_day_atom_states": {
+    "true": {
+      "no_observation": 1803,
+      "supported": 178,
+      "incomparable": 7,
+      "conflicting_observations": 7,
+      "different_value": 3
+    },
+    "false": {
+      "no_observation": 327,
+      "incomparable": 2,
+      "different_value": 22,
+      "supported": 9
+    },
+    "unsure": {
+      "no_observation": 44
+    }
+  },
+  "identical_assertion_form_different_label_groups": 88,
+  "rows_in_identical_assertion_form_different_label_groups": 263,
+  "identical_normalized_text_different_label_groups": 4,
+  "identical_text_label_casebook": [
+    [
+      {
+        "id": "p-108",
+        "date": "2026-02-25",
+        "label": "true",
+        "text": "Hooly Search has 540,000,000 users each month."
+      },
+      {
+        "id": "p-1217",
+        "date": "2026-06-16",
+        "label": "false",
+        "text": "Hooly Search has 540,000,000 users each month."
+      }
+    ],
+    [
+      {
+        "id": "p-152",
+        "date": "2026-06-25",
+        "label": "true",
+        "text": "The hinge of Hooly Pixel Fold is rated for 200,000 folds."
+      },
+      {
+        "id": "p-608",
+        "date": "2026-08-18",
+        "label": "unsure",
+        "text": "The hinge of Hooly Pixel Fold is rated for 200,000 folds."
+      },
+      {
+        "id": "p-1770",
+        "date": "2026-06-30",
+        "label": "true",
+        "text": "The hinge of Hooly Pixel Fold is rated for 200,000 folds."
+      }
+    ],
+    [
+      {
+        "id": "p-273",
+        "date": "2026-03-24",
+        "label": "unsure",
+        "text": "Captions in 11 languages"
+      },
+      {
+        "id": "p-732",
+        "date": "2026-10-08",
+        "label": "true",
+        "text": "Captions in 11 languages"
+      }
+    ],
+    [
+      {
+        "id": "p-1459",
+        "date": "2025-11-14",
+        "label": "true",
+        "text": "Hooly Gemini replies in 2.1 s at the median."
+      },
+      {
+        "id": "p-1474",
+        "date": "2026-08-20",
+        "label": "false",
+        "text": "Hooly Gemini replies in 2.1 s at the median."
+      }
+    ]
+  ],
+  "names": {
+    "assertions": 209,
+    "unique_values": 35,
+    "target_in_lexicon_assertions": 40,
+    "target_not_in_lexicon_assertions": 169,
+    "unique_targets_in_lexicon": 11,
+    "unique_targets_not_in_lexicon": 24,
+    "external_targets": {
+      "Nimbus Cloud": 14,
+      "Ringsend Forum": 5,
+      "Dublin": 9,
+      "Gavin Bellson": 17,
+      "Richard Hendrix": 17,
+      "Lisbon": 10,
+      "Gwartt": 4,
+      "Jian-Yeng": 5,
+      "Tarra": 4,
+      "Nelson Bighettie": 8,
+      "Tessel Works": 7,
+      "Frankfurt": 16,
+      "Raviqa Capital": 5,
+      "Berlin": 19,
+      "Davis Bannerchek": 4,
+      "Montreal": 2,
+      "Jack Barkor": 9,
+      "Raviqa": 2,
+      "Nimbus": 1,
+      "Warsaw": 2,
+      "Breem-Hall": 1,
+      "Certiq Assurance": 4,
+      "Gavin": 3,
+      "Kestrel Bank": 1
+    }
+  },
+  "semantics": "Leave-row-out descriptive audit. Row true licenses all typed atoms as observations. A false compound does not identify which atom is false. Latest observations do not prove validity intervals. Different same-day values need not be logical contradictions without functional attribute and target-time assumptions."
+}
