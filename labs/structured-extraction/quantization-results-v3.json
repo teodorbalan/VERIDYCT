@@ -1,0 +1,886 @@
+{
+    "image_id":  "sha256:d5dd72b8f4a21d31f7db85581611d9394993baf8b4104bf3032ececfe0b27943",
+    "cpu_model":  "AMD EPYC 7742 64-Core Processor",
+    "features":  {
+                     "avx2":  true,
+                     "avx512f":  false,
+                     "avx512_vnni":  false,
+                     "avx_vnni":  false
+                 },
+    "runs":  [
+                 {
+                     "family":  "factorized",
+                     "variant":  "fp32",
+                     "command":  [
+                                     "docker",
+                                     "run",
+                                     "--name",
+                                     "veridyct-quant-factorized-fp32",
+                                     "--network",
+                                     "none",
+                                     "--read-only",
+                                     "--cpus",
+                                     "2",
+                                     "--memory",
+                                     "6g",
+                                     "--pids-limit",
+                                     "128",
+                                     "--cap-drop",
+                                     "ALL",
+                                     "--security-opt",
+                                     "no-new-privileges",
+                                     "--tmpfs",
+                                     "/tmp:rw,nosuid,nodev,size=128m",
+                                     "--env",
+                                     "PYTHONDONTWRITEBYTECODE=1",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/factorized,dst=/bundle,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmark_quantized_cpu.py,dst=/benchmark.py,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/data-v2/dev.jsonl,dst=/data/dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/challenge-dev.jsonl,dst=/data/challenge-dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmarks/factorized-fp32,dst=/output",
+                                     "--entrypoint",
+                                     "python",
+                                     "veridyct-extractor:selected-v2",
+                                     "/benchmark.py",
+                                     "--bundle",
+                                     "/bundle",
+                                     "--model",
+                                     "model.onnx",
+                                     "--data",
+                                     "/data/dev.jsonl",
+                                     "--fixture",
+                                     "/data/challenge-dev.jsonl",
+                                     "--out",
+                                     "/output/result",
+                                     "--repeats",
+                                     "3"
+                                 ],
+                     "exit_code":  0,
+                     "wall_seconds":  31.6951286457479,
+                     "model_sha256":  "313e02eb69e54ab82d59ca53d15add359f512884564334fa83774e19bc48918a",
+                     "report":  {
+                                    "model":  "model.onnx",
+                                    "model_sha256":  "313e02eb69e54ab82d59ca53d15add359f512884564334fa83774e19bc48918a",
+                                    "model_bytes":  7204867,
+                                    "cpu_threads":  2,
+                                    "batch":  48,
+                                    "groups":  {
+                                                   "synthetic":  {
+                                                                     "rows":  8088,
+                                                                     "exact":  8059,
+                                                                     "gold":  12147,
+                                                                     "predicted":  12146,
+                                                                     "correct":  12120,
+                                                                     "exact_rate":  0.9964144411473789,
+                                                                     "f1":  0.997818301568353
+                                                                 },
+                                                   "all":  {
+                                                               "rows":  8590,
+                                                               "exact":  8484,
+                                                               "gold":  12728,
+                                                               "predicted":  12737,
+                                                               "correct":  12649,
+                                                               "exact_rate":  0.9876600698486613,
+                                                               "f1":  0.9934419791871196
+                                                           },
+                                                   "challenge_primary":  {
+                                                                             "rows":  92,
+                                                                             "exact":  86,
+                                                                             "gold":  92,
+                                                                             "predicted":  91,
+                                                                             "correct":  87,
+                                                                             "exact_rate":  0.9347826086956522,
+                                                                             "f1":  0.9508196721311475
+                                                                         },
+                                                   "challenge_diagnostic":  {
+                                                                                "rows":  20,
+                                                                                "exact":  0,
+                                                                                "gold":  0,
+                                                                                "predicted":  20,
+                                                                                "correct":  0,
+                                                                                "exact_rate":  0.0,
+                                                                                "f1":  0.0
+                                                                            },
+                                                   "official":  {
+                                                                    "rows":  390,
+                                                                    "exact":  339,
+                                                                    "gold":  489,
+                                                                    "predicted":  480,
+                                                                    "correct":  442,
+                                                                    "exact_rate":  0.8692307692307693,
+                                                                    "f1":  0.9122807017543859
+                                                                }
+                                               },
+                                    "session_load_seconds":  0.11391276866197586,
+                                    "preparation_seconds":  4.835947619751096,
+                                    "inference_seconds":  [
+                                                              9.068631034344435,
+                                                              7.632386101409793,
+                                                              7.7023083455860615
+                                                          ],
+                                    "median_inference_seconds":  7.7023083455860615,
+                                    "median_rows_per_second":  1115.2500801818258,
+                                    "total_seconds_including_repeats":  30.47712845914066,
+                                    "peak_process_rss_kib":  364712,
+                                    "source_dev_sha256":  "a04da181a569ef075e0d89b3fb26f2f574967f13abfbf7cde5973ee3e2d66272",
+                                    "challenge_dev_sha256":  "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+                                    "scope":  "Repeated inference timings on prepared development inputs; preprocessing/session costs separately reported. No final gold or calibration."
+                                }
+                 },
+                 {
+                     "family":  "factorized",
+                     "variant":  "dense_int8_rr",
+                     "command":  [
+                                     "docker",
+                                     "run",
+                                     "--name",
+                                     "veridyct-quant-factorized-dense_int8_rr",
+                                     "--network",
+                                     "none",
+                                     "--read-only",
+                                     "--cpus",
+                                     "2",
+                                     "--memory",
+                                     "6g",
+                                     "--pids-limit",
+                                     "128",
+                                     "--cap-drop",
+                                     "ALL",
+                                     "--security-opt",
+                                     "no-new-privileges",
+                                     "--tmpfs",
+                                     "/tmp:rw,nosuid,nodev,size=128m",
+                                     "--env",
+                                     "PYTHONDONTWRITEBYTECODE=1",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/factorized,dst=/bundle,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmark_quantized_cpu.py,dst=/benchmark.py,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/data-v2/dev.jsonl,dst=/data/dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/challenge-dev.jsonl,dst=/data/challenge-dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmarks/factorized-dense_int8_rr,dst=/output",
+                                     "--entrypoint",
+                                     "python",
+                                     "veridyct-extractor:selected-v2",
+                                     "/benchmark.py",
+                                     "--bundle",
+                                     "/bundle",
+                                     "--model",
+                                     "dense_int8_rr.onnx",
+                                     "--data",
+                                     "/data/dev.jsonl",
+                                     "--fixture",
+                                     "/data/challenge-dev.jsonl",
+                                     "--out",
+                                     "/output/result",
+                                     "--repeats",
+                                     "3"
+                                 ],
+                     "exit_code":  0,
+                     "wall_seconds":  31.228401370346546,
+                     "model_sha256":  "ade11db01f2d8f61788bfdcad34109144b751d892dd23495cf38c2d36c5e1daf",
+                     "report":  {
+                                    "model":  "dense_int8_rr.onnx",
+                                    "model_sha256":  "ade11db01f2d8f61788bfdcad34109144b751d892dd23495cf38c2d36c5e1daf",
+                                    "model_bytes":  5493337,
+                                    "cpu_threads":  2,
+                                    "batch":  48,
+                                    "groups":  {
+                                                   "synthetic":  {
+                                                                     "rows":  8088,
+                                                                     "exact":  8058,
+                                                                     "gold":  12147,
+                                                                     "predicted":  12146,
+                                                                     "correct":  12119,
+                                                                     "exact_rate":  0.9962908011869436,
+                                                                     "f1":  0.9977359733256493
+                                                                 },
+                                                   "all":  {
+                                                               "rows":  8590,
+                                                               "exact":  8484,
+                                                               "gold":  12728,
+                                                               "predicted":  12739,
+                                                               "correct":  12649,
+                                                               "exact_rate":  0.9876600698486613,
+                                                               "f1":  0.9933639612046963
+                                                           },
+                                                   "challenge_primary":  {
+                                                                             "rows":  92,
+                                                                             "exact":  87,
+                                                                             "gold":  92,
+                                                                             "predicted":  92,
+                                                                             "correct":  88,
+                                                                             "exact_rate":  0.9456521739130435,
+                                                                             "f1":  0.9565217391304348
+                                                                         },
+                                                   "challenge_diagnostic":  {
+                                                                                "rows":  20,
+                                                                                "exact":  0,
+                                                                                "gold":  0,
+                                                                                "predicted":  20,
+                                                                                "correct":  0,
+                                                                                "exact_rate":  0.0,
+                                                                                "f1":  0.0
+                                                                            },
+                                                   "official":  {
+                                                                    "rows":  390,
+                                                                    "exact":  339,
+                                                                    "gold":  489,
+                                                                    "predicted":  481,
+                                                                    "correct":  442,
+                                                                    "exact_rate":  0.8692307692307693,
+                                                                    "f1":  0.911340206185567
+                                                                }
+                                               },
+                                    "session_load_seconds":  0.1097811721265316,
+                                    "preparation_seconds":  4.875106537714601,
+                                    "inference_seconds":  [
+                                                              8.923164391890168,
+                                                              7.515615018084645,
+                                                              7.524832297116518
+                                                          ],
+                                    "median_inference_seconds":  7.524832297116518,
+                                    "median_rows_per_second":  1141.55367997924,
+                                    "total_seconds_including_repeats":  29.897731782868505,
+                                    "peak_process_rss_kib":  355028,
+                                    "source_dev_sha256":  "a04da181a569ef075e0d89b3fb26f2f574967f13abfbf7cde5973ee3e2d66272",
+                                    "challenge_dev_sha256":  "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+                                    "scope":  "Repeated inference timings on prepared development inputs; preprocessing/session costs separately reported. No final gold or calibration."
+                                }
+                 },
+                 {
+                     "family":  "factorized",
+                     "variant":  "recurrent_int8_rr",
+                     "command":  [
+                                     "docker",
+                                     "run",
+                                     "--name",
+                                     "veridyct-quant-factorized-recurrent_int8_rr",
+                                     "--network",
+                                     "none",
+                                     "--read-only",
+                                     "--cpus",
+                                     "2",
+                                     "--memory",
+                                     "6g",
+                                     "--pids-limit",
+                                     "128",
+                                     "--cap-drop",
+                                     "ALL",
+                                     "--security-opt",
+                                     "no-new-privileges",
+                                     "--tmpfs",
+                                     "/tmp:rw,nosuid,nodev,size=128m",
+                                     "--env",
+                                     "PYTHONDONTWRITEBYTECODE=1",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/factorized,dst=/bundle,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmark_quantized_cpu.py,dst=/benchmark.py,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/data-v2/dev.jsonl,dst=/data/dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/challenge-dev.jsonl,dst=/data/challenge-dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmarks/factorized-recurrent_int8_rr,dst=/output",
+                                     "--entrypoint",
+                                     "python",
+                                     "veridyct-extractor:selected-v2",
+                                     "/benchmark.py",
+                                     "--bundle",
+                                     "/bundle",
+                                     "--model",
+                                     "recurrent_int8_rr.onnx",
+                                     "--data",
+                                     "/data/dev.jsonl",
+                                     "--fixture",
+                                     "/data/challenge-dev.jsonl",
+                                     "--out",
+                                     "/output/result",
+                                     "--repeats",
+                                     "3"
+                                 ],
+                     "exit_code":  0,
+                     "wall_seconds":  31.053748734295368,
+                     "model_sha256":  "13466a4ef54fa1b041b457de4a0fde955de01ba16db19633af07d1d145133ba5",
+                     "report":  {
+                                    "model":  "recurrent_int8_rr.onnx",
+                                    "model_sha256":  "13466a4ef54fa1b041b457de4a0fde955de01ba16db19633af07d1d145133ba5",
+                                    "model_bytes":  4559790,
+                                    "cpu_threads":  2,
+                                    "batch":  48,
+                                    "groups":  {
+                                                   "synthetic":  {
+                                                                     "rows":  8088,
+                                                                     "exact":  8059,
+                                                                     "gold":  12147,
+                                                                     "predicted":  12146,
+                                                                     "correct":  12120,
+                                                                     "exact_rate":  0.9964144411473789,
+                                                                     "f1":  0.997818301568353
+                                                                 },
+                                                   "all":  {
+                                                               "rows":  8590,
+                                                               "exact":  8484,
+                                                               "gold":  12728,
+                                                               "predicted":  12739,
+                                                               "correct":  12649,
+                                                               "exact_rate":  0.9876600698486613,
+                                                               "f1":  0.9933639612046963
+                                                           },
+                                                   "challenge_primary":  {
+                                                                             "rows":  92,
+                                                                             "exact":  86,
+                                                                             "gold":  92,
+                                                                             "predicted":  92,
+                                                                             "correct":  87,
+                                                                             "exact_rate":  0.9347826086956522,
+                                                                             "f1":  0.9456521739130435
+                                                                         },
+                                                   "challenge_diagnostic":  {
+                                                                                "rows":  20,
+                                                                                "exact":  0,
+                                                                                "gold":  0,
+                                                                                "predicted":  20,
+                                                                                "correct":  0,
+                                                                                "exact_rate":  0.0,
+                                                                                "f1":  0.0
+                                                                            },
+                                                   "official":  {
+                                                                    "rows":  390,
+                                                                    "exact":  339,
+                                                                    "gold":  489,
+                                                                    "predicted":  481,
+                                                                    "correct":  442,
+                                                                    "exact_rate":  0.8692307692307693,
+                                                                    "f1":  0.911340206185567
+                                                                }
+                                               },
+                                    "session_load_seconds":  0.11214802414178848,
+                                    "preparation_seconds":  4.693792453035712,
+                                    "inference_seconds":  [
+                                                              8.987570121884346,
+                                                              8.035581048578024,
+                                                              6.751352667808533
+                                                          ],
+                                    "median_inference_seconds":  8.035581048578024,
+                                    "median_rows_per_second":  1068.9955023874827,
+                                    "total_seconds_including_repeats":  29.649194605648518,
+                                    "peak_process_rss_kib":  354520,
+                                    "source_dev_sha256":  "a04da181a569ef075e0d89b3fb26f2f574967f13abfbf7cde5973ee3e2d66272",
+                                    "challenge_dev_sha256":  "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+                                    "scope":  "Repeated inference timings on prepared development inputs; preprocessing/session costs separately reported. No final gold or calibration."
+                                }
+                 },
+                 {
+                     "family":  "v2ensemble",
+                     "variant":  "fp32",
+                     "command":  [
+                                     "docker",
+                                     "run",
+                                     "--name",
+                                     "veridyct-quant-v2ensemble-fp32",
+                                     "--network",
+                                     "none",
+                                     "--read-only",
+                                     "--cpus",
+                                     "2",
+                                     "--memory",
+                                     "6g",
+                                     "--pids-limit",
+                                     "128",
+                                     "--cap-drop",
+                                     "ALL",
+                                     "--security-opt",
+                                     "no-new-privileges",
+                                     "--tmpfs",
+                                     "/tmp:rw,nosuid,nodev,size=128m",
+                                     "--env",
+                                     "PYTHONDONTWRITEBYTECODE=1",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/v2ensemble,dst=/bundle,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmark_quantized_cpu.py,dst=/benchmark.py,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/data-v2/dev.jsonl,dst=/data/dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/challenge-dev.jsonl,dst=/data/challenge-dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmarks/v2ensemble-fp32,dst=/output",
+                                     "--entrypoint",
+                                     "python",
+                                     "veridyct-extractor:selected-v2",
+                                     "/benchmark.py",
+                                     "--bundle",
+                                     "/bundle",
+                                     "--model",
+                                     "model.onnx",
+                                     "--data",
+                                     "/data/dev.jsonl",
+                                     "--fixture",
+                                     "/data/challenge-dev.jsonl",
+                                     "--out",
+                                     "/output/result",
+                                     "--repeats",
+                                     "3"
+                                 ],
+                     "exit_code":  0,
+                     "wall_seconds":  71.77041983790696,
+                     "model_sha256":  "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+                     "report":  {
+                                    "model":  "model.onnx",
+                                    "model_sha256":  "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+                                    "model_bytes":  24850029,
+                                    "cpu_threads":  2,
+                                    "batch":  48,
+                                    "groups":  {
+                                                   "synthetic":  {
+                                                                     "rows":  8088,
+                                                                     "exact":  8077,
+                                                                     "gold":  12147,
+                                                                     "predicted":  12140,
+                                                                     "correct":  12136,
+                                                                     "exact_rate":  0.9986399604352126,
+                                                                     "f1":  0.9993823856384074
+                                                                 },
+                                                   "all":  {
+                                                               "rows":  8590,
+                                                               "exact":  8517,
+                                                               "gold":  12728,
+                                                               "predicted":  12688,
+                                                               "correct":  12659,
+                                                               "exact_rate":  0.9915017462165309,
+                                                               "f1":  0.9961441611583255
+                                                           },
+                                                   "challenge_primary":  {
+                                                                             "rows":  92,
+                                                                             "exact":  87,
+                                                                             "gold":  92,
+                                                                             "predicted":  89,
+                                                                             "correct":  87,
+                                                                             "exact_rate":  0.9456521739130435,
+                                                                             "f1":  0.9613259668508287
+                                                                         },
+                                                   "challenge_diagnostic":  {
+                                                                                "rows":  20,
+                                                                                "exact":  17,
+                                                                                "gold":  0,
+                                                                                "predicted":  3,
+                                                                                "correct":  0,
+                                                                                "exact_rate":  0.85,
+                                                                                "f1":  0.0
+                                                                            },
+                                                   "official":  {
+                                                                    "rows":  390,
+                                                                    "exact":  336,
+                                                                    "gold":  489,
+                                                                    "predicted":  456,
+                                                                    "correct":  436,
+                                                                    "exact_rate":  0.8615384615384616,
+                                                                    "f1":  0.9227513227513228
+                                                                }
+                                               },
+                                    "session_load_seconds":  0.1695702951401472,
+                                    "preparation_seconds":  4.924426954239607,
+                                    "inference_seconds":  [
+                                                              23.047908356413245,
+                                                              21.06133809313178,
+                                                              20.228881511837244
+                                                          ],
+                                    "median_inference_seconds":  21.06133809313178,
+                                    "median_rows_per_second":  407.8563271723579,
+                                    "total_seconds_including_repeats":  70.59373925626278,
+                                    "peak_process_rss_kib":  512308,
+                                    "source_dev_sha256":  "a04da181a569ef075e0d89b3fb26f2f574967f13abfbf7cde5973ee3e2d66272",
+                                    "challenge_dev_sha256":  "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+                                    "scope":  "Repeated inference timings on prepared development inputs; preprocessing/session costs separately reported. No final gold or calibration."
+                                }
+                 },
+                 {
+                     "family":  "v2ensemble",
+                     "variant":  "dense_int8_rr",
+                     "command":  [
+                                     "docker",
+                                     "run",
+                                     "--name",
+                                     "veridyct-quant-v2ensemble-dense_int8_rr",
+                                     "--network",
+                                     "none",
+                                     "--read-only",
+                                     "--cpus",
+                                     "2",
+                                     "--memory",
+                                     "6g",
+                                     "--pids-limit",
+                                     "128",
+                                     "--cap-drop",
+                                     "ALL",
+                                     "--security-opt",
+                                     "no-new-privileges",
+                                     "--tmpfs",
+                                     "/tmp:rw,nosuid,nodev,size=128m",
+                                     "--env",
+                                     "PYTHONDONTWRITEBYTECODE=1",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/v2ensemble,dst=/bundle,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmark_quantized_cpu.py,dst=/benchmark.py,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/data-v2/dev.jsonl,dst=/data/dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/challenge-dev.jsonl,dst=/data/challenge-dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmarks/v2ensemble-dense_int8_rr,dst=/output",
+                                     "--entrypoint",
+                                     "python",
+                                     "veridyct-extractor:selected-v2",
+                                     "/benchmark.py",
+                                     "--bundle",
+                                     "/bundle",
+                                     "--model",
+                                     "dense_int8_rr.onnx",
+                                     "--data",
+                                     "/data/dev.jsonl",
+                                     "--fixture",
+                                     "/data/challenge-dev.jsonl",
+                                     "--out",
+                                     "/output/result",
+                                     "--repeats",
+                                     "3"
+                                 ],
+                     "exit_code":  0,
+                     "wall_seconds":  75.85741775296628,
+                     "model_sha256":  "8c4e87ce16fcb43f2e87a8711b41dcc44c55c1f4ef094fd25338c6cdf198c43d",
+                     "report":  {
+                                    "model":  "dense_int8_rr.onnx",
+                                    "model_sha256":  "8c4e87ce16fcb43f2e87a8711b41dcc44c55c1f4ef094fd25338c6cdf198c43d",
+                                    "model_bytes":  20628583,
+                                    "cpu_threads":  2,
+                                    "batch":  48,
+                                    "groups":  {
+                                                   "synthetic":  {
+                                                                     "rows":  8088,
+                                                                     "exact":  8077,
+                                                                     "gold":  12147,
+                                                                     "predicted":  12140,
+                                                                     "correct":  12136,
+                                                                     "exact_rate":  0.9986399604352126,
+                                                                     "f1":  0.9993823856384074
+                                                                 },
+                                                   "all":  {
+                                                               "rows":  8590,
+                                                               "exact":  8517,
+                                                               "gold":  12728,
+                                                               "predicted":  12688,
+                                                               "correct":  12659,
+                                                               "exact_rate":  0.9915017462165309,
+                                                               "f1":  0.9961441611583255
+                                                           },
+                                                   "challenge_primary":  {
+                                                                             "rows":  92,
+                                                                             "exact":  87,
+                                                                             "gold":  92,
+                                                                             "predicted":  89,
+                                                                             "correct":  87,
+                                                                             "exact_rate":  0.9456521739130435,
+                                                                             "f1":  0.9613259668508287
+                                                                         },
+                                                   "challenge_diagnostic":  {
+                                                                                "rows":  20,
+                                                                                "exact":  17,
+                                                                                "gold":  0,
+                                                                                "predicted":  3,
+                                                                                "correct":  0,
+                                                                                "exact_rate":  0.85,
+                                                                                "f1":  0.0
+                                                                            },
+                                                   "official":  {
+                                                                    "rows":  390,
+                                                                    "exact":  336,
+                                                                    "gold":  489,
+                                                                    "predicted":  456,
+                                                                    "correct":  436,
+                                                                    "exact_rate":  0.8615384615384616,
+                                                                    "f1":  0.9227513227513228
+                                                                }
+                                               },
+                                    "session_load_seconds":  0.1212588082998991,
+                                    "preparation_seconds":  4.076181801036,
+                                    "inference_seconds":  [
+                                                              22.595518101006746,
+                                                              24.136037370190024,
+                                                              22.577321223914623
+                                                          ],
+                                    "median_inference_seconds":  22.595518101006746,
+                                    "median_rows_per_second":  380.1638874400172,
+                                    "total_seconds_including_repeats":  74.420500587672,
+                                    "peak_process_rss_kib":  496148,
+                                    "source_dev_sha256":  "a04da181a569ef075e0d89b3fb26f2f574967f13abfbf7cde5973ee3e2d66272",
+                                    "challenge_dev_sha256":  "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+                                    "scope":  "Repeated inference timings on prepared development inputs; preprocessing/session costs separately reported. No final gold or calibration."
+                                }
+                 },
+                 {
+                     "family":  "v2ensemble",
+                     "variant":  "recurrent_int8_rr",
+                     "command":  [
+                                     "docker",
+                                     "run",
+                                     "--name",
+                                     "veridyct-quant-v2ensemble-recurrent_int8_rr",
+                                     "--network",
+                                     "none",
+                                     "--read-only",
+                                     "--cpus",
+                                     "2",
+                                     "--memory",
+                                     "6g",
+                                     "--pids-limit",
+                                     "128",
+                                     "--cap-drop",
+                                     "ALL",
+                                     "--security-opt",
+                                     "no-new-privileges",
+                                     "--tmpfs",
+                                     "/tmp:rw,nosuid,nodev,size=128m",
+                                     "--env",
+                                     "PYTHONDONTWRITEBYTECODE=1",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/v2ensemble,dst=/bundle,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmark_quantized_cpu.py,dst=/benchmark.py,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/data-v2/dev.jsonl,dst=/data/dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/challenge-dev.jsonl,dst=/data/challenge-dev.jsonl,readonly",
+                                     "--mount",
+                                     "type=bind,src=/data/tairo/veridyct-training-20261028/v3-audit/quantization/benchmarks/v2ensemble-recurrent_int8_rr,dst=/output",
+                                     "--entrypoint",
+                                     "python",
+                                     "veridyct-extractor:selected-v2",
+                                     "/benchmark.py",
+                                     "--bundle",
+                                     "/bundle",
+                                     "--model",
+                                     "recurrent_int8_rr.onnx",
+                                     "--data",
+                                     "/data/dev.jsonl",
+                                     "--fixture",
+                                     "/data/challenge-dev.jsonl",
+                                     "--out",
+                                     "/output/result",
+                                     "--repeats",
+                                     "3"
+                                 ],
+                     "exit_code":  0,
+                     "wall_seconds":  71.72210638783872,
+                     "model_sha256":  "1130c3a7b5c6826d1a20dc11ece221a6b902b216a24f6fca1cc7987f2d107e4a",
+                     "report":  {
+                                    "model":  "recurrent_int8_rr.onnx",
+                                    "model_sha256":  "1130c3a7b5c6826d1a20dc11ece221a6b902b216a24f6fca1cc7987f2d107e4a",
+                                    "model_bytes":  14412176,
+                                    "cpu_threads":  2,
+                                    "batch":  48,
+                                    "groups":  {
+                                                   "synthetic":  {
+                                                                     "rows":  8088,
+                                                                     "exact":  8077,
+                                                                     "gold":  12147,
+                                                                     "predicted":  12140,
+                                                                     "correct":  12136,
+                                                                     "exact_rate":  0.9986399604352126,
+                                                                     "f1":  0.9993823856384074
+                                                                 },
+                                                   "all":  {
+                                                               "rows":  8590,
+                                                               "exact":  8516,
+                                                               "gold":  12728,
+                                                               "predicted":  12688,
+                                                               "correct":  12658,
+                                                               "exact_rate":  0.9913853317811409,
+                                                               "f1":  0.9960654705697198
+                                                           },
+                                                   "challenge_primary":  {
+                                                                             "rows":  92,
+                                                                             "exact":  87,
+                                                                             "gold":  92,
+                                                                             "predicted":  89,
+                                                                             "correct":  87,
+                                                                             "exact_rate":  0.9456521739130435,
+                                                                             "f1":  0.9613259668508287
+                                                                         },
+                                                   "challenge_diagnostic":  {
+                                                                                "rows":  20,
+                                                                                "exact":  17,
+                                                                                "gold":  0,
+                                                                                "predicted":  3,
+                                                                                "correct":  0,
+                                                                                "exact_rate":  0.85,
+                                                                                "f1":  0.0
+                                                                            },
+                                                   "official":  {
+                                                                    "rows":  390,
+                                                                    "exact":  335,
+                                                                    "gold":  489,
+                                                                    "predicted":  456,
+                                                                    "correct":  435,
+                                                                    "exact_rate":  0.8589743589743589,
+                                                                    "f1":  0.9206349206349206
+                                                                }
+                                               },
+                                    "session_load_seconds":  0.15202314779162407,
+                                    "preparation_seconds":  5.2987918592989445,
+                                    "inference_seconds":  [
+                                                              19.97992880269885,
+                                                              21.47639881633222,
+                                                              22.101726066321135
+                                                          ],
+                                    "median_inference_seconds":  21.47639881633222,
+                                    "median_rows_per_second":  399.9739469108544,
+                                    "total_seconds_including_repeats":  70.23607469536364,
+                                    "peak_process_rss_kib":  483424,
+                                    "source_dev_sha256":  "a04da181a569ef075e0d89b3fb26f2f574967f13abfbf7cde5973ee3e2d66272",
+                                    "challenge_dev_sha256":  "a3448d197ba5d4e89447d12a06530205113cbe6059cd8f50f96f16abc993bef6",
+                                    "scope":  "Repeated inference timings on prepared development inputs; preprocessing/session costs separately reported. No final gold or calibration."
+                                }
+                 }
+             ],
+    "prediction_changes":  {
+                               "factorized/dense_int8_rr":  {
+                                                                "synthetic":  {
+                                                                                  "rows":  8088,
+                                                                                  "prediction_changed":  2,
+                                                                                  "gained_correct":  0,
+                                                                                  "lost_correct":  1
+                                                                              },
+                                                                "all":  {
+                                                                            "rows":  8590,
+                                                                            "prediction_changed":  4,
+                                                                            "gained_correct":  1,
+                                                                            "lost_correct":  1
+                                                                        },
+                                                                "challenge_primary":  {
+                                                                                          "rows":  92,
+                                                                                          "prediction_changed":  1,
+                                                                                          "gained_correct":  1,
+                                                                                          "lost_correct":  0
+                                                                                      },
+                                                                "challenge_diagnostic":  {
+                                                                                             "rows":  20,
+                                                                                             "prediction_changed":  0,
+                                                                                             "gained_correct":  0,
+                                                                                             "lost_correct":  0
+                                                                                         },
+                                                                "official":  {
+                                                                                 "rows":  390,
+                                                                                 "prediction_changed":  1,
+                                                                                 "gained_correct":  0,
+                                                                                 "lost_correct":  0
+                                                                             }
+                                                            },
+                               "factorized/recurrent_int8_rr":  {
+                                                                    "synthetic":  {
+                                                                                      "rows":  8088,
+                                                                                      "prediction_changed":  2,
+                                                                                      "gained_correct":  1,
+                                                                                      "lost_correct":  1
+                                                                                  },
+                                                                    "all":  {
+                                                                                "rows":  8590,
+                                                                                "prediction_changed":  4,
+                                                                                "gained_correct":  1,
+                                                                                "lost_correct":  1
+                                                                            },
+                                                                    "challenge_primary":  {
+                                                                                              "rows":  92,
+                                                                                              "prediction_changed":  1,
+                                                                                              "gained_correct":  0,
+                                                                                              "lost_correct":  0
+                                                                                          },
+                                                                    "challenge_diagnostic":  {
+                                                                                                 "rows":  20,
+                                                                                                 "prediction_changed":  0,
+                                                                                                 "gained_correct":  0,
+                                                                                                 "lost_correct":  0
+                                                                                             },
+                                                                    "official":  {
+                                                                                     "rows":  390,
+                                                                                     "prediction_changed":  1,
+                                                                                     "gained_correct":  0,
+                                                                                     "lost_correct":  0
+                                                                                 }
+                                                                },
+                               "v2ensemble/dense_int8_rr":  {
+                                                                "synthetic":  {
+                                                                                  "rows":  8088,
+                                                                                  "prediction_changed":  0,
+                                                                                  "gained_correct":  0,
+                                                                                  "lost_correct":  0
+                                                                              },
+                                                                "all":  {
+                                                                            "rows":  8590,
+                                                                            "prediction_changed":  0,
+                                                                            "gained_correct":  0,
+                                                                            "lost_correct":  0
+                                                                        },
+                                                                "challenge_primary":  {
+                                                                                          "rows":  92,
+                                                                                          "prediction_changed":  0,
+                                                                                          "gained_correct":  0,
+                                                                                          "lost_correct":  0
+                                                                                      },
+                                                                "challenge_diagnostic":  {
+                                                                                             "rows":  20,
+                                                                                             "prediction_changed":  0,
+                                                                                             "gained_correct":  0,
+                                                                                             "lost_correct":  0
+                                                                                         },
+                                                                "official":  {
+                                                                                 "rows":  390,
+                                                                                 "prediction_changed":  0,
+                                                                                 "gained_correct":  0,
+                                                                                 "lost_correct":  0
+                                                                             }
+                                                            },
+                               "v2ensemble/recurrent_int8_rr":  {
+                                                                    "synthetic":  {
+                                                                                      "rows":  8088,
+                                                                                      "prediction_changed":  0,
+                                                                                      "gained_correct":  0,
+                                                                                      "lost_correct":  0
+                                                                                  },
+                                                                    "all":  {
+                                                                                "rows":  8590,
+                                                                                "prediction_changed":  4,
+                                                                                "gained_correct":  1,
+                                                                                "lost_correct":  2
+                                                                            },
+                                                                    "challenge_primary":  {
+                                                                                              "rows":  92,
+                                                                                              "prediction_changed":  0,
+                                                                                              "gained_correct":  0,
+                                                                                              "lost_correct":  0
+                                                                                          },
+                                                                    "challenge_diagnostic":  {
+                                                                                                 "rows":  20,
+                                                                                                 "prediction_changed":  0,
+                                                                                                 "gained_correct":  0,
+                                                                                                 "lost_correct":  0
+                                                                                             },
+                                                                    "official":  {
+                                                                                     "rows":  390,
+                                                                                     "prediction_changed":  4,
+                                                                                     "gained_correct":  1,
+                                                                                     "lost_correct":  2
+                                                                                 }
+                                                                }
+                           }
+}
