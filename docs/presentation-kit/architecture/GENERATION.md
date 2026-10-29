@@ -82,5 +82,3 @@ Edit the supplied VERIDYCT LEVEL 03 architecture infographic with a very precise
 ## Level 03: final typography correction
 
 Make one surgical typography repair to this existing technical diagram. In the top card of column C / NEW CLAIMS, the heading is overprinted/garbled. Completely clear and redraw ONLY the inside of that small mint card, keeping its border, location and size. Keep the document icon at left. Render one single crisp heading exactly "KNOWN-TRUE SOURCES", and below it one single readable line "Only explicitly labelled true rows". Remove the green KNOWN TRUE badge from this right card to make space. No duplicated letters, no overprinting, no second heading. Leave ALL remaining image pixels/layout/text/arrows unchanged as much as possible. Preserve the mint connector across the top, the separation of the router from generation, all other panels and the bottom footer. Deliver the complete corrected PNG.
-
-
