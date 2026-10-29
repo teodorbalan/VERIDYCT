@@ -296,6 +296,55 @@
       }
     }
   },
+  "latest_with_max_age_days": {
+    "1": {
+      "true": {
+        "unresolved": 1426,
+        "true": 152,
+        "false": 3
+      },
+      "false": {
+        "unresolved": 240,
+        "false": 37
+      },
+      "unsure": {
+        "unresolved": 38,
+        "false": 1
+      }
+    },
+    "7": {
+      "true": {
+        "unresolved": 1312,
+        "false": 10,
+        "true": 259
+      },
+      "false": {
+        "false": 79,
+        "unresolved": 197,
+        "true": 1
+      },
+      "unsure": {
+        "unresolved": 38,
+        "false": 1
+      }
+    },
+    "30": {
+      "true": {
+        "unresolved": 1039,
+        "true": 480,
+        "false": 62
+      },
+      "false": {
+        "false": 127,
+        "unresolved": 144,
+        "true": 6
+      },
+      "unsure": {
+        "unresolved": 38,
+        "false": 1
+      }
+    }
+  },
   "same_day_atom_states": {
     "true": {
       "no_observation": 1803,

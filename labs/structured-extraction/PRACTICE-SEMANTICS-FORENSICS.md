@@ -63,6 +63,16 @@ The full run contains additional labelled/unlabelled rows, so these figures
 describe public-practice information availability, not an upper bound on the
 competition's achievable performance.
 
+Restricting the latest observation to the preceding seven days detects 79 false
+rows, supports one false row, leaves 197 false rows unresolved, and still wrongly
+contradicts 10 true rows. Even recent evidence can describe the state before a
+change: true p-120 says Android 17 now has 480,000 beta testers on July 2, while
+the latest prior true row p-396 is from June 30. True p-1413 announces Gemini
+single sign-on from September 2, superseding a true negative observation on
+August 26. A new observation differing from the old one is not automatically a
+lie. The receipt also includes descriptive one-day and 30-day windows; none is
+selected as a production threshold.
+
 Moreover, all asserted values of 128 false rows have exact true matches
 somewhere else in practice; 78 false rows have such matches on or before their
 page date. The corresponding counts for unsure are 18 and 8. Having once seen a

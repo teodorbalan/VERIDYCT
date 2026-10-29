@@ -6,6 +6,7 @@ The latest-observation rule is intentionally measured as a heuristic, not assume
 import argparse
 from collections import Counter, defaultdict
 import csv
+import datetime
 import hashlib
 import json
 import pathlib
@@ -113,6 +114,15 @@ def main():
                         if len({x['value']['kind'] for x in v}) > 1}
     true_varying = [k for k, v in true_by_pair.items() if len({canonical(x['value']) for x in v}) > 1]
     missing_true = sorted(pairs - set(true_by_pair))
+    recent = {str(n): defaultdict(Counter) for n in [1, 7, 30]}
+    for r in details:
+        for window, counts in recent.items():
+            states = []
+            for atom in r['atoms']:
+                age = ((datetime.date.fromisoformat(r['date']) - datetime.date.fromisoformat(atom['latest_date'])).days
+                       if atom['latest_date'] else None)
+                states.append(atom['latest_status'] if age is not None and age <= int(window) else 'no_observation')
+            counts[r['label']][row_decision(states)] += 1
     kinds = defaultdict(Counter)
     for x in atoms:
         kinds[x['value']['kind']][x['label']] += 1
@@ -137,7 +147,7 @@ def main():
         true_pairs_with_multiple_observed_values=len(true_varying), same_day_true_multivalue_groups=conflicts,
         single_assertion_rows=sum(len(r['form']) == 1 for r in rows),
         multi_assertion_labels=dict(Counter(r['label'] for r in rows if len(r['form']) > 1)),
-        metrics=metrics, same_day_atom_states=atom_states,
+        metrics=metrics, latest_with_max_age_days=recent, same_day_atom_states=atom_states,
         identical_assertion_form_different_label_groups=len(mixed_forms),
         rows_in_identical_assertion_form_different_label_groups=sum(len(g) for g in mixed_forms),
         identical_normalized_text_different_label_groups=len(mixed_texts),
