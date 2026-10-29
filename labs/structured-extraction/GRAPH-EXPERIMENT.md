@@ -103,4 +103,56 @@ Remote artifacts live only in `/data/tairo/veridyct-training-20261028/v3-graph/`
 `source/` is the first training launch snapshot; `export-source/` additionally
 contains the initial deployment-fold helper; `source-v3/` freezes the candidate
 graph and final export helper. Checkpoints and raw predictions remain outside Git.
-Actual run results and export receipts will be added when the jobs finish.
+All five runs completed. Checkpoint selection used the original equal mean of
+official and synthetic complete-row exact rates, without challenge/final scores.
+Training used the assigned A100-SXM4-40GB cards with Torch 2.8.0+cu128.
+
+| Model / data / seed | Best epoch | Official exact / 390 | Synthetic exact / 8,088 | Total train seconds |
+| --- | ---: | ---: | ---: | ---: |
+| Semantic / v2 / 271828 | 12 | 325 (83.33%) | 8,043 (99.44%) | 368.86 |
+| Static label graph / v2 / 271828 | 16 | 328 (84.10%) | 8,055 (99.59%) | 521.52 |
+| Candidate graph / v3 / 271828 | 7 | 335 (85.90%) | 8,023 (99.20%) | 430.78 |
+| Semantic / v3 / 271828 | 26 | 336 (86.15%) | 8,025 (99.22%) | 946.48 |
+| Candidate graph / v3 / 314159 | 24 | 337 (86.41%) | 8,037 (99.37%) | 1,153.90 |
+
+The original v2 character-BiLSTM at seed 271828 scored 325/390 and 8,040/8,088.
+The static graph's official net improvement over the semantic control is only
+three rows: 24 fixes versus 21 regressions (exploratory paired exact sign-test
+p=.766). This is weak evidence for a graph-specific improvement. On matched v3
+seed 271828, the candidate graph loses one official and two synthetic rows to
+the semantic control. The second candidate seed is slightly better, but there
+is no matching second semantic seed; it does not establish architectural
+superiority. The improved v3 official results also change the training data, so
+they cannot be attributed to the graph alone.
+
+All five exports pass raw-input reconstruction for all 8,478 development rows
+and Torch/ONNX decoded parity at batch sizes 1, 7 and 32. Frozen bundles include
+the runtime source, metadata, lexicon and file hash manifest.
+
+| Remote bundle under `v3-graph/bundles/` | Deployment parameters | ONNX bytes | CPU seconds / 8,478 prepared rows |
+| --- | ---: | ---: | ---: |
+| `semantic-v2` | 1,625,603 | 6,511,026 | 5.406 |
+| `graph-v2` | 1,625,603 | 6,511,026 | 5.284 |
+| `candidate-v3` | 2,044,549 | 8,299,336 | 5.686 |
+| `semantic-v3` | 1,715,331 | 6,869,938 | 6.328 |
+| `candidate-v3-s314159` | 2,044,549 | 8,299,336 | 5.752 |
+
+CPU measurements use ONNX Runtime with two threads on an AMD EPYC 7742 host.
+They exclude raw-text preprocessing and were taken on a shared server. Differences
+of fractions of a second are not controlled latency wins. Export-process RSS
+includes Torch and is not standalone runtime memory. No official constrained
+container run is claimed by this experiment.
+
+The best candidate replicate checkpoint SHA256 is
+`429e34c57989ed3890ca1413ae148f74d058378a5a7e769855a9a5dcca649a2e`;
+its ONNX SHA256 is
+`414dccc13865c7ab002a97d971e5932e67c03b127cd7391edaef7c85b5b04d7d`.
+Every run's `run.json`, `result.json`, `metrics.jsonl` and each bundle's
+`export-report.json` preserve the other hashes, selected scores and timing.
+The common v3 metadata SHA256 is
+`237579c870cc02e2964dc59f536a469be6d419b0649d4f1ab70ce538e9527e04`.
+
+The separate [multilabel experiment](MULTILABEL-EXPERIMENT.md) explores the
+one-value/two-subject output ceiling and reports an unsuccessful final-family
+generalization result. The [archive semantics audit](ARCHIVE-SEMANTICS-FORENSICS.md)
+shows why temporal evidence handling is a separate problem from extraction.
