@@ -1,5 +1,9 @@
 # VERIDYCT — three levels of architecture
 
+**Updated edition: [Stack, engine, runtime — v2](v2/README.md).** Use v2 for
+Edi's presentation: the technology names, dependencies and execution boundaries
+are more prominent. The original diagrams below remain available for reference.
+
 Ready-to-use PNGs for Edi's slides and video. English diagram copy; Romanian
 presentation notes below. Snapshot: `c62c7735998cdbd09628d9840dd8fa319e0f843f`,
 29 October 2026. These illustrations explain the implemented design; they are
