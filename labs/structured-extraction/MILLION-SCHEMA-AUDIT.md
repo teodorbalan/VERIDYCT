@@ -5,6 +5,14 @@ schema/provenance inspection, conservative extraction-only preparation and the
 coordinator-authorized matched training experiment. No organizer file changes.
 Archive Python was read as text; none of its generator/checker modules was run.
 
+The completed matched experiment learns each archive's admitted templates almost
+perfectly, but does not improve complete-row official DEV accuracy: base 331/390,
+V1 augmentation 330/390, V2 augmentation 330/390. Cross-revision exactness is only
+about 27%, including below 30% when the flat gold atoms are unchanged. These are
+flat extraction development results, not full-program or truth-verification scores.
+All three runs, CPU exports and six evaluation cells are complete; no selected V3
+artifact was replaced.
+
 ## What the two archives actually contain
 
 | Item | V1 | V2 |
@@ -192,8 +200,10 @@ data and checks paired IDs and unchanged labels. It admits a pair only when:
 2. Every leaf's typed literal matches exactly one existing current-query candidate
    in each version, and no candidate serves two leaves. Unsupported/ambiguous
    values are rejected, never assigned by arbitrary occurrence order.
-3. Entire context fits 96 tokens and total input fits 384; no new example silently
-   loses notes or bindings. All subject/attribute pairs are already in the lexicon.
+3. Entire supplied context text fits 96 tokens and total input fits 384; no new
+   example truncates context text. Public context IDs/dates/roles are not serialized
+   by this flat extractor, so this does not preserve every note binding. All
+   subject/attribute pairs are already in the lexicon.
 4. No source anywhere in either view intersects the protected 390 official dev
    IDs. The initial `--protection document` audit additionally excludes their
    contiguous-date provenance blocks. A separately named `--protection id-only`
@@ -266,10 +276,11 @@ compute substantially; it cannot establish improvement on all million examples.
 
 Three preparation tests pass: context/target source protection, rejection of
 disjunction/scoped negation, and rejection of repeated note-date/value positions.
-Full-pool preparation counts and training receipts are recorded in the worker's
-remote `v3-factorized/million-paired-data-v1` (initial strict audit) and
-`v3-factorized/million-paired-idonly-v1` (actual ablation) subtrees and will be
-appended after the controlled run completes. No selected V3 artifact is overwritten.
+Full-pool admission spools are preserved in the worker's remote
+`v3-factorized/million-paired-data-v1` (initial strict audit) and
+`v3-factorized/million-paired-idonly-v1` (ID-protected admission) subtrees. Final
+training inputs and completed results are recorded below. No selected V3 artifact
+is overwritten.
 The strict count pass initially hit a 100-versus-128 embedding-width error during
 matrix assembly. Its completed admission spool was preserved and finalized into
 `million-paired-strict-final` with the established layout of 100 GloVe coordinates
@@ -282,3 +293,193 @@ schema argument with the frozen two-argument encoder API and stopped before any
 optimizer update. Both input views passed a forward smoke check after the trainer
 was corrected. Only `million-factorized-{base,v1,v2}-s271828-r2` runs, all from
 `source-million-training-v2`, are the actual controlled training experiment.
+
+## Completed training and original development results
+
+All runs use the same 1,904,339-parameter factorized model, static GloVe initialization,
+seed 271828, AdamW learning rate 0.001, batch 48, weight decay 0.01, NONE-class
+weight 0.25, gradient clipping 1, maximum 20 epochs and patience 5. Initialization,
+metadata, vectors and source are frozen. Checkpoints maximize the equally weighted
+official/synthetic exact rates on the unchanged 8,478-row development set. The
+2,253 paired cases are not used for checkpoint selection. These are single-seed
+runs without strictly deterministic CUDA enforcement; matching initialization is
+not a measurement of seed variance.
+
+| Training data | Official exact / 390 | Official atom F1 | Synthetic exact / 8,088 | Synthetic atom F1 | Best / completed epoch |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Matched base control | 331 (84.8718%) | 0.896266 | 8,072 (99.8022%) | 0.999012 | 9 / 14 |
+| Base + V1 | 330 (84.6154%) | 0.896907 | 8,049 (99.5178%) | 0.996830 | 10 / 15 |
+| Base + V2 | 330 (84.6154%) | 0.903826 | 8,037 (99.3694%) | 0.995925 | 17 / 20 |
+
+V2 improves official atomic F1 by 0.7561 percentage points over this base control,
+but has one fewer wholly correct row; V1 also has one fewer. Both regress on the
+original synthetic exact score. One row on 390 selected development examples does
+not establish a robust accuracy difference. The earlier 40-epoch V3 result of
+340/390 has a different training policy and is only a historical reference.
+
+| Training data | Optimizer steps | Unpadded training tokens | Fit plus DEV seconds |
+| --- | ---: | ---: | ---: |
+| Matched base control | 14,686 | 21,285,698 | 656.32 |
+| Base + V1 | 22,215 | 67,683,720 | 1,357.48 |
+| Base + V2 | 29,620 | 74,027,180 | 1,728.02 |
+
+Training ran on A100 GPUs 2, 0 and 1 respectively, now released. Timings exclude
+preparation and initial loading. The base has fewer examples, V1 has longer inputs,
+and stopping epochs differ. No equal-compute or fixed-update advantage is claimed.
+
+## Both input views for all three models
+
+Every cell contains the same 2,253 case IDs, with 8,029 canonical gold atoms in each
+view. Atom F1 is micro-averaged. Exact means equality of complete canonical flat
+atom sets; strict JSON exact counts happen to agree in all six cells. Every row
+has supplied context and multiple atoms. CPU runtime threshold is 0.5.
+
+| Trained model | Evaluation view | Complete rows | Exact | Atom F1 |
+| --- | --- | ---: | ---: | ---: |
+| Base control | V1 | 104 / 2,253 | 4.6161% | 0.704365 |
+| Base control | V2 | 453 / 2,253 | 20.1065% | 0.788162 |
+| V1 augmented | V1 | 2,252 / 2,253 | 99.9556% | 0.999875 |
+| V1 augmented | V2 | 608 / 2,253 | 26.9862% | 0.824291 |
+| V2 augmented | V1 | 609 / 2,253 | 27.0306% | 0.779774 |
+| V2 augmented | V2 | 2,248 / 2,253 | 99.7781% | 0.999377 |
+
+Within each column, augmentation helps on these selected familiar-source
+combinations. The diagonal also shows extremely strong template adaptation.
+Cross-revision exactness remains low, so a near-perfect diagonal score is not
+evidence of general language understanding. No inference of logical scope,
+observation-date binding or truth labels is scored here.
+
+The following paired transitions compare each augmented model with base on the
+**same fixed input column**. A gain is a previously wrong complete row becoming
+correct; a loss is the reverse. Both-wrong rows may still change atom F1.
+
+| Input view | Model change | Both correct | Gains | Losses | Both wrong | Net correct |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| V1 | Base to V1 | 104 | 2,148 | 0 | 1 | +2,148 |
+| V1 | Base to V2 | 73 | 536 | 31 | 1,613 | +505 |
+| V2 | Base to V1 | 287 | 321 | 166 | 1,479 | +155 |
+| V2 | Base to V2 | 453 | 1,795 | 0 | 5 | +1,795 |
+
+## Unchanged versus changed flat targets
+
+[aggregate_million_pair.py](aggregate_million_pair.py) only reads the saved six
+prediction files and prepared gold. It does not load models or perform inference
+or selection. It reproduces every original count before generating this breakdown.
+Its canonicalizer is the original scoring function: subject, attribute and typed
+value, with explicit equality normalized and numeric values rounded to nine places.
+
+There are **1,574 pairs with identical canonical flat gold atom sets** and **679
+with changed flat gold**. This is not an AST-equality split: observation dates,
+bindings and conjunction structure are outside these flat sets. All comparisons
+within a table column below retain the same gold for that input view.
+
+| Trained model / input | Same flat gold: exact / 1,574 | Same atom F1 | Changed flat gold: exact / 679 | Changed atom F1 |
+| --- | ---: | ---: | ---: | ---: |
+| Base / V1 | 85 (5.4003%) | 0.728663 | 19 (2.7982%) | 0.651227 |
+| Base / V2 | 343 (21.7916%) | 0.794092 | 110 (16.2003%) | 0.775482 |
+| V1 trained / V1 | 1,573 (99.9365%) | 0.999817 | 679 (100%) | 1.000000 |
+| V1 trained / V2 | 451 (28.6531%) | 0.828779 | 157 (23.1222%) | 0.814840 |
+| V2 trained / V1 | 460 (29.2249%) | 0.809805 | 149 (21.9440%) | 0.714518 |
+| V2 trained / V2 | 1,570 (99.7459%) | 0.999267 | 678 (99.8527%) | 0.999612 |
+
+| Fixed input / model change | Same-target gains / losses | Changed-target gains / losses |
+| --- | ---: | ---: |
+| V1 / base to V1 | 1,488 / 0 | 660 / 0 |
+| V1 / base to V2 | 404 / 29 | 132 / 2 |
+| V2 / base to V1 | 232 / 124 | 89 / 42 |
+| V2 / base to V2 | 1,227 / 0 | 568 / 0 |
+
+Even with identical flat targets, the cross-revision models remain below 30%
+exact. Conversely, the unchanged base improves from 85 to 343 correct cases when
+evaluated on the V2 view of these 1,574 pairs. Thus changed literal targets cannot
+explain all of the observed revision effect. Wording and supplied context also
+change, so this is not a pure paraphrase experiment or a causal attribution to one
+particular cleanup rule.
+
+## Independent review and language limits
+
+The [independent protocol review](https://github.com/teodorbalan/VERIDYCT/blob/da35a40/labs/structured-extraction/MILLION-EXPERIMENT-PROTOCOL-REVIEW.md)
+reconstructed identical initial parameters, buffers and schemas for all three
+runs, verified base-prefix preservation, train-only added vocabulary, source
+protection, separate case groups, full supplied text retention and zero normalized
+current-query/full-input overlap against original and paired development.
+It found no concrete implementation defect invalidating this narrow comparison.
+
+That review also found **12 official DEV query strings inside TRAIN context**:
+741 base rows, 1,943 V1 rows and 1,981 V2 rows. Some are short public fragments,
+such as `20 requests a day`. This is not evidence of protected source-ID or gold
+label leakage, but rules out describing all development wording as wholly unseen.
+The zero-overlap assertion means IDs, current-query equality and full-input
+equality only. All 328 case-dev sources occur in augmentation training. Original
+official/synthetic DEV selects checkpoints; case DEV is an internal holdout of
+combinations of familiar source facts.
+
+The [independent API-context audit](https://github.com/teodorbalan/VERIDYCT/blob/ffaf4f6/labs/structured-extraction/MILLION-API-CONTEXT-AUDIT.md)
+verified all 253 training and 59 case-dev API rows against the raw V2 archive and
+the actual prepared files. V1 explicitly names API/interface in every query;
+V2 does so in none. This does not make all those targets wrong:
+
+| Context for API-target row | Added TRAIN | Case DEV |
+| --- | ---: | ---: |
+| API note present, no competing product-version note | 229 | 52 |
+| Both notes present on different dates | 10 | 4 |
+| API note missing | 14 | 3 |
+| Both notes present on the same date | 0 | 0 |
+
+Most cases retain an explicit interface note and are context-resolvable. In the
+14+3 missing-note cases, the prepared text does not explicitly identify the API
+slot. The 10+4 cases with both notes lose the public date-to-note link because
+preparation joins context text without IDs/dates/roles. These are representation
+and wording limitations, not 253 measured corrupt labels or measured neural
+failures. No admitted V2 full input has conflicting target atom sets, which still
+does not prove every label is uniquely implied by its language. The current data
+remain immutable; repairs require a separately versioned follow-up.
+
+The separate [whole-million protocol evaluation](https://github.com/teodorbalan/VERIDYCT/blob/22fa97b6fe27fcfa8d0bab7ae2e85c10c5386148/docs/research/million-v1-v2.md)
+reports 99.5419% V1 and 99.7458% V2 truth accuracy using a specialized notes adapter
+with declared V2 grammar adaptation; strict old-protocol transfer to V2 is 8.0827%.
+Those truth scores are not outcomes of this learned atom experiment and cannot be
+combined with its diagonal extraction scores. Neither is an independent-source
+or arbitrary-English competition guarantee.
+
+## Completed artifacts and verification
+
+Paths below are relative to `/data/tairo/veridyct-training-20261028/v3-factorized`.
+Checkpoints, binary models, predictions and generated receipts remain outside Git.
+
+| Artifact | Location |
+| --- | --- |
+| Final immutable paired training and case DEV | `million-paired-idonly-final/{v1,v2}` |
+| Matched base data | `million-paired-base-control` |
+| Actual frozen training code | `source-million-training-v2` |
+| Three completed runs and per-epoch/compute receipts | `million-factorized-{base,v1,v2}-s271828-r2` |
+| CPU models and original DEV predictions | `bundles/million-factorized-{base,v1,v2}-s271828-r2` |
+| Six-cell metrics and saved predictions | `million-paired-cross-evaluation-r2` |
+| Target-stratified paired gains/losses and input hashes | `million-paired-cross-evaluation-r2/paired-aggregation.json` |
+| Detached workflow completion receipt | `million-postprocess-status.json` (`phase=complete`) |
+
+All three ONNX models contain 7,660,739 bytes. CPU export checked decoded parity
+on dynamic batches 1, 7 and 32; maximum observed logit differences were
+3.8147e-5 (base), 4.5776e-5 (V1), and 5.3406e-5 (V2). CPU original-development
+domain counts exactly match the reported CUDA checkpoint results. With two ORT
+threads, the 8,478 prepared rows took 6.95, 6.72 and 7.00 seconds respectively;
+these are shared-server observations, not isolated Docker latency benchmarks.
+
+Model SHA256 values are base
+`4ad729e50f67a9f1f0699bda9028d8027d5105381d9623452f34702bf1f8474b`, V1
+`6ebabdc043b914c454b40ef428ab418468b9412722588532d72f5e6e388adaef`, and V2
+`b053fa8ef5929785f832b6a019233c72731e3bcd967d6e5faabc31ca894819b9`.
+Shared metadata SHA256 is
+`7e936df11cea5ea08dec77bf2c29684f11a6cc85272b4ef1bbf29d2a589ea0af`;
+shared vectors SHA256 is
+`ca45cc8029ff78d3018069ddf2d4215bb0ec7050ab7ef262c9e1b9121a05bd4f`.
+The aggregate audit records hashes of both gold inputs, all six prediction files,
+the original six-cell report and the exact canonicalizer, and asserts all original
+row/atom counts match. No new inference was performed for that breakdown.
+
+The experiment demonstrates template learning and a modest official atom-F1
+tradeoff, without improving official complete-row accuracy under this policy.
+It provides no basis for promising 99% on arbitrary claims. Before increasing
+synthetic volume, the measured weaknesses motivate retaining public note bindings,
+representing program structure and evaluating transfer between language families.
+The authored final challenge was not read or used by this worker.
