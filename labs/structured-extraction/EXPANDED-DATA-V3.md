@@ -121,7 +121,9 @@ error 0.00004197. CPU development metrics match the selected GPU checkpoints.
 The [final receipt](expanded-training-results-v3.json) preserves model/checkpoint
 hashes, training arguments, runtime, dataset protocol, lineage audit, CPU parity
 and every reported group. All following numbers use the original candidate
-grammar and decoder; no final challenge or calibration data was evaluated.
+grammar and decoder; no final challenge or calibration data was evaluated by
+these runs. Archive calibration worlds are no longer team-blind, as explained
+in the [evaluation exposure correction](EVALUATION-EXPOSURE-V3.md).
 
 | Model | Official /390 | Synthetic /8,088 | Narrow challenge DEV /92 | Family diagnostic /13,523 |
 | --- | ---: | ---: | ---: | ---: |

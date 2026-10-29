@@ -1,0 +1,333 @@
+{
+  "paired": {
+    "primary": {
+      "rows": 92,
+      "both_correct": 76,
+      "gained": 11,
+      "lost": 0,
+      "both_wrong": 5
+    },
+    "type_diagnostic": {
+      "rows": 10,
+      "both_correct": 0,
+      "gained": 0,
+      "lost": 0,
+      "both_wrong": 10
+    },
+    "ambiguous": {
+      "rows": 10,
+      "both_correct": 0,
+      "gained": 0,
+      "lost": 1,
+      "both_wrong": 9
+    }
+  },
+  "reports": {
+    "selected": {
+      "groups": {
+        "boolean_negation": {
+          "rows": 2,
+          "exact": 0,
+          "gold": 2,
+          "predicted": 0,
+          "correct": 0,
+          "exact_rate": 0.0,
+          "f1": 0.0
+        },
+        "primary": {
+          "rows": 92,
+          "exact": 87,
+          "gold": 102,
+          "predicted": 98,
+          "correct": 97,
+          "exact_rate": 0.9456521739130435,
+          "f1": 0.97
+        },
+        "version_operator": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "paraphrase": {
+          "rows": 10,
+          "exact": 7,
+          "gold": 10,
+          "predicted": 8,
+          "correct": 7,
+          "exact_rate": 0.7,
+          "f1": 0.7777777777777778
+        },
+        "comparison": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "type_violation": {
+          "rows": 10,
+          "exact": 0,
+          "gold": 0,
+          "predicted": 10,
+          "correct": 0,
+          "exact_rate": 0.0,
+          "f1": 0.0
+        },
+        "type_diagnostic": {
+          "rows": 10,
+          "exact": 0,
+          "gold": 0,
+          "predicted": 10,
+          "correct": 0,
+          "exact_rate": 0.0,
+          "f1": 0.0
+        },
+        "ambiguous_antecedent": {
+          "rows": 10,
+          "exact": 0,
+          "gold": 0,
+          "predicted": 10,
+          "correct": 0,
+          "exact_rate": 0.0,
+          "f1": 0.0
+        },
+        "ambiguity_only": {
+          "rows": 10,
+          "exact": 0,
+          "gold": 0,
+          "predicted": 10,
+          "correct": 0,
+          "exact_rate": 0.0,
+          "f1": 0.0
+        },
+        "open_domain_rejection": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 0,
+          "predicted": 0,
+          "correct": 0,
+          "exact_rate": 1.0,
+          "f1": 0.0
+        },
+        "numeric_distraction": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "stated_value_preservation": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "conjunction": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 30,
+          "predicted": 30,
+          "correct": 30,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "misleading_entity": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "coreference": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        }
+      },
+      "candidate_value_coverage": {
+        "rows": 92,
+        "positive_rows": 82,
+        "gold_atoms": 102,
+        "covered_atoms": 102,
+        "all_values_covered": 92
+      },
+      "seconds": 0.2348332442343235,
+      "fixture_sha256": "966b5c7c5061eab4e24c61177eb3994b5e852dec3c955dff973bbd5bf7ff33a0",
+      "model_sha256": "14fccd0c69701cb090e80301e05ec5f10e4b506b2f0da56b0ccb97abe78d232e",
+      "scope": "Assistant-authored closed-ontology behavior challenge; not official contest score; ambiguity abstention kept separate"
+    },
+    "old_control": {
+      "groups": {
+        "boolean_negation": {
+          "rows": 2,
+          "exact": 0,
+          "gold": 2,
+          "predicted": 0,
+          "correct": 0,
+          "exact_rate": 0.0,
+          "f1": 0.0
+        },
+        "primary": {
+          "rows": 92,
+          "exact": 76,
+          "gold": 102,
+          "predicted": 89,
+          "correct": 86,
+          "exact_rate": 0.8260869565217391,
+          "f1": 0.900523560209424
+        },
+        "version_operator": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "paraphrase": {
+          "rows": 10,
+          "exact": 2,
+          "gold": 10,
+          "predicted": 5,
+          "correct": 2,
+          "exact_rate": 0.2,
+          "f1": 0.26666666666666666
+        },
+        "comparison": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "type_violation": {
+          "rows": 10,
+          "exact": 0,
+          "gold": 0,
+          "predicted": 10,
+          "correct": 0,
+          "exact_rate": 0.0,
+          "f1": 0.0
+        },
+        "type_diagnostic": {
+          "rows": 10,
+          "exact": 0,
+          "gold": 0,
+          "predicted": 10,
+          "correct": 0,
+          "exact_rate": 0.0,
+          "f1": 0.0
+        },
+        "ambiguous_antecedent": {
+          "rows": 10,
+          "exact": 1,
+          "gold": 0,
+          "predicted": 9,
+          "correct": 0,
+          "exact_rate": 0.1,
+          "f1": 0.0
+        },
+        "ambiguity_only": {
+          "rows": 10,
+          "exact": 1,
+          "gold": 0,
+          "predicted": 9,
+          "correct": 0,
+          "exact_rate": 0.1,
+          "f1": 0.0
+        },
+        "open_domain_rejection": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 0,
+          "predicted": 0,
+          "correct": 0,
+          "exact_rate": 1.0,
+          "f1": 0.0
+        },
+        "numeric_distraction": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "stated_value_preservation": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "conjunction": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 30,
+          "predicted": 30,
+          "correct": 30,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        },
+        "misleading_entity": {
+          "rows": 10,
+          "exact": 4,
+          "gold": 10,
+          "predicted": 4,
+          "correct": 4,
+          "exact_rate": 0.4,
+          "f1": 0.5714285714285714
+        },
+        "coreference": {
+          "rows": 10,
+          "exact": 10,
+          "gold": 10,
+          "predicted": 10,
+          "correct": 10,
+          "exact_rate": 1.0,
+          "f1": 1.0
+        }
+      },
+      "candidate_value_coverage": {
+        "rows": 92,
+        "positive_rows": 82,
+        "gold_atoms": 102,
+        "covered_atoms": 96,
+        "all_values_covered": 86
+      },
+      "seconds": 0.2561834994703531,
+      "fixture_sha256": "966b5c7c5061eab4e24c61177eb3994b5e852dec3c955dff973bbd5bf7ff33a0",
+      "model_sha256": "98eebdb851849f689c60499a9f4b2514305d520a523816b0505e98bba4523b6f",
+      "scope": "Assistant-authored closed-ontology behavior challenge; not official contest score; ambiguity abstention kept separate"
+    }
+  },
+  "paths": {
+    "selected": "/data/tairo/veridyct-training-20261028/v3-root/final-challenge-container/final",
+    "old_control": "/data/tairo/veridyct-training-20261028/v3-root/final-challenge-v2-control/final-path-corrected"
+  },
+  "purpose": "Post-freeze aggregation of existing CPU final predictions; no tuning, inference or newly generated data. Final is now spent.",
+  "caveat": "Complete frozen pipelines compared: selected uses the robust value adapter; old control retains its original grammar."
+}

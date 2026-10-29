@@ -1,0 +1,226 @@
+{
+  "selection_sha256": "37aebc328073f5c8026aefb8f9e675cfafd971754b5e6135412ce0a311f8bf2b",
+  "paired": {
+    "synthetic": {
+      "rows": 8088,
+      "both_correct": 8072,
+      "gained": 11,
+      "lost": 5,
+      "both_wrong": 0
+    },
+    "challenge": {
+      "rows": 92,
+      "both_correct": 87,
+      "gained": 3,
+      "lost": 2,
+      "both_wrong": 0
+    },
+    "official": {
+      "rows": 390,
+      "both_correct": 328,
+      "gained": 18,
+      "lost": 8,
+      "both_wrong": 36
+    }
+  },
+  "selected": {
+    "domains": {
+      "synthetic": {
+        "rows": 8088,
+        "exact": 8083,
+        "gold": 12147,
+        "predicted": 12143,
+        "correct": 12142,
+        "exact_rate": 0.999381800197824,
+        "f1": 0.9997529847673939,
+        "precision": 0.9999176480276702,
+        "recall": 0.9995883757306331
+      },
+      "challenge": {
+        "rows": 92,
+        "exact": 90,
+        "gold": 92,
+        "predicted": 90,
+        "correct": 90,
+        "exact_rate": 0.9782608695652174,
+        "f1": 0.989010989010989,
+        "precision": 1.0,
+        "recall": 0.9782608695652174
+      },
+      "official": {
+        "rows": 390,
+        "exact": 346,
+        "gold": 489,
+        "predicted": 459,
+        "correct": 446,
+        "exact_rate": 0.8871794871794871,
+        "f1": 0.9409282700421941,
+        "precision": 0.971677559912854,
+        "recall": 0.9120654396728016
+      }
+    },
+    "selection_score": 0.9380004110305039,
+    "name": "top-3",
+    "members": [
+      "v3-factorized-factorized-s271828-v2",
+      "v3-graph-semantic-label-s271828-v3",
+      "v3-factorized-factorized-mentions-s271828-v3"
+    ],
+    "parameters": 5385804
+  },
+  "model_count": 20,
+  "option_count": 24,
+  "metadata_checks": [
+    {
+      "name": "v2-03-char-bilstm-s314159",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v2-03-char-bilstm-s271828",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v2-04-char-bilstm-large-s314159",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-root-baseline-v3-s271828",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-root-baseline-v3-s314159",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-root-rdrop-v2-s271828",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-root-rdrop-v3-s271828",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-factorized-factorized-s271828-v2",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-factorized-packed-flat-s271828-v2",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-graph-candidate-graph-s271828-v3",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-graph-graph-label-s271828-v2",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-graph-semantic-label-s271828-v2",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-graph-semantic-label-s271828-v3",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-root-factorized-rdrop-v2-a1-s271828",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-factorized-factorized-large-s271828-v3",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-factorized-factorized-s271828-v3",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-factorized-factorized-mentions-s271828-v3",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-graph-candidate-graph-s314159-v3",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-audit-expanded-s271828",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    },
+    {
+      "name": "v3-audit-family_control-s271828",
+      "pairs_equal": true,
+      "max_tokens": 384,
+      "max_chars": 24,
+      "extra_names_not_in_master": []
+    }
+  ],
+  "prediction_exactness_recomputed": true,
+  "source_hashes": {
+    "compare_stacks.py": "3f8378eec88fe4d732b1bdf2b720e60d9734f0a44dce1f7d9ef3cf9b75cbdf39",
+    "model.py": "259514a0a1e6762358aa95b6c53c2dbb0abe7814beb390add5cbf8226baa2e5e",
+    "model_factorized.py": "acb0dea0c4d31e93ca435f806d777d727131ba072b102a86f0b065f729bf209f",
+    "model_graph.py": "b9e91717aa00cc7710f9ab002c456ed97f6ea11d404eb3b25d39b764b87f472b",
+    "grammar.py": "0545fc2bbce5cc6856b55caa8ec52ca448b1e7f07068cca885ff737f36d7a2f1",
+    "grammar_robust.py": "0273df6c9db2fcc488c3bb942df6aaa8eca9c058665d590409f39179d046e441",
+    "runtime.py": "ed3f900ecca33998b7ec931885f469c8279f1e065469238e808b341f83b9eb1b"
+  },
+  "caveat": "Paired descriptive development comparison after model selection; not fresh validation or a latency measurement."
+}

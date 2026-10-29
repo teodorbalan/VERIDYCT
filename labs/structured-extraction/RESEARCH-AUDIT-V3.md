@@ -6,7 +6,11 @@ authorization. Human ownership unassigned. Isolated branch
 development-only audit scripts, an independently authored behavioral suite and
 an isolated monetary-period normalization adapter.
 No model training, production interface changes or GPU allocation in this task.
-Calibration releases were not read. The new final challenge remains withheld.
+Calibration releases were not read by this run. They were already evaluated by
+another teammate and are no longer team-blind; see the
+[evaluation exposure correction](EVALUATION-EXPOSURE-V3.md).
+The new final challenge was withheld during this phase, then evaluated after
+the parent froze stage 2. It is now spent; the exposure note records that release.
 
 ## Conclusion supported by measurements
 

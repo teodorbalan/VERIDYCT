@@ -4,6 +4,8 @@ Owner: research_audit. Scope: the original 1,897-row public practice and lexicon
 plus read-only inspection of the Rust verifier. No final, calibration or sealed
 gold was read. Reproduce with [audit_practice_semantics.py](audit_practice_semantics.py);
 the compact result is [practice-semantics-v3.json](practice-semantics-v3.json).
+This audits the historical base `e0c2a12`, not current main's typed temporal
+engine. See the [source-scope and team exposure correction](EVALUATION-EXPOSURE-V3.md).
 
 The Rust comparison in this document describes the original `d0af169` baseline
 used by this isolated experiment. Main subsequently advanced to `e6f687c`, adding
@@ -137,22 +139,25 @@ one sentence can contain several. The [claim contract](../../contracts/claim-for
 and [value contract](../../contracts/value-forms.md) additionally impose stricter
 surface requirements on generated entries than those seen in practice.
 
-## Existing Rust behavior and next steps
+## Historical Rust behavior and implications
 
-[engine.rs](../../crates/core/src/engine.rs) correctly preserves known labels and
+The audited [engine.rs](../../crates/core/src/engine.rs) snapshot preserves known labels and
 does not promote false compounds or unlabelled model predictions to true source
 evidence. It separately extracts assertions, consults true observations on or
 before the query date, and uses decisive same-day evidence before its statistical
 Random Forest fallback. Exact text **and date** memory is explicitly familiar
 training evidence. Its scores are not independently calibrated.
 
-Its `compatible_values` currently requires literal equality of units and name
+That historical `compatible_values` requires literal equality of units and name
 strings and compares partial dates as strings. The raw distinct-value guard
 also precedes normalization. The three cases above show why a typed comparison
-layer should distinguish equivalent, incompatible, disjoint and unresolved
+layer needs to distinguish equivalent, incompatible, disjoint and unresolved
 values. A date precision overlap or an unconfirmed alias needs uncertainty,
 not a false verdict. Inference-time relation and timeline provenance should
 retain row IDs, publication date, any explicit asserted time and known label.
+Current main already has a newer typed comparison and interval engine; this
+audit neither evaluated that implementation nor establishes that these older
+failure cases remain present there.
 
 The priority is a measured typed temporal verifier and independent label
 evaluation, alongside extraction improvements. More synthetic extraction rows

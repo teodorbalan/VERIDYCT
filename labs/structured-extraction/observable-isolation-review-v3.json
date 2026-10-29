@@ -1,0 +1,8 @@
+{
+  "source": "/mnt/c/Users/Teodor/orca/workspaces/QA-DNA-JEV/extraction-audit-v3/artifacts/semantics-review/observable_semantics.py",
+  "source_sha256": "f47430e449dd608085a801391db8a29e7f19b24e55811011929c8a9a1df58b0b",
+  "tests": 5,
+  "failures": 0,
+  "errors": 0,
+  "scope": "Invented counterfactual fixtures; no archive or final gold opened. Tests document both isolation and known failure modes."
+}

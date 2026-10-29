@@ -16,7 +16,9 @@ two intra-op threads, batch 48. The same 8,590 development rows were used in
 each separate process: official 390, synthetic 8,088, challenge primary 92,
 challenge diagnostic 20. Three inference passes on prepared inputs were timed;
 preparation, loading and wall time are reported separately. Final challenge and
-all calibration gold remained untouched. Diagnostic challenge rows are not
+all calibration gold remained untouched by these runs. The archive calibration
+worlds are nevertheless already exposed at team level; see the
+[evaluation exposure correction](EVALUATION-EXPOSURE-V3.md). Diagnostic challenge rows are not
 included in primary accuracy.
 
 Two variants were exported: constant-weight MatMul/Gemm only, and the same plus
